@@ -12,8 +12,8 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="383dp"
+            android:layout_height="49dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="70dp"
             android:text="@string/use_the_below_to_add_a_child"
@@ -22,11 +22,11 @@
 
         <ListView
             android:id="@+id/childrenList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
+            android:layout_width="411dp"
+            android:layout_height="588dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

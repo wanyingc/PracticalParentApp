@@ -69,6 +69,7 @@ public class ChildEdit extends AppCompatActivity {
                 ChildManager.getInstance().deleteChild(childIndex);
 
                 Toast.makeText(ChildEdit.this, message, Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

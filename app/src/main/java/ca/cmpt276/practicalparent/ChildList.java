@@ -55,10 +55,8 @@ public class ChildList extends AppCompatActivity {
             myItems[i] = s;
             i++;
         }
-        //String[] myItems = {"Blue", "Green", "Purple", "Red", "Yellow", "Orange", "Black"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item, myItems);
         ListView list = (ListView) findViewById(R.id.childrenList);
-        //adapter.notifyDataSetChanged();
         list.setAdapter(adapter);
     }
 
