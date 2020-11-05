@@ -2,6 +2,7 @@ package ca.cmpt276.practicalparent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,10 +18,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import ca.cmpt276.practicalparent.model.ChildManager;
 
 public class ChildList extends AppCompatActivity {
 
+    private static final String PREF_NAME = "StorageAttempt6";
     private ChildManager manager;
 
     @Override
@@ -39,8 +44,10 @@ public class ChildList extends AppCompatActivity {
             }
         });
 
+        manager = ChildManager.getInstance();
+        getNamesFromSP();
         populateChildrenList();
-        ChildClickHandler();
+        childClickHandler();
     }
 
     public static Intent makeIntent(Context context) {
@@ -48,7 +55,6 @@ public class ChildList extends AppCompatActivity {
     }
 
     private void populateChildrenList() {
-        manager = ChildManager.getInstance();
         int i = 0;
         String[] myItems = new String[manager.size()];
         for (String s: manager) {
@@ -60,7 +66,7 @@ public class ChildList extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
-    private void ChildClickHandler() {
+    private void childClickHandler() {
         ListView list = (ListView) findViewById(R.id.childrenList);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -76,9 +82,29 @@ public class ChildList extends AppCompatActivity {
         });
     }
 
+    public void getNamesFromSP() {
+        SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
+        for(int i=0;i<prefs.getInt("Number of Stored Values",0);i++) {
+            String index = "Stored Name " + i;
+            manager.add(prefs.getString(index,"NA"));
+        }
+    }
+
+    public void storeNamesToSP() {
+        SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("Number of Stored Values",manager.size());
+        for(int i=0;i<manager.size();i++) {
+            String index = "Stored Name " + i;
+            editor.putString(index,manager.getChild(i));
+        }
+        editor.apply();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        storeNamesToSP();
         populateChildrenList();
     }
 }

@@ -38,8 +38,9 @@ public class ChildManager implements Iterable<String> {
     }
 
     // Setters
-    public String setChild(int index, String name) {
-        return children.set(index, name);
+    public void setChild(int index, String name) {
+        children.set(index, name);
+        return;
     }
 
     public void deleteChild(int index) {
