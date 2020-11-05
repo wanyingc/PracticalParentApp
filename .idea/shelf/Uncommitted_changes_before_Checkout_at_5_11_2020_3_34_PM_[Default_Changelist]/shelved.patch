@@ -1,0 +1,675 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"ca.cmpt276.practicalparent\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity\r\n            android:name=\".CoinFlipActivity\"\r\n            android:label=\"@string/title_activity_coin_flip\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:label=\"@string/app_name\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\">\r\n\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/AndroidManifest.xml	(date 1604619206694)
+@@ -9,21 +9,16 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
++        <activity android:name=".TimeOut"></activity>
+         <activity
+-            android:name=".CoinFlipActivity"
+-            android:label="@string/title_activity_coin_flip"
++            android:name=".MainMenu"
++            android:label="@string/app_name"
+             android:theme="@style/AppTheme.NoActionBar">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+-        </activity>
+-        <activity
+-            android:name=".MainActivity"
+-            android:label="@string/app_name"
+-            android:theme="@style/AppTheme.NoActionBar">
+-
+         </activity>
+     </application>
+ 
+Index: app/src/main/res/layout/content_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    app:layout_behavior=\"@string/appbar_scrolling_view_behavior\"/>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/content_main.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/res/layout/content_main.xml	(date 1604619206707)
+@@ -1,6 +1,53 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+\ No newline at end of file
++    app:layout_behavior="@string/appbar_scrolling_view_behavior">
++
++    <Button
++        android:id="@+id/timeOut"
++        android:layout_width="177dp"
++        android:layout_height="68dp"
++        android:layout_marginBottom="188dp"
++        android:text="@string/time_out"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent" />
++
++    <Button
++        android:id="@+id/flipCoin"
++        android:layout_width="177dp"
++        android:layout_height="68dp"
++        android:layout_marginBottom="24dp"
++        android:text="@string/flip_coin"
++        app:layout_constraintBottom_toTopOf="@+id/timeOut"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent" />
++
++    <Button
++        android:id="@+id/configChild"
++        android:layout_width="177dp"
++        android:layout_height="68dp"
++        android:layout_marginBottom="24dp"
++        android:text="@string/configure"
++        app:layout_constraintBottom_toTopOf="@+id/flipCoin"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent" />
++
++    <TextView
++        android:id="@+id/practicalParent2"
++        android:layout_width="215dp"
++        android:layout_height="98dp"
++        android:layout_marginTop="60dp"
++        android:text="@string/practical_parent"
++        android:textAlignment="center"
++        android:textSize="24sp"
++        app:layout_constraintBottom_toTopOf="@+id/configChild"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.458" />
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/res/layout/activity_main.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
+@@ -1,33 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".MainActivity">
+-
+-    <com.google.android.material.appbar.AppBarLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:theme="@style/AppTheme.AppBarOverlay">
+-
+-        <androidx.appcompat.widget.Toolbar
+-            android:id="@+id/toolbar"
+-            android:layout_width="match_parent"
+-            android:layout_height="?attr/actionBarSize"
+-            android:background="?attr/colorPrimary"
+-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+-
+-    </com.google.android.material.appbar.AppBarLayout>
+-
+-    <include layout="@layout/content_main" />
+-
+-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+-        android:id="@+id/fab"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_gravity="bottom|end"
+-        android:layout_margin="@dimen/fab_margin"
+-        app:srcCompat="@android:drawable/ic_dialog_email" />
+-
+-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
+Index: app/src/main/java/ca/cmpt276/practicalparent/model/Coin.java
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/model/Coin.java	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/java/ca/cmpt276/practicalparent/model/Coin.java	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
+@@ -1,29 +0,0 @@
+-package ca.cmpt276.practicalparent.model;
+-import java.util.Random;
+-public class Coin {
+-    public static final int HEADS = 0;
+-    public static final int TAILS = 1;
+-    private int result;
+-
+-    private Coin() {
+-        result = 0;
+-    }
+-    /*
+-        Singleton Support
+-     */
+-    private static Coin instance;
+-    public static Coin getInstance() {
+-        if (instance == null) {
+-            instance = new Coin();
+-        }
+-        return instance;
+-    }
+-
+-    public void flip() {
+-        // randomly generates either a 0 or a 1
+-        result = Math.random() > 0.5 ? 1 : 0;
+-    }
+-    public int getCoin() {
+-        return result;
+-    }
+-}
+Index: app/src/main/java/ca/cmpt276/practicalparent/MainActivity.java
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/MainActivity.java	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/java/ca/cmpt276/practicalparent/MainActivity.java	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
+@@ -1,56 +0,0 @@
+-package ca.cmpt276.practicalparent;
+-
+-import android.os.Bundle;
+-
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+-import com.google.android.material.snackbar.Snackbar;
+-
+-import androidx.appcompat.app.AppCompatActivity;
+-import androidx.appcompat.widget.Toolbar;
+-
+-import android.view.View;
+-
+-import android.view.Menu;
+-import android.view.MenuItem;
+-
+-public class MainActivity extends AppCompatActivity {
+-
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_main);
+-        Toolbar toolbar = findViewById(R.id.toolbar);
+-        setSupportActionBar(toolbar);
+-
+-        FloatingActionButton fab = findViewById(R.id.fab);
+-        fab.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+-                        .setAction("Action", null).show();
+-            }
+-        });
+-    }
+-
+-    @Override
+-    public boolean onCreateOptionsMenu(Menu menu) {
+-        // Inflate the menu; this adds items to the action bar if it is present.
+-        getMenuInflater().inflate(R.menu.menu_main, menu);
+-        return true;
+-    }
+-
+-    @Override
+-    public boolean onOptionsItemSelected(MenuItem item) {
+-        // Handle action bar item clicks here. The action bar will
+-        // automatically handle clicks on the Home/Up button, so long
+-        // as you specify a parent activity in AndroidManifest.xml.
+-        int id = item.getItemId();
+-
+-        //noinspection SimplifiableIfStatement
+-        if (id == R.id.action_settings) {
+-            return true;
+-        }
+-
+-        return super.onOptionsItemSelected(item);
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/res/layout/content_coin_flip.xml
+===================================================================
+--- app/src/main/res/layout/content_coin_flip.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/res/layout/content_coin_flip.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
+@@ -1,91 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+-
+-    <ImageView
+-        android:id="@+id/coinDisplay"
+-        android:layout_width="0dp"
+-        android:layout_height="0dp"
+-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+-        app:layout_constraintHorizontal_bias="1.0"
+-        app:layout_constraintStart_toStartOf="@+id/guideline3"
+-        app:layout_constraintTop_toTopOf="@+id/guideline6"
+-        app:layout_constraintVertical_bias="0.0"
+-        app:srcCompat="@drawable/coin_heads" />
+-
+-    <Button
+-        android:id="@+id/flipButton"
+-        android:layout_width="0dp"
+-        android:layout_height="0dp"
+-        android:layout_margin="30dp"
+-        android:text="Flip"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+-        app:layout_constraintHeight_max="125dp"
+-        app:layout_constraintStart_toStartOf="@+id/guideline3"
+-        app:layout_constraintTop_toTopOf="@+id/guideline2"
+-        app:layout_constraintWidth_max="350dp" />
+-
+-    <androidx.constraintlayout.widget.Guideline
+-        android:id="@+id/guideline2"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:orientation="horizontal"
+-        app:layout_constraintGuide_percent="0.8" />
+-
+-    <androidx.constraintlayout.widget.Guideline
+-        android:id="@+id/guideline3"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:orientation="vertical"
+-        app:layout_constraintGuide_percent="0.1" />
+-
+-    <androidx.constraintlayout.widget.Guideline
+-        android:id="@+id/guideline4"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:orientation="vertical"
+-        app:layout_constraintGuide_percent="0.9" />
+-
+-    <View
+-        android:id="@+id/divider2"
+-        android:layout_width="match_parent"
+-        android:layout_height="1dp"
+-        android:background="?android:attr/listDivider"
+-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.501"
+-        app:layout_constraintStart_toStartOf="parent" />
+-
+-    <androidx.constraintlayout.widget.Guideline
+-        android:id="@+id/guideline5"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:orientation="horizontal"
+-        app:layout_constraintGuide_percent="0.7" />
+-
+-    <TextView
+-        android:id="@+id/resultsLabel"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Heads!"
+-        android:textSize="24sp"
+-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+-        app:layout_constraintStart_toStartOf="@+id/guideline3"
+-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+-
+-    <androidx.constraintlayout.widget.Guideline
+-        android:id="@+id/guideline6"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:orientation="horizontal"
+-        app:layout_constraintGuide_percent="0.1" />
+-
+-
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/ca/cmpt276/practicalparent/CoinFlipActivity.java
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/CoinFlipActivity.java	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/java/ca/cmpt276/practicalparent/CoinFlipActivity.java	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
+@@ -1,91 +0,0 @@
+-package ca.cmpt276.practicalparent;
+-
+-import android.os.Bundle;
+-
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+-import com.google.android.material.snackbar.Snackbar;
+-
+-import androidx.appcompat.app.AppCompatActivity;
+-import androidx.appcompat.widget.Toolbar;
+-
+-import android.util.Log;
+-import android.view.View;
+-import android.view.animation.AccelerateDecelerateInterpolator;
+-import android.view.animation.AccelerateInterpolator;
+-import android.view.animation.AlphaAnimation;
+-import android.view.animation.Animation;
+-import android.view.animation.DecelerateInterpolator;
+-import android.widget.Button;
+-import android.widget.ImageView;
+-import android.widget.TextView;
+-
+-import ca.cmpt276.practicalparent.model.Coin;
+-
+-public class CoinFlipActivity extends AppCompatActivity {
+-    Coin coin = Coin.getInstance();
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_coin_flip);
+-        Toolbar toolbar = findViewById(R.id.toolbar);
+-        setSupportActionBar(toolbar);
+-        setupFlipButton();
+-
+-
+-    }
+-    private void setupFlipButton() {
+-        Button button = findViewById(R.id.flipButton);
+-        button.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View v) {
+-                coin.flip();
+-                //TODO add animation here:
+-                // flipAnimation();
+-                flipAnimation();
+-
+-            }
+-        });
+-    }
+-
+-    private void flipAnimation() {
+-        final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
+-        Animation fadeOut = new AlphaAnimation(1,0);
+-        fadeOut.setInterpolator(new AccelerateInterpolator());
+-        fadeOut.setDuration(500);
+-        fadeOut.setFillAfter(true);
+-
+-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+-            @Override
+-            public void onAnimationStart(Animation animation) {
+-
+-            }
+-
+-            @Override
+-            public void onAnimationEnd(Animation animation) {
+-                coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
+-                Animation fadeIn = new AlphaAnimation(0,1);
+-                fadeIn.setInterpolator(new DecelerateInterpolator());
+-                fadeIn.setDuration(2000);
+-                fadeIn.setFillAfter(true);
+-
+-                coinImage.startAnimation(fadeIn);
+-                updateResultLabel();
+-            }
+-
+-            @Override
+-            public void onAnimationRepeat(Animation animation) {
+-
+-            }
+-        });
+-        coinImage.startAnimation(fadeOut);
+-    }
+-
+-    private void updateResultLabel() {
+-        TextView text = (TextView)findViewById(R.id.resultsLabel);
+-        if (coin.getCoin() == Coin.HEADS) {
+-            text.setText("Heads!");
+-        } else {
+-            text.setText("Tails!");
+-        }
+-    }
+-}
+\ No newline at end of file
+Index: .idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.name	(date 1604619206776)
++++ .idea/.name	(date 1604619206776)
+@@ -0,0 +1,1 @@
++PracticalParent
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_time_out.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_time_out.xml	(date 1604619206781)
++++ app/src/main/res/layout/activity_time_out.xml	(date 1604619206781)
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".TimeOut">
++
++    <TextView
++        android:id="@+id/textView"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="@string/show_content"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.498"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/ca/cmpt276/practicalparent/MainMenu.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/MainMenu.java	(date 1604619206758)
++++ app/src/main/java/ca/cmpt276/practicalparent/MainMenu.java	(date 1604619206758)
+@@ -0,0 +1,72 @@
++package ca.cmpt276.practicalparent;
++
++import android.content.Intent;
++import android.os.Bundle;
++
++import com.google.android.material.floatingactionbutton.FloatingActionButton;
++import com.google.android.material.snackbar.Snackbar;
++
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.appcompat.widget.Toolbar;
++
++import android.view.View;
++import android.widget.Button;
++
++public class MainMenu extends AppCompatActivity {
++    private Button timeOutButton;
++    private Button configButton;
++    private Button coinFlipButton;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.main_menu);
++        Toolbar toolbar = findViewById(R.id.toolbar);
++        setSupportActionBar(toolbar);
++        
++        // start Activity when coin flip button is clicked
++//        coinFlipButton = (Button) findViewById(R.id.flipCoin);
++//        coinFlipButton.setOnClickListener(new View.OnClickListener() {
++//            @Override
++//            public void onClick(View v) {
++//                openCoinFlipActivity();
++//            }
++//        });
++//
++//        // start Activity when configuration button is clicked
++//        configButton = (Button) findViewById(R.id.configChild);
++//        configButton.setOnClickListener(new View.OnClickListener() {
++//            @Override
++//            public void onClick(View v) {
++//                openConfigChildActivity();
++//            }
++//        });
++
++        // start Activity when time out button is clicked
++        timeOutButton = (Button) findViewById(R.id.timeOut);
++        timeOutButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                openTimeOutActivity();
++            }
++        });
++
++
++    }
++
++//    public void openConfigChildActivity() {
++//        Intent intent = new Intent(this,MainActivity.class);
++//        startActivity(intent);
++//    }
++//
++//    public void openCoinFlipActivity() {
++//        Intent intent = new Intent(this,CoinFlipActivity.class);
++//        startActivity(intent);
++//    }
++
++    public void openTimeOutActivity() {
++        Intent intent = new Intent(this,TimeOut.class);
++        startActivity(intent);
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">PracticalParent</string>\r\n    <string name=\"action_settings\">Settings</string>\r\n    <!-- Strings used for fragments for navigation -->\r\n    <string name=\"first_fragment_label\">First Fragment</string>\r\n    <string name=\"second_fragment_label\">Second Fragment</string>\r\n    <string name=\"next\">Next</string>\r\n    <string name=\"previous\">Previous</string>\r\n\r\n    <string name=\"hello_first_fragment\">Hello first fragment</string>\r\n    <string name=\"hello_second_fragment\">Hello second fragment. Arg: %1$s</string>\r\n    <string name=\"title_activity_coin_flip\">CoinFlipActivity</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/res/values/strings.xml	(date 1604619206766)
+@@ -9,5 +9,9 @@
+ 
+     <string name="hello_first_fragment">Hello first fragment</string>
+     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+-    <string name="title_activity_coin_flip">CoinFlipActivity</string>
++    <string name="configure">Configure</string>
++    <string name="practical_parent">Practical Parent</string>
++    <string name="time_out">Time Out</string>
++    <string name="flip_coin">Flip Coin</string>
++    <string name="show_content">Show Content</string>
+ </resources>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ .idea/gradle.xml	(date 1604619215470)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/java/ca/cmpt276/practicalparent/TimeOut.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/TimeOut.java	(date 1604619206771)
++++ app/src/main/java/ca/cmpt276/practicalparent/TimeOut.java	(date 1604619206771)
+@@ -0,0 +1,14 @@
++package ca.cmpt276.practicalparent;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.os.Bundle;
++
++public class TimeOut extends AppCompatActivity {
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_time_out);
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_coin_flip.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".CoinFlipActivity\">\r\n\r\n    <com.google.android.material.appbar.AppBarLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:theme=\"@style/AppTheme.AppBarOverlay\">\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimary\"\r\n            app:popupTheme=\"@style/AppTheme.PopupOverlay\" />\r\n\r\n    </com.google.android.material.appbar.AppBarLayout>\r\n\r\n    <include layout=\"@layout/content_coin_flip\" />\r\n\r\n\r\n\r\n</androidx.coordinatorlayout.widget.CoordinatorLayout>
+===================================================================
+--- app/src/main/res/layout/activity_coin_flip.xml	(revision a6a635bc37b3bf7ac13300082cd5b3fef569077d)
++++ app/src/main/res/layout/main_menu.xml	(date 1604619206793)
+@@ -4,7 +4,7 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context=".CoinFlipActivity">
++    tools:context=".MainMenu">
+ 
+     <com.google.android.material.appbar.AppBarLayout
+         android:layout_width="match_parent"
+@@ -20,8 +20,6 @@
+ 
+     </com.google.android.material.appbar.AppBarLayout>
+ 
+-    <include layout="@layout/content_coin_flip" />
+-
+-
++    <include layout="@layout/content_main" />
+ 
+ </androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
+Index: app/src/main/res/navigation/nav_graph.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/navigation/nav_graph.xml	(date 1604619206786)
++++ app/src/main/res/navigation/nav_graph.xml	(date 1604619206786)
+@@ -0,0 +1,28 @@
++<?xml version="1.0" encoding="utf-8"?>
++<navigation xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/nav_graph"
++    app:startDestination="@id/FirstFragment">
++
++    <fragment
++        android:id="@+id/FirstFragment"
++        android:name="ca.cmpt276.practicalparent.FirstFragment"
++        android:label="@string/first_fragment_label"
++        tools:layout="@layout/fragment_first">
++
++        <action
++            android:id="@+id/action_FirstFragment_to_SecondFragment"
++            app:destination="@id/SecondFragment" />
++    </fragment>
++    <fragment
++        android:id="@+id/SecondFragment"
++        android:name="ca.cmpt276.practicalparent.SecondFragment"
++        android:label="@string/second_fragment_label"
++        tools:layout="@layout/fragment_second">
++
++        <action
++            android:id="@+id/action_SecondFragment_to_FirstFragment"
++            app:destination="@id/FirstFragment" />
++    </fragment>
++</navigation>
+\ No newline at end of file
+diff --git .idea/compiler.xml .idea/compiler.xml
+new file mode 100644
