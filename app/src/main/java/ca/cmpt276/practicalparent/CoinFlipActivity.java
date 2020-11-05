@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.View;
@@ -30,9 +31,18 @@ public class CoinFlipActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupFlipButton();
-
+        createPlayerFragment();
 
     }
+
+    private void createPlayerFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        ChooseCoinFragment dialog = new ChooseCoinFragment();
+        dialog.show(manager, "Message Dialog");
+    }
+
+
+
     private void setupFlipButton() {
         Button button = findViewById(R.id.flipButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +57,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Citation: https://ssaurel.medium.com/learn-to-create-a-flip-coin-application-on-android-7f2ba5c6dc64
+     */
     private void flipAnimation() {
         final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
         Animation fadeOut = new AlphaAnimation(1,0);
@@ -79,6 +92,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
         coinImage.startAnimation(fadeOut);
     }
+
+
+
 
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);
