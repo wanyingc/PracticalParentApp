@@ -25,7 +25,8 @@ import ca.cmpt276.practicalparent.model.ChildManager;
 
 public class ChildList extends AppCompatActivity {
 
-    private static final String PREF_NAME = "StorageAttempt6";
+    private static final String PREF_NAME = "Name List Storage";
+    private static final String NUM_STORED_VALUES = "Number of Stored Values";
     private ChildManager manager;
 
     @Override
@@ -84,7 +85,7 @@ public class ChildList extends AppCompatActivity {
 
     public void getNamesFromSP() {
         SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
-        for(int i=0;i<prefs.getInt("Number of Stored Values",0);i++) {
+        for(int i=0;i<prefs.getInt(NUM_STORED_VALUES,0);i++) {
             String index = "Stored Name " + i;
             manager.add(prefs.getString(index,"NA"));
         }
@@ -93,7 +94,7 @@ public class ChildList extends AppCompatActivity {
     public void storeNamesToSP() {
         SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("Number of Stored Values",manager.size());
+        editor.putInt(NUM_STORED_VALUES,manager.size());
         for(int i=0;i<manager.size();i++) {
             String index = "Stored Name " + i;
             editor.putString(index,manager.getChild(i));
