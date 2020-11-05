@@ -1,13 +1,11 @@
 package ca.cmpt276.practicalparent.model;
 import java.util.Random;
 public class Coin {
-    public static final int HEADS = 1;
-    public static final int TAILS = 2;
-    private Random rand;
+    public static final int HEADS = 0;
+    public static final int TAILS = 1;
     private int result;
 
     private Coin() {
-        rand = new Random();
         result = 0;
     }
     /*
@@ -22,8 +20,8 @@ public class Coin {
     }
 
     public void flip() {
-        // randomly generates either a 1 or a 2
-        result = rand.nextInt(3);
+        // randomly generates either a 0 or a 1
+        result = Math.random() > 0.5 ? 1 : 0;
     }
     public int getCoin() {
         return result;
