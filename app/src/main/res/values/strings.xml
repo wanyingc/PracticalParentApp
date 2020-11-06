@@ -9,9 +9,4 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="configure">Configure</string>
-    <string name="practical_parent">Practical Parent</string>
-    <string name="time_out">Time Out</string>
-    <string name="flip_coin">Flip Coin</string>
-    <string name="show_content">Show Content</string>
 </resources>
