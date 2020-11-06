@@ -1,5 +1,7 @@
 package ca.cmpt276.practicalparent;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -93,9 +95,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         coinImage.startAnimation(fadeOut);
     }
 
-
-
-
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);
         if (coin.getCoin() == Coin.HEADS) {
@@ -104,4 +103,9 @@ public class CoinFlipActivity extends AppCompatActivity {
             text.setText("Tails!");
         }
     }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, CoinFlipActivity.class);
+    }
+
 }

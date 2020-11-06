@@ -25,13 +25,13 @@ public class MainMenu extends AppCompatActivity {
         setSupportActionBar(toolbar);
         
         // start Activity when coin flip button is clicked
-//        coinFlipButton = (Button) findViewById(R.id.flipCoin);
-//        coinFlipButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openCoinFlipActivity();
-//            }
-//        });
+        coinFlipButton = (Button) findViewById(R.id.flipCoin);
+        coinFlipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCoinFlipActivity();
+            }
+        });
 //
 //        // start Activity when configuration button is clicked
 //        configButton = (Button) findViewById(R.id.configChild);
@@ -58,11 +58,11 @@ public class MainMenu extends AppCompatActivity {
 //        Intent intent = new Intent(this,MainActivity.class);
 //        startActivity(intent);
 //    }
-//
-//    public void openCoinFlipActivity() {
-//        Intent intent = new Intent(this,CoinFlipActivity.class);
-//        startActivity(intent);
-//    }
+
+    public void openCoinFlipActivity() {
+        Intent intent = CoinFlipActivity.makeIntent(MainMenu.this);
+        startActivity(intent);
+    }
 
     public void openTimeOutActivity() {
         Intent intent = new Intent(this,TimeOut.class);
