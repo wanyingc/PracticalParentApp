@@ -32,15 +32,15 @@ public class MainMenu extends AppCompatActivity {
                 openCoinFlipActivity();
             }
         });
-//
-//        // start Activity when configuration button is clicked
-//        configButton = (Button) findViewById(R.id.configChild);
-//        configButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openConfigChildActivity();
-//            }
-//        });
+
+        // start Activity when configuration button is clicked
+        configButton = (Button) findViewById(R.id.configChild);
+        configButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openConfigChildActivity();
+            }
+        });
 
         // start Activity when time out button is clicked
         timeOutButton = (Button) findViewById(R.id.timeOut);
@@ -54,10 +54,10 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-//    public void openConfigChildActivity() {
-//        Intent intent = new Intent(this,MainActivity.class);
-//        startActivity(intent);
-//    }
+    public void openConfigChildActivity() {
+        Intent intent = ChildList.makeIntent(MainMenu.this);
+        startActivity(intent);
+    }
 
     public void openCoinFlipActivity() {
         Intent intent = CoinFlipActivity.makeIntent(MainMenu.this);

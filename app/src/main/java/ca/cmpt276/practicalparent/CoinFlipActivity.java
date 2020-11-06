@@ -33,7 +33,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupFlipButton();
-        createPlayerFragment();
 
     }
 
