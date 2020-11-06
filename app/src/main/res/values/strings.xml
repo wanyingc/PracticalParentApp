@@ -1,12 +1,11 @@
 <resources>
-    <string name="app_name">PracticalParent</string>
+    <string name="app_name">Practical Parent</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_child_list">Child List</string>
+    <string name="child_configuration">View Children</string>
+    <string name="use_the_below_to_add_a_child">Use the \'+\' below to add a child, or select a child to edit or delete it.</string>
+    <string name="title_activity_child_add">Add Child</string>
+    <string name="child_name_placeholder">Name</string>
+    <string name="btnAdd">add</string>
+    <string name="title_activity_child_edit">Edit Child</string>
 </resources>
