@@ -25,27 +25,47 @@ import android.widget.TextView;
 import ca.cmpt276.practicalparent.model.Coin;
 
 public class CoinFlipActivity extends AppCompatActivity {
-    Coin coin = Coin.getInstance();
+    public static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.CoinFlipActivity - player1";
+    public static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.CoinFlipActivity - player2";
+    private Coin coin = Coin.getInstance();
+    private int player1, player2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupFlipButton();
+        extractDataFromIntent();
+        setupHeadsButton();
+        setupTailsButton();
+    }
+
+    private void extractDataFromIntent() {
+        Intent intent = getIntent();
+        player1 = intent.getIntExtra(EXTRA_PLAYER_ONE, 0);
+        player2 = intent.getIntExtra(EXTRA_PLAYER_TWO, 0);
+    }
+
+    private void setPlayerLabel() {
 
     }
 
-    private void createPlayerFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        ChooseCoinFragment dialog = new ChooseCoinFragment();
-        dialog.show(manager, "Message Dialog");
+    private void setupHeadsButton() {
+        Button button = findViewById(R.id.headsButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coin.flip();
+                //TODO add animation here:
+                // flipAnimation();
+                flipAnimation();
+
+            }
+        });
     }
 
-
-
-    private void setupFlipButton() {
-        Button button = findViewById(R.id.flipButton);
+    private void setupTailsButton() {
+        Button button = findViewById(R.id.tailsButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +125,13 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
+    }
+
+    public static Intent makeIntent(Context context, int player1, int player2) {
+        Intent intent = new Intent(context, CoinFlipActivity.class);
+        intent.putExtra(EXTRA_PLAYER_ONE, player1);
+        intent.putExtra(EXTRA_PLAYER_TWO, player2);
+        return intent;
     }
 
 }
