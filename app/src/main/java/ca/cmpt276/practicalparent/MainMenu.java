@@ -1,6 +1,7 @@
 package ca.cmpt276.practicalparent;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
+
+import ca.cmpt276.practicalparent.model.ChildManager;
 
 public class MainMenu extends AppCompatActivity {
     private Button timeOutButton;
@@ -60,8 +63,13 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void openCoinFlipActivity() {
-        Intent intent = CoinFlipActivity.makeIntent(MainMenu.this);
-        startActivity(intent);
+        if (ChildManager.getInstance().size() == 0) {
+            Intent intent = CoinFlipActivity.makeIntent(MainMenu.this);
+            startActivity(intent);
+        } else {
+            Intent intent = PlayerChoice.makeIntent(MainMenu.this);
+            startActivity(intent);
+        }
     }
 
     public void openTimeOutActivity() {

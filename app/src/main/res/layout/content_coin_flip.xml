@@ -18,19 +18,6 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/coin_heads" />
 
-    <Button
-        android:id="@+id/flipButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="30dp"
-        android:text="Flip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHeight_max="125dp"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintWidth_max="350dp" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -73,7 +60,6 @@
         android:id="@+id/resultsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Heads!"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -85,7 +71,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.15" />
+
+    <Button
+        android:id="@+id/headsButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Heads"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/tailsButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Tails"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <TextView
+        android:id="@+id/playerTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/coinDisplay"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
