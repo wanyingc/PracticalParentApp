@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -22,60 +23,96 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Coin;
 
 public class CoinFlipActivity extends AppCompatActivity {
-    public static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.CoinFlipActivity - player1";
-    public static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.CoinFlipActivity - player2";
+    private static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.CoinFlipActivity - player1";
+    private static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.CoinFlipActivity - player2";
+    private static final int PLAYER_UNSET = -1;
     private Coin coin = Coin.getInstance();
-    private int player1, player2;
+    private ChildManager manager;
+
+    private int player1, player2, currentPlayer;
+    private int player1Choice, player2Choice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        manager = ChildManager.getInstance();
         extractDataFromIntent();
-        setupHeadsButton();
-        setupTailsButton();
+        currentPlayer = player1;
+        setupFlipButtons();
+        if (player1 != PLAYER_UNSET || player2 != PLAYER_UNSET) {
+            setPlayerLabel();
+        }
+
     }
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        player1 = intent.getIntExtra(EXTRA_PLAYER_ONE, 0);
-        player2 = intent.getIntExtra(EXTRA_PLAYER_TWO, 0);
+        player1 = intent.getIntExtra(EXTRA_PLAYER_ONE, -1);
+        player2 = intent.getIntExtra(EXTRA_PLAYER_TWO, -1);
     }
 
     private void setPlayerLabel() {
-
+        TextView text = findViewById(R.id.playerTurn);
+        text.setText(manager.getChild(currentPlayer) + "'s turn!");
     }
 
-    private void setupHeadsButton() {
-        Button button = findViewById(R.id.headsButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coin.flip();
-                //TODO add animation here:
-                // flipAnimation();
-                flipAnimation();
-
-            }
-        });
+    private void alternatePlayer() {
+        currentPlayer = (currentPlayer == player1) ? player2 : player1;
+        setPlayerLabel();
+        Log.e("TAG", ""+manager.getChild(currentPlayer));
     }
 
-    private void setupTailsButton() {
-        Button button = findViewById(R.id.tailsButton);
-        button.setOnClickListener(new View.OnClickListener() {
+
+    private void setupFlipButtons() {
+        final Button headsButton = findViewById(R.id.headsButton);
+        final Button tailsButton = findViewById(R.id.tailsButton);
+        final TextView text = (TextView)findViewById(R.id.resultsLabel);
+        headsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                text.setText("");
                 coin.flip();
-                //TODO add animation here:
-                // flipAnimation();
                 flipAnimation();
+                headsButton.setClickable(false);
+                tailsButton.setClickable(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        alternatePlayer();
+                        headsButton.setClickable(true);
+                        tailsButton.setClickable(true);
 
+                    }
+                }, 1800);
             }
         });
+        tailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                text.setText("");
+                coin.flip();
+                flipAnimation();
+                headsButton.setClickable(false);
+                tailsButton.setClickable(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        alternatePlayer();
+                        headsButton.setClickable(true);
+                        tailsButton.setClickable(true);
+                    }
+                }, 1800);
+            }
+        });
+
     }
 
     /**
@@ -85,7 +122,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
         Animation fadeOut = new AlphaAnimation(1,0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(500);
+        fadeOut.setDuration(100);
         fadeOut.setFillAfter(true);
 
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
@@ -99,11 +136,17 @@ public class CoinFlipActivity extends AppCompatActivity {
                 coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
                 Animation fadeIn = new AlphaAnimation(0,1);
                 fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(2000);
+                fadeIn.setDuration(3000);
                 fadeIn.setFillAfter(true);
 
                 coinImage.startAnimation(fadeIn);
-                updateResultLabel();
+                coinImage.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateResultLabel();
+                    }
+                }, 1000);
+
             }
 
             @Override
@@ -111,6 +154,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
             }
         });
+
         coinImage.startAnimation(fadeOut);
     }
 
