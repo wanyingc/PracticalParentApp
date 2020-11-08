@@ -6,17 +6,14 @@ import java.time.LocalTime;
 import java.util.Date;
 
 public class HistoryEntry {
-    private int child1, child2;
-    private String childOneChoice, childTwoChoice;
-    private String result;
+    private int headsPlayer, tailsPlayer;
+    private int result;
     private LocalTime time;
     private LocalDate date;
 
-    public HistoryEntry(int child1, int child2, String childOneChoice, String childTwoChoice, String result) {
-        this.child1 = child1;
-        this.child2 = child2;
-        this.childOneChoice = childOneChoice;
-        this.childTwoChoice = childTwoChoice;
+    public HistoryEntry(int headsPlayer, int tailsPlayer, int result) {
+        this.headsPlayer = headsPlayer;
+        this.tailsPlayer = tailsPlayer;
         this.result = result;
         date = LocalDate.now();
         time = LocalTime.now();
@@ -25,24 +22,16 @@ public class HistoryEntry {
 
     // Getters
 
-    public int getChild1() {
-        return child1;
+    public int getHeadsPlayer() {
+        return headsPlayer;
     }
 
-    public int getChild2() {
-        return child2;
+    public int getTailsPlayer() {
+        return tailsPlayer;
     }
 
     public String getResult() {
-        return result;
-    }
-
-    public String getChildOneChoice() {
-        return childOneChoice;
-    }
-
-    public String getChildTwoChoice() {
-        return childTwoChoice;
+        return (result == Coin.HEADS) ? "Heads" : "Tails";
     }
 
     public LocalTime getTime() {

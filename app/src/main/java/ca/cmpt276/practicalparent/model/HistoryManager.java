@@ -28,6 +28,10 @@ public class HistoryManager implements Iterable<HistoryEntry> {
         return historyList.get(index);
     }
 
+    public int size() {
+        return historyList.size();
+    }
+
     @Override
     public Iterator<HistoryEntry> iterator() {
         return historyList.iterator();
