@@ -20,5 +20,6 @@
     <string name="minutes">Minutes</string>
     <string name="name">Name</string>
     <string name="set">set</string>
+    <string name="stop_alarm">Stop Alarm</string>
 
 </resources>

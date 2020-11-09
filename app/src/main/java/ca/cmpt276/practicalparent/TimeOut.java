@@ -1,10 +1,15 @@
 package ca.cmpt276.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -21,6 +26,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    private final static String default_notification_channel_id = "default";
+    private MediaPlayer mp;
+    private Button stopAlarmButton;
     private TextView timerCountDownText;
     private EditText editTimerInput;
     private Button setButton;
@@ -36,12 +44,27 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
 
+        editTimerInput = findViewById(R.id.editCustomTimerInput);
+        setButton = findViewById(R.id.setCustomTimerButton);
+
         setSpinner();
 
         updateCountDownText();
         setStartPauseButton();  //Call start button function when clicked
         setResetButton();       //Call reset button function when clicked
+        stopAlarm();
 
+    }
+
+    private void stopAlarm() {
+        stopAlarmButton = findViewById(R.id.stopAlarm);
+        stopAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mp.stop();
+                mp.release();
+            }
+        });
     }
 
     private void setSpinner() {
@@ -65,7 +88,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-
     }
 
     private void setTimer(long milliseconds) {
@@ -112,6 +134,8 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
             @Override
             public void onFinish() {
                 timerRunning = false;
+                playAlarm();
+                stopAlarmButton.setVisibility(View.VISIBLE);
                 startPauseButton.setText("Start");
                 startPauseButton.setVisibility(View.INVISIBLE);
                 resetButton.setVisibility(View.VISIBLE);
@@ -120,6 +144,18 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         timerRunning = true;
         startPauseButton.setText("pause");
         resetButton.setVisibility(View.VISIBLE);
+    }
+
+    private void playAlarm() {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        mp = MediaPlayer.create(getApplicationContext(), alarmSound);
+        mp.start();
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(TimeOut.this, default_notification_channel_id)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Timeout Alarm")
+                .setContentText("Times Up!");
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify((int)System.currentTimeMillis(),mBuilder.build());
     }
 
     // Function to pause the timer
@@ -159,18 +195,29 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
         if (item.contentEquals("1 min")) {
             setTimer(60000);
+            editTimerInput.setVisibility(View.INVISIBLE);
+            setButton.setVisibility(View.INVISIBLE);
+
         }
         else if (item.contentEquals("2 min")) {
             setTimer(120000);
+            editTimerInput.setVisibility(View.INVISIBLE);
+            setButton.setVisibility(View.INVISIBLE);
         }
         else if (item.contentEquals("3 min")) {
             setTimer(180000);
+            editTimerInput.setVisibility(View.INVISIBLE);
+            setButton.setVisibility(View.INVISIBLE);
         }
         else if (item.contentEquals("5 min")) {
             setTimer(300000);
+            editTimerInput.setVisibility(View.INVISIBLE);
+            setButton.setVisibility(View.INVISIBLE);
         }
         else if (item.contentEquals("10 min")) {
             setTimer(600000);
+            editTimerInput.setVisibility(View.INVISIBLE);
+            setButton.setVisibility(View.INVISIBLE);
         }
         else if (item.contentEquals("Custom")) {
             setCustomTimer();
@@ -182,8 +229,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     }
 
     private void setCustomTimer() {
-        editTimerInput = findViewById(R.id.editCustomTimerInput);
-        setButton = findViewById(R.id.setCustomTimerButton);
 
         setButton.setOnClickListener(new View.OnClickListener() {
 
