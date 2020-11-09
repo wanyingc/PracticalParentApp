@@ -65,7 +65,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void openTimeOutActivity() {
-        Intent intent = new Intent(this,TimeOut.class);
+        Intent intent = TimeOut.makeIntent(MainMenu.this);
         startActivity(intent);
     }
 
