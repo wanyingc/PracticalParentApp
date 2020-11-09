@@ -48,6 +48,10 @@ public class ChildManager implements Iterable<String> {
         return;
     }
 
+    public void clear() {
+        children.clear();
+    }
+
     @Override
     public Iterator<String> iterator() {
         return children.iterator(); // passes ArrayList's iterator method

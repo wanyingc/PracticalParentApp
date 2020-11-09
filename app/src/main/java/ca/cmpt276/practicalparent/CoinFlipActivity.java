@@ -2,6 +2,7 @@ package ca.cmpt276.practicalparent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -169,10 +170,17 @@ public class CoinFlipActivity extends AppCompatActivity {
      * Citation: https://ssaurel.medium.com/learn-to-create-a-flip-coin-application-on-android-7f2ba5c6dc64
      */
     private void flipAnimation() {
+
+        /* Sound
+          https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
+         */
+        MediaPlayer sound = MediaPlayer.create(CoinFlipActivity.this,R.raw.coin_flip);
+        sound.start();
+
         final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
         Animation fadeOut = new AlphaAnimation(1,0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(100);
+        fadeOut.setDuration(1500);
         fadeOut.setFillAfter(true);
 
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
@@ -186,7 +194,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
                 Animation fadeIn = new AlphaAnimation(0,1);
                 fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(3000);
+                fadeIn.setDuration(1000);
                 fadeIn.setFillAfter(true);
 
                 coinImage.startAnimation(fadeIn);
