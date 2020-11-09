@@ -71,10 +71,8 @@ public class MainMenu extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
     public void openTimeOutActivity() {
         Intent intent = new Intent(this,TimeOut.class);
         startActivity(intent);
     }
-
 }

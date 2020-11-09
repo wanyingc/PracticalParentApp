@@ -209,9 +209,9 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void addToHistory() {
-//        int headsPlayer = player1Choice == Coin.HEADS ? player1 : player2;
-//        int tailsPlayer = player1Choice == Coin.TAILS ? player1 : player2;
-        HistoryEntry entry = new HistoryEntry(0, 1, coin.getCoin());
+        int headsPlayer = (player1Choice == Coin.HEADS) ? player1 : player2;
+        int tailsPlayer = (player1Choice == Coin.TAILS) ? player1 : player2;
+        HistoryEntry entry = new HistoryEntry(headsPlayer, tailsPlayer, coin.getCoin());
         HistoryManager.getInstance().addEntry(entry);
     }
 
