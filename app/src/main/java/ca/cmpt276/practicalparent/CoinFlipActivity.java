@@ -2,6 +2,8 @@ package ca.cmpt276.practicalparent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,8 +44,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     private Coin coin = Coin.getInstance();
     private ChildManager manager;
     private int player1, player2, currentPlayer;
-    private int player1Choice, player2Choice;
-
+    private int player1Choice;
+    private HistoryManager historyManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
 
         manager = ChildManager.getInstance();
+        historyManager = HistoryManager.getInstance();
+        //loadHistoryEntryFromSP(this);
+
+
         extractDataFromIntent();
         setupFlipButtons();
         if (player1 != NO_PLAYER && player2 != NO_PLAYER) {
@@ -110,9 +116,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentPlayer == player1) {
                     player1Choice = Coin.HEADS;
-                    player2Choice = Coin.TAILS;
                 } else {
-                    player2Choice = Coin.HEADS;
                     player1Choice = Coin.TAILS;
                 }
                 text.setText("");
@@ -139,9 +143,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentPlayer == player1) {
                     player1Choice = Coin.TAILS;
-                    player2Choice = Coin.HEADS;
                 } else {
-                    player2Choice = Coin.TAILS;
                     player1Choice = Coin.HEADS;
                 }
                 text.setText("");
@@ -169,10 +171,17 @@ public class CoinFlipActivity extends AppCompatActivity {
      * Citation: https://ssaurel.medium.com/learn-to-create-a-flip-coin-application-on-android-7f2ba5c6dc64
      */
     private void flipAnimation() {
+
+        /* Sound
+          https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
+         */
+        MediaPlayer sound = MediaPlayer.create(CoinFlipActivity.this,R.raw.coin_flip);
+        sound.start();
+
         final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
         Animation fadeOut = new AlphaAnimation(1,0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(100);
+        fadeOut.setDuration(1500);
         fadeOut.setFillAfter(true);
 
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
@@ -186,7 +195,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
                 Animation fadeIn = new AlphaAnimation(0,1);
                 fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(3000);
+                fadeIn.setDuration(1000);
                 fadeIn.setFillAfter(true);
 
                 coinImage.startAnimation(fadeIn);
@@ -212,8 +221,48 @@ public class CoinFlipActivity extends AppCompatActivity {
         int headsPlayer = (player1Choice == Coin.HEADS) ? player1 : player2;
         int tailsPlayer = (player1Choice == Coin.TAILS) ? player1 : player2;
         HistoryEntry entry = new HistoryEntry(headsPlayer, tailsPlayer, coin.getCoin());
-        HistoryManager.getInstance().addEntry(entry);
+        historyManager.addEntry(entry);
+        //saveHistoryToSP(entry);
     }
+
+    private void saveHistoryToSP(HistoryEntry entry) {
+        HistoryManager historyManager = HistoryManager.getInstance();
+        SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (int i = 0; i < historyManager.size(); i++) {
+            editor.putInt("heads_player"+i, entry.getHeadsPlayer());
+            editor.putInt("tails_player"+i, entry.getTailsPlayer());
+            editor.putString("date"+i, entry.getDate());
+            editor.putString("time"+i, entry.getTime());
+            editor.putInt("result"+i, entry.getResult());
+        }
+        editor.putInt("size", historyManager.size()+1);
+        editor.apply();
+    }
+
+    static public void loadHistoryEntryFromSP(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        HistoryManager historyManager = HistoryManager.getInstance();
+        historyManager.clear();
+        int size = prefs.getInt("size", 0);
+        for (int i = 0; i < size; i++) {
+            int playerHeads = prefs.getInt("heads_player"+i, 0);
+            int playerTails = prefs.getInt("tails_player"+i, 0);
+            String date = prefs.getString("date"+i, "");
+            String time = prefs.getString("time"+i, "");
+            int result = prefs.getInt("result"+i, 0);
+            HistoryEntry entry = new HistoryEntry(playerHeads, playerTails, result, date, time);
+            historyManager.addEntry(entry);
+        }
+    }
+
+    private void clearHistory() {
+        SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+    }
+
 
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);

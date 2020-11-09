@@ -15,6 +15,7 @@ public class HistoryEntry {
     private int result;
     private LocalTime time;
     private LocalDate date;
+    private String dateTime;
 
     public HistoryEntry(int headsPlayer, int tailsPlayer, int result) {
         this.headsPlayer = headsPlayer;
@@ -24,6 +25,12 @@ public class HistoryEntry {
         time = LocalTime.now();
     }
 
+    public HistoryEntry(int headsPlayer, int tailsPlayer, int result, String date, String time) {
+        this.headsPlayer = headsPlayer;
+        this.tailsPlayer = tailsPlayer;
+        this.result = result;
+        this.dateTime = time + ", " + date;
+    }
 
     // Getters
 
@@ -35,8 +42,8 @@ public class HistoryEntry {
         return tailsPlayer;
     }
 
-    public String getResult() {
-        return (result == Coin.HEADS) ? "Heads" : "Tails";
+    public int getResult() {
+        return result;
     }
 
     public String getTime() {
