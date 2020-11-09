@@ -24,7 +24,7 @@ public class ChildManager implements Iterable<String> {
         return instance;
     }
 
-    // Method to add lenses
+    // Methods
     public void add(String child) {
         children.add(child);
     }
@@ -46,6 +46,10 @@ public class ChildManager implements Iterable<String> {
     public void deleteChild(int index) {
         children.remove(index);
         return;
+    }
+
+    public void clear() {
+        children.clear();
     }
 
     @Override

@@ -18,7 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import ca.cmpt276.practicalparent.model.ChildManager;
@@ -28,6 +30,7 @@ public class ChildList extends AppCompatActivity {
     private static final String PREF_NAME = "Name List Storage";
     private static final String NUM_STORED_VALUES = "Number of Stored Values";
     private ChildManager manager;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,9 @@ public class ChildList extends AppCompatActivity {
             }
         });
 
+        System.out.println("created");
         manager = ChildManager.getInstance();
-        getNamesFromSP();
-        populateChildrenList();
+        getNamesAndSizeFromSP();
         childClickHandler();
     }
 
@@ -56,13 +59,16 @@ public class ChildList extends AppCompatActivity {
     }
 
     private void populateChildrenList() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
         int i = 0;
-        String[] myItems = new String[manager.size()];
+        String[] children = new String[manager.size()];
         for (String s: manager) {
-            myItems[i] = s;
+            children[i] = s;
             i++;
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item, myItems);
+        adapter = new ArrayAdapter<String>(this, R.layout.item, children);
         ListView list = (ListView) findViewById(R.id.childrenList);
         list.setAdapter(adapter);
     }
@@ -83,15 +89,17 @@ public class ChildList extends AppCompatActivity {
         });
     }
 
-    public void getNamesFromSP() {
+    public void getNamesAndSizeFromSP() {
         SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
-        for(int i=0;i<prefs.getInt(NUM_STORED_VALUES,0);i++) {
+        final int childListSize = prefs.getInt(NUM_STORED_VALUES,0);
+        manager.clear();
+        for(int i=0;i<childListSize;i++) {
             String index = "Stored Name " + i;
-            manager.add(prefs.getString(index,"NA"));
+            manager.add(prefs.getString(index,""));
         }
     }
 
-    public void storeNamesToSP() {
+    public void storeNamesAndSizeToSP() {
         SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(NUM_STORED_VALUES,manager.size());
@@ -105,7 +113,8 @@ public class ChildList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        storeNamesToSP();
+        System.out.println("resumed");
+        storeNamesAndSizeToSP();
         populateChildrenList();
     }
 }
