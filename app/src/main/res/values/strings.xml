@@ -21,4 +21,14 @@
     <string name="set_timer">Set Timer:</string>
     <string name="minutes">Minutes</string>
     <string name="stop_alarm">Stop Alarm</string>
+    <string name="player_2_text">Player 2</string>
+    <string name="player_1_title">Player 1</string>
+    <string name="wins_only">Wins Only</string>
+    <string name="clear">Clear</string>
+    <string name="heads">Heads</string>
+    <string name="tails">Tails</string>
+    <string name="name">Name</string>
+    <string name="apply_change">Apply Change</string>
+    <string name="delete_child">Delete Child</string>
+    <string name="date">Date</string>
 </resources>

@@ -59,7 +59,6 @@ public class HistoryActivity extends AppCompatActivity {
         winningPlayerList = updateWinningPlayerList(currentChild);
         fillHistory();
         setupWinnerModeSwitch();
-        Log.e("current", ""+currentChild);
         setupCurrentPlayerLabel();
 
         setupClearHistoryButton();

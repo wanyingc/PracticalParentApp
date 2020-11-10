@@ -25,7 +25,6 @@
                 android:layout_height="45dp"
                 android:layout_weight="0.8"
                 android:gravity="center"
-                android:text="TextView"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -50,7 +49,6 @@
                 android:layout_height="45dp"
                 android:layout_weight="0.8"
                 android:gravity="center"
-                android:text="TextView"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -74,7 +72,6 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="TextView"
                 android:textAlignment="center"
                 android:textSize="14sp" />
         </LinearLayout>

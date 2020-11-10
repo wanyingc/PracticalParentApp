@@ -66,14 +66,13 @@ public class CoinFlipActivity extends AppCompatActivity {
             currentPlayer = NO_PLAYER;
             isPlayers = false;
         }
-        Log.e("log", "create");
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         extractDataFromIntent();
-        Log.e("log", "resume");
     }
 
     @Override

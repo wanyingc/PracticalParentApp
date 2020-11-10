@@ -77,7 +77,7 @@
         android:id="@+id/headsButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:text="Heads"
+        android:text="@string/heads"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
@@ -86,7 +86,7 @@
         android:id="@+id/tailsButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:text="Tails"
+        android:text="@string/tails"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
