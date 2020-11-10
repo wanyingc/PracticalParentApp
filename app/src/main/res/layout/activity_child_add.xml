@@ -6,17 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".ChildAdd">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <EditText
         android:id="@+id/editTextChildAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/child_name_placeholder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <Button
         android:id="@+id/btnAddChild"
@@ -26,5 +43,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/btnAdd"
         app:layout_constraintStart_toEndOf="@+id/editTextChildAdd"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

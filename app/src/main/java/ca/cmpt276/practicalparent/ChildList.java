@@ -40,6 +40,8 @@ public class ChildList extends AppCompatActivity {
         setContentView(R.layout.activity_child_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,9 +51,6 @@ public class ChildList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
 
         manager = ChildManager.getInstance();
         getNamesAndSizeFromSP();
