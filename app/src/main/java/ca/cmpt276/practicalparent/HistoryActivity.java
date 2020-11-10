@@ -33,6 +33,9 @@ import ca.cmpt276.practicalparent.model.Coin;
 import ca.cmpt276.practicalparent.model.HistoryEntry;
 import ca.cmpt276.practicalparent.model.HistoryManager;
 
+/**
+ * Used to display the history of coin flips
+ */
 public class HistoryActivity extends AppCompatActivity {
     public static final String CURRENT_PLAYER = "ca.cmpt276.practicalparent.HistoryActivity - currentPlayer";
     HistoryManager historyManager;

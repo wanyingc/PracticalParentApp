@@ -1,5 +1,9 @@
 package ca.cmpt276.practicalparent.model;
 import java.util.Random;
+
+/**
+ * Used to represent a coin
+ */
 public class Coin {
     public static final int HEADS = 0;
     public static final int TAILS = 1;

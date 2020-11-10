@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 
+/**
+ * Stores the previous turn of a coin flip
+ */
 public class HistoryEntry {
     private int headsPlayer, tailsPlayer, winner;
     private int coinResult;
