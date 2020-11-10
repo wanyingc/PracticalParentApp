@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import ca.cmpt276.practicalparent.model.ChildManager;
 
+/**
+ * Used to display the UI for the add child activity.
+ */
+
 public class ChildAdd extends AppCompatActivity {
 
     @Override

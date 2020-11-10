@@ -19,6 +19,9 @@ public class MainMenu extends AppCompatActivity {
     private Button timeOutButton;
     private Button configButton;
     private Button coinFlipButton;
+    private ChildManager manager;
+    private static final String PREF_NAME = "Name List Storage";
+    private static final String NUM_STORED_VALUES = "Number of Stored Values";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-
+        getNamesAndSizeFromSP();
     }
 
     public void openConfigChildActivity() {
@@ -75,4 +78,16 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = TimeOut.makeIntent(MainMenu.this);
         startActivity(intent);
     }
+
+    public void getNamesAndSizeFromSP() {
+        manager = ChildManager.getInstance();
+        SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
+        final int childListSize = prefs.getInt(NUM_STORED_VALUES,0);
+        manager.clear();
+        for(int i=0;i<childListSize;i++) {
+            String index = "Stored Name " + i;
+            manager.add(prefs.getString(index,""));
+        }
+    }
+
 }
