@@ -33,6 +33,9 @@ import ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;
 
 import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;
 
+/**
+ * Used to manage Time out Activities
+ */
 public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private MediaPlayer mp;
     private Button stopAlarmButton;
@@ -77,7 +80,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, openTimeOutIntent, 0);
 
         Intent broadcastIntent = new Intent(this, TimeOutNotificationReceiver.class);
-        broadcastIntent.putExtra("toastMessage", "Times Up!");
+        broadcastIntent.putExtra("toastMessage", "Dismissed");
         PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 

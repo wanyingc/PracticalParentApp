@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.widget.Toast;
 
+
+/**
+ * Used to stop time out notification
+ */
 public class TimeOutNotificationReceiver extends BroadcastReceiver {
     private MediaPlayer mp;
     @Override

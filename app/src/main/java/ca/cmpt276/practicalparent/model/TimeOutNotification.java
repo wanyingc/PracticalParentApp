@@ -11,6 +11,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import ca.cmpt276.practicalparent.R;
 
+/**
+ * Used to create a notification channel for time out timer
+ */
 public class TimeOutNotification extends Application {
     private NotificationManagerCompat notifManager;
     public static final String CHANNEL_ID = "TimeOutChannel";
