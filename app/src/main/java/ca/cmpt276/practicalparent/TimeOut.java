@@ -2,7 +2,9 @@ package ca.cmpt276.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;
+
 public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private final static String default_notification_channel_id = "default";
     private MediaPlayer mp;
     private Button stopAlarmButton;
     private TextView timerCountDownText;
@@ -38,6 +41,8 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     private boolean timerRunning;
     private long startTime;
     private long timeLeft;
+
+    private NotificationManagerCompat notifManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +56,21 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
         updateCountDownText();
         setStartPauseButton();  //Call start button function when clicked
+        notifManager = NotificationManagerCompat.from(this);
         setResetButton();       //Call reset button function when clicked
         stopAlarm();
+    }
 
+    public void notifChannel(View v) {
+        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Practical Parent")
+                .setContentText("Time Remaining: ")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notifManager.notify(1,notification);
     }
 
     private void stopAlarm() {
@@ -150,12 +167,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         mp = MediaPlayer.create(getApplicationContext(), alarmSound);
         mp.start();
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(TimeOut.this, default_notification_channel_id)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Timeout Alarm")
-                .setContentText("Times Up!");
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify((int)System.currentTimeMillis(),mBuilder.build());
     }
 
     // Function to pause the timer
