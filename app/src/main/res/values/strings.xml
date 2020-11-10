@@ -19,4 +19,6 @@
     <string name="start">Start</string>
     <string name="reset">Reset</string>
     <string name="set_timer">Set Timer:</string>
+    <string name="minutes">Minutes</string>
+    <string name="stop_alarm">Stop Alarm</string>
 </resources>
