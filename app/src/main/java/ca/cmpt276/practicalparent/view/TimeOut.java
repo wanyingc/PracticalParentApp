@@ -39,7 +39,7 @@ import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;
  * Used to manage Time out Activities.
  */
 public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private MediaPlayer mp;
+    public static MediaPlayer mp;
     private Button stopAlarmButton;
     private TextView timerCountDownText;
     private EditText editTimerInput;
@@ -63,7 +63,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
 
         editTimerInput = findViewById(R.id.editCustomTimerInput);
         setButton = findViewById(R.id.setCustomTimerButton);
