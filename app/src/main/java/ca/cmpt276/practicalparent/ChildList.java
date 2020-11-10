@@ -27,6 +27,10 @@ import java.util.Set;
 
 import ca.cmpt276.practicalparent.model.ChildManager;
 
+/**
+ * Used to display the UI for the list of children.
+ */
+
 public class ChildList extends AppCompatActivity {
 
     private static final String PREF_NAME = "Name List Storage";
@@ -40,6 +44,8 @@ public class ChildList extends AppCompatActivity {
         setContentView(R.layout.activity_child_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Child List");
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -53,7 +59,6 @@ public class ChildList extends AppCompatActivity {
         });
 
         manager = ChildManager.getInstance();
-        getNamesAndSizeFromSP();
         childClickHandler();
     }
 
@@ -90,16 +95,6 @@ public class ChildList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public void getNamesAndSizeFromSP() {
-        SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
-        final int childListSize = prefs.getInt(NUM_STORED_VALUES,0);
-        manager.clear();
-        for(int i=0;i<childListSize;i++) {
-            String index = "Stored Name " + i;
-            manager.add(prefs.getString(index,""));
-        }
     }
 
     public void storeNamesAndSizeToSP() {
