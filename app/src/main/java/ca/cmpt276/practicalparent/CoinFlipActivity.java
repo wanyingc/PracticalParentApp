@@ -82,7 +82,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.go_to_history:
                 try {
-                    Intent intent = HistoryActivity.makeIntent(this);
+                    Intent intent = HistoryActivity.makeIntent(this, currentPlayer);
                     startActivity(intent);
                 } catch (Exception e) {
                     return false;
@@ -234,7 +234,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             editor.putInt("tails_player"+i, entry.getTailsPlayer());
             editor.putString("date"+i, entry.getDate());
             editor.putString("time"+i, entry.getTime());
-            editor.putInt("result"+i, entry.getResult());
+            editor.putInt("result"+i, entry.getCoinResult());
         }
         editor.putInt("size", historyManager.size()+1);
         editor.apply();

@@ -36,6 +36,7 @@ public class HistoryManager implements Iterable<HistoryEntry> {
         return historyList;
     }
 
+
     @Override
     public Iterator<HistoryEntry> iterator() {
         return historyList.iterator();
