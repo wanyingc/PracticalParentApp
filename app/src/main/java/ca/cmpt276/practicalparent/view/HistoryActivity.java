@@ -37,7 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
     HistoryManager historyManager;
     ChildManager childManager;
     int currentChild;
-    List<HistoryEntry> winningPlayerList;
+    List<HistoryEntry> currentPlayerGameList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +56,9 @@ public class HistoryActivity extends AppCompatActivity {
         historyManager = HistoryManager.getInstance();
         childManager = ChildManager.getInstance();
 
-        winningPlayerList = updateWinningPlayerList(currentChild);
+        currentPlayerGameList = updateCurrentPlayerList(currentChild);
         fillHistory();
-        setupWinnerModeSwitch();
+        setupCurrentPlayerModeSwitch();
         setupCurrentPlayerLabel();
 
         setupClearHistoryButton();
@@ -97,16 +97,16 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
-    private void setupWinnerModeSwitch() {
-        final Switch s = (Switch)findViewById(R.id.win_mode_switch);
+    private void setupCurrentPlayerModeSwitch() {
+        final Switch s = (Switch)findViewById(R.id.current_player_mode_switch);
         s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(s.isChecked()) {
                     // display win mode
-                    updateWinningPlayerList(currentChild);
-                    fillWinnerHistory();
+                    updateCurrentPlayerList(currentChild);
+                    fillCurrentPlayerHistory();
                 } else {
                     // display regular mode
                     fillHistory();
@@ -115,10 +115,10 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
 
-    private List<HistoryEntry> updateWinningPlayerList(int player) {
+    private List<HistoryEntry> updateCurrentPlayerList(int player) {
         List<HistoryEntry> list = new ArrayList<HistoryEntry>();
         for (HistoryEntry entry : historyManager) {
-            if (entry.getWinner() == player) {
+            if (entry.getHeadsPlayer() == player || entry.getTailsPlayer() == player) {
                 list.add(entry);
             }
         }
@@ -133,7 +133,7 @@ public class HistoryActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    private void fillWinnerHistory() {
+    private void fillCurrentPlayerHistory() {
         ArrayAdapter<HistoryEntry> adapter = new MyListAdapterWinner();
         ListView listView = findViewById(R.id.history_list);
         listView.setAdapter(adapter);
@@ -179,7 +179,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private class MyListAdapterWinner extends ArrayAdapter<HistoryEntry> {
         public MyListAdapterWinner() {
-            super(HistoryActivity.this, R.layout.grid_item, winningPlayerList);
+            super(HistoryActivity.this, R.layout.grid_item, currentPlayerGameList);
         }
 
         @Override
@@ -188,7 +188,7 @@ public class HistoryActivity extends AppCompatActivity {
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.grid_item, parent,false);
             }
-            HistoryEntry currentEntry = winningPlayerList.get(position);
+            HistoryEntry currentEntry = currentPlayerGameList.get(position);
             TextView headText = itemView.findViewById(R.id.head_name_text);
             headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()));
 
