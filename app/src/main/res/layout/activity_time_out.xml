@@ -61,8 +61,8 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="82dp"
-        android:layout_height="31dp"
+        android:layout_width="93dp"
+        android:layout_height="45dp"
         android:layout_marginTop="108dp"
         android:text="@string/set_timer"
         android:textSize="18sp"
