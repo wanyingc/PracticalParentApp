@@ -13,7 +13,7 @@
     <string name="flip_coin">Flip Coin</string>
     <string name="configure">Configure</string>
     <string name="practical_parent">Practical Parent</string>
-    <string name="title_activity_player_choice">PlayerChoice</string>
+    <string name="title_activity_player_choice">Player Choice</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
