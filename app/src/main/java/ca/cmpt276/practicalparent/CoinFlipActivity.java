@@ -57,6 +57,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Coin Flip");
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
