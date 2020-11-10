@@ -1,6 +1,8 @@
 package ca.cmpt276.practicalparent;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -50,6 +52,13 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Timer");
+
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
 
         editTimerInput = findViewById(R.id.editCustomTimerInput);
         setButton = findViewById(R.id.setCustomTimerButton);
