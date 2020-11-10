@@ -59,7 +59,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar ab = getSupportActionBar();
-
         manager = ChildManager.getInstance();
         historyManager = HistoryManager.getInstance();
         //loadHistoryEntryFromSP(this);
@@ -68,14 +67,20 @@ public class CoinFlipActivity extends AppCompatActivity {
         extractDataFromIntent();
         setupFlipButtons();
         if (player1 != NO_PLAYER && player2 != NO_PLAYER) {
-            setPlayerLabel();
             currentPlayer = player1;
+            setPlayerLabel();
             isPlayers = true;
         } else {
             isPlayers = false;
         }
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        extractDataFromIntent();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_coinflip, menu);
@@ -217,21 +222,21 @@ public class CoinFlipActivity extends AppCompatActivity {
         int tailsPlayer = (player1Choice == Coin.TAILS) ? player1 : player2;
         HistoryEntry entry = new HistoryEntry(headsPlayer, tailsPlayer, coin.getCoin());
         historyManager.addEntry(entry);
-        //saveHistoryToSP(entry);
+        saveHistoryToSP(entry);
+
     }
 
     private void saveHistoryToSP(HistoryEntry entry) {
         HistoryManager historyManager = HistoryManager.getInstance();
         SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        for (int i = 0; i < historyManager.size(); i++) {
-            editor.putInt("heads_player"+i, entry.getHeadsPlayer());
-            editor.putInt("tails_player"+i, entry.getTailsPlayer());
-            editor.putString("date"+i, entry.getDate());
-            editor.putString("time"+i, entry.getTime());
-            editor.putInt("result"+i, entry.getCoinResult());
-        }
-        editor.putInt("size", historyManager.size()+1);
+        int i = historyManager.size();
+        editor.putInt("heads_player"+i, entry.getHeadsPlayer());
+        editor.putInt("tails_player"+i, entry.getTailsPlayer());
+        editor.putString("date"+i, entry.getDate());
+        editor.putString("time"+i, entry.getTime());
+        editor.putInt("result"+i, entry.getCoinResult());
+        editor.putInt("size", historyManager.size());
         editor.apply();
     }
 
@@ -240,7 +245,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         HistoryManager historyManager = HistoryManager.getInstance();
         historyManager.clear();
         int size = prefs.getInt("size", 0);
-        for (int i = 0; i < size; i++) {
+        for (int i = 1; i <= size; i++) {
             int playerHeads = prefs.getInt("heads_player"+i, 0);
             int playerTails = prefs.getInt("tails_player"+i, 0);
             String date = prefs.getString("date"+i, "");
@@ -250,14 +255,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             historyManager.addEntry(entry);
         }
     }
-
-    private void clearHistory() {
-        SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.apply();
-    }
-
 
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);

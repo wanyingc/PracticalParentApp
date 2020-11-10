@@ -2,6 +2,7 @@ package ca.cmpt276.practicalparent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -42,20 +44,42 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        CoinFlipActivity.loadHistoryEntryFromSP(this);
         extractDataFromIntent();
-
         historyManager = HistoryManager.getInstance();
         childManager = ChildManager.getInstance();
+
         winningPlayerList = updateWinningPlayerList(currentChild);
         fillHistory();
         setupWinnerModeSwitch();
         setupCurrentPlayerLabel();
+        setupClearHistoryButton();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setupCurrentPlayerLabel();
+    }
+
+    private void setupClearHistoryButton() {
+        Button button = findViewById(R.id.clearHistoryButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearHistoryFromSP();
+            }
+        });
+        fillHistory();
+    }
+
+    private void clearHistoryFromSP() {
+        SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+        historyManager.clear();
+        this.recreate();
     }
 
     private void setupCurrentPlayerLabel() {
