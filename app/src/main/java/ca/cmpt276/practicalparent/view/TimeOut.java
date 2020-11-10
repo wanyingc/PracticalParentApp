@@ -1,4 +1,4 @@
-package ca.cmpt276.practicalparent;
+package ca.cmpt276.practicalparent.view;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;
 
 import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;

@@ -1,25 +1,20 @@
-package ca.cmpt276.practicalparent;
+package ca.cmpt276.practicalparent.view;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -28,6 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Coin;
 import ca.cmpt276.practicalparent.model.HistoryEntry;
@@ -37,7 +33,7 @@ import ca.cmpt276.practicalparent.model.HistoryManager;
  * Used to display the history of coin flips
  */
 public class HistoryActivity extends AppCompatActivity {
-    public static final String CURRENT_PLAYER = "ca.cmpt276.practicalparent.HistoryActivity - currentPlayer";
+    public static final String CURRENT_PLAYER = "ca.cmpt276.practicalparent.view.HistoryActivity - currentPlayer";
     HistoryManager historyManager;
     ChildManager childManager;
     int currentChild;
@@ -62,7 +58,9 @@ public class HistoryActivity extends AppCompatActivity {
         winningPlayerList = updateWinningPlayerList(currentChild);
         fillHistory();
         setupWinnerModeSwitch();
+        Log.e("current", ""+currentChild);
         setupCurrentPlayerLabel();
+
         setupClearHistoryButton();
     }
 
@@ -93,8 +91,10 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void setupCurrentPlayerLabel() {
-        TextView text = findViewById(R.id.current_player_label);
-        text.setText("Current Player: " + childManager.getChild(currentChild));
+        if (currentChild != CoinFlipActivity.NO_PLAYER) {
+            TextView text = findViewById(R.id.current_player_label);
+            text.setText("Current Player: " + childManager.getChild(currentChild));
+        }
     }
 
     private void setupWinnerModeSwitch() {

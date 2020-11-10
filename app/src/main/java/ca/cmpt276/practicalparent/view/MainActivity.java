@@ -1,4 +1,4 @@
-package ca.cmpt276.practicalparent;
+package ca.cmpt276.practicalparent.view;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import ca.cmpt276.practicalparent.R;
 
 public class MainActivity extends AppCompatActivity {
 

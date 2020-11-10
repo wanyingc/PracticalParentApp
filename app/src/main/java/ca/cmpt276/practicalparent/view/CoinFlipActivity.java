@@ -1,41 +1,27 @@
-package ca.cmpt276.practicalparent;
+package ca.cmpt276.practicalparent.view;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
-import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Coin;
 import ca.cmpt276.practicalparent.model.HistoryEntry;
@@ -45,9 +31,9 @@ import ca.cmpt276.practicalparent.model.HistoryManager;
  * Used to display the UI of CoinFlipActivity
  */
 public class CoinFlipActivity extends AppCompatActivity {
-    private static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.CoinFlipActivity - player1";
-    private static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.CoinFlipActivity - player2";
-    private static final int NO_PLAYER = -1;
+    private static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.view.CoinFlipActivity - player1";
+    private static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.view.CoinFlipActivity - player2";
+    public static final int NO_PLAYER = -1;
     private boolean isPlayers;
     private Coin coin = Coin.getInstance();
     private ChildManager manager;
@@ -76,6 +62,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             setPlayerLabel();
             isPlayers = true;
         } else {
+            currentPlayer = NO_PLAYER;
             isPlayers = false;
         }
     }

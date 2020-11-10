@@ -10,18 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".CoinFlipActivity"
-            android:parentActivityName=".MainMenu"
+            android:name=".view.CoinFlipActivity"
+            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".MainMenu"
+            android:name=".view.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -31,38 +31,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ChildList"
-            android:parentActivityName=".MainMenu"
+            android:name=".view.ChildList"
+            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".ChildEdit"
-            android:parentActivityName=".ChildList"
+            android:name=".view.ChildEdit"
+            android:parentActivityName=".view.ChildList"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".ChildAdd"
-            android:parentActivityName=".ChildList"
+            android:name=".view.ChildAdd"
+            android:parentActivityName=".view.ChildList"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".TimeOut"
-            android:parentActivityName=".MainMenu"
+            android:name=".view.TimeOut"
+            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".HistoryActivity"
-            android:parentActivityName=".CoinFlipActivity"
+            android:name=".view.HistoryActivity"
+            android:parentActivityName=".view.CoinFlipActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".PlayerChoice"
-            android:parentActivityName=".MainMenu"
+            android:name=".view.PlayerChoice"
+            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

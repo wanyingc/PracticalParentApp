@@ -1,4 +1,4 @@
-package ca.cmpt276.practicalparent;
+package ca.cmpt276.practicalparent.view;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.ChildManager;
 
 /**
