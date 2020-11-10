@@ -57,12 +57,12 @@ public class CoinFlipActivity extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         manager = ChildManager.getInstance();
         historyManager = HistoryManager.getInstance();
         //loadHistoryEntryFromSP(this);
-
 
         extractDataFromIntent();
         setupFlipButtons();
