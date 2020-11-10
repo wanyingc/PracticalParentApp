@@ -41,6 +41,9 @@ import ca.cmpt276.practicalparent.model.Coin;
 import ca.cmpt276.practicalparent.model.HistoryEntry;
 import ca.cmpt276.practicalparent.model.HistoryManager;
 
+/**
+ * Used to display the UI of CoinFlipActivity
+ */
 public class CoinFlipActivity extends AppCompatActivity {
     private static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.CoinFlipActivity - player1";
     private static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.CoinFlipActivity - player2";

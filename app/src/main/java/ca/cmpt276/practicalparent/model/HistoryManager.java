@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Used to manage a list of entries
+ */
 public class HistoryManager implements Iterable<HistoryEntry> {
     private List<HistoryEntry> historyList;
 

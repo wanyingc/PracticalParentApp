@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import ca.cmpt276.practicalparent.model.ChildManager;
 
+/**
+ * Used to choose players if there are children stored
+ */
 public class PlayerChoice extends AppCompatActivity {
     private ChildManager manager;
     private int savedPlayer1, savedPlayer2;
