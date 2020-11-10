@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.TimeOutNotification;
 import ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;
 
 import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;
