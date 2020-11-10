@@ -13,16 +13,17 @@ import java.util.Date;
 public class HistoryEntry {
     private int headsPlayer, tailsPlayer, winner;
     private int coinResult;
-    private LocalTime time;
-    private LocalDate date;
+    private String time;
+    private String date;
     private String dateTime;
+
 
     public HistoryEntry(int headsPlayer, int tailsPlayer, int result) {
         this.headsPlayer = headsPlayer;
         this.tailsPlayer = tailsPlayer;
         this.coinResult = result;
-        date = LocalDate.now();
-        time = LocalTime.now();
+        setTime();
+        setDate();
         setWinner();
     }
 
@@ -30,8 +31,24 @@ public class HistoryEntry {
         this.headsPlayer = headsPlayer;
         this.tailsPlayer = tailsPlayer;
         this.coinResult = result;
-        this.dateTime = time + ", " + date;
+        this.date = date;
+        this.time = time;
         setWinner();
+    }
+
+    private void setTime() {
+        LocalTime t = LocalTime.now();
+        if (t.getMinute() < 10) {
+            time = t.getHour()%12 + ":" + "0"+t.getMinute();
+        } else {
+            time = t.getHour()%12 + ":" + t.getMinute();
+        }
+    }
+
+    private void setDate() {
+        LocalDate d = LocalDate.now();
+        String year = ""+d.getYear();
+        date = d.getDayOfMonth() + "/" + d.getMonthValue() + "/" + year.substring(2,4);
     }
 
     private void setWinner() {
@@ -61,16 +78,11 @@ public class HistoryEntry {
     }
 
     public String getTime() {
-        if (time.getMinute() < 10) {
-            return time.getHour()%12 + ":" + time.getMinute();
-        } else {
-            return time.getHour()%12 + ":" + "0"+time.getMinute();
-        }
+        return time;
     }
 
     public String getDate() {
-        String year = ""+date.getYear();
-        return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + year.substring(2,4);
+        return date;
     }
 
 }
