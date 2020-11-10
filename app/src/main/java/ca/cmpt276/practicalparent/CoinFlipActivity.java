@@ -1,5 +1,7 @@
 package ca.cmpt276.practicalparent;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -24,7 +26,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -174,46 +179,37 @@ public class CoinFlipActivity extends AppCompatActivity {
         /* Sound
           https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
          */
-        MediaPlayer sound = MediaPlayer.create(CoinFlipActivity.this,R.raw.coin_flip);
+        MediaPlayer sound = MediaPlayer.create(CoinFlipActivity.this,R.raw.coin_flip_audio);
         sound.start();
 
         final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
-        Animation fadeOut = new AlphaAnimation(1,0);
-        fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(1500);
-        fadeOut.setFillAfter(true);
+        Animation coinFlip = AnimationUtils.loadAnimation(this, R.anim.coin_flip_anim);
+        coinImage.startAnimation(coinFlip);
 
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+        coinFlip.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
-                Animation fadeIn = new AlphaAnimation(0,1);
-                fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(1000);
-                fadeIn.setFillAfter(true);
 
-                coinImage.startAnimation(fadeIn);
+                Animation coinResult = AnimationUtils.loadAnimation(CoinFlipActivity.this, R.anim.coin_flip_result);
+                coinImage.startAnimation(coinResult);
+
+                coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
                 coinImage.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         updateResultLabel();
                     }
-                }, 1000);
-
+                }, 100);
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
-
-        coinImage.startAnimation(fadeOut);
     }
 
     private void addToHistory() {
