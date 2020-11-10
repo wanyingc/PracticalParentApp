@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <TextView
+        android:id="@+id/player1Label"
+        android:layout_width="86dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="28dp"
+        android:text="Player 1"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/playerChoiceGuideline2"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/playerChoiceGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/playerGroup1"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/playerChoiceGuideline2"
+        app:layout_constraintHorizontal_bias="0.342"
+        app:layout_constraintStart_toStartOf="@+id/playerChoiceGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/player1Label" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/playerChoiceGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/playerChoiceGuideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <TextView
+        android:id="@+id/player2Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Player 2"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/playerChoiceGuideline2"
+        app:layout_constraintStart_toStartOf="@+id/playerChoiceGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/playerGroup2"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/playerChoiceGuideline2"
+        app:layout_constraintHorizontal_bias="0.342"
+        app:layout_constraintStart_toStartOf="@+id/playerChoiceGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/player2Label" />
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="Play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playerChoiceGuideline2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

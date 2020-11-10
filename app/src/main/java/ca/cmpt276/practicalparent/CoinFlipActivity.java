@@ -1,98 +1,263 @@
 package ca.cmpt276.practicalparent;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Coin;
+import ca.cmpt276.practicalparent.model.HistoryEntry;
+import ca.cmpt276.practicalparent.model.HistoryManager;
 
 public class CoinFlipActivity extends AppCompatActivity {
-    Coin coin = Coin.getInstance();
+    private static final String EXTRA_PLAYER_ONE = "ca.cmpt276.practicalparent.CoinFlipActivity - player1";
+    private static final String EXTRA_PLAYER_TWO = "ca.cmpt276.practicalparent.CoinFlipActivity - player2";
+    private static final int NO_PLAYER = -1;
+    private boolean isPlayers;
+    private Coin coin = Coin.getInstance();
+    private ChildManager manager;
+    private int player1, player2, currentPlayer;
+    private int player1Choice;
+    private HistoryManager historyManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupFlipButton();
+
+        ActionBar ab = getSupportActionBar();
+
+        manager = ChildManager.getInstance();
+        historyManager = HistoryManager.getInstance();
+        //loadHistoryEntryFromSP(this);
+
+
+        extractDataFromIntent();
+        setupFlipButtons();
+        if (player1 != NO_PLAYER && player2 != NO_PLAYER) {
+            setPlayerLabel();
+            currentPlayer = player1;
+            isPlayers = true;
+        } else {
+            isPlayers = false;
+        }
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_coinflip, menu);
+        return true;
+    }
 
-    private void createPlayerFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        ChooseCoinFragment dialog = new ChooseCoinFragment();
-        dialog.show(manager, "Message Dialog");
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.go_to_history:
+                try {
+                    Intent intent = HistoryActivity.makeIntent(this, currentPlayer);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    return false;
+                }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setPlayerLabel() {
+        TextView text = findViewById(R.id.playerTurn);
+        text.setText(manager.getChild(currentPlayer) + "'s turn!");
+    }
+
+    private void alternatePlayer() {
+        if (isPlayers) {
+            currentPlayer = (currentPlayer == player1) ? player2 : player1;
+            setPlayerLabel();
+        } else {
+            return;
+        }
     }
 
 
-
-    private void setupFlipButton() {
-        Button button = findViewById(R.id.flipButton);
-        button.setOnClickListener(new View.OnClickListener() {
+    private void setupFlipButtons() {
+        final Button headsButton = findViewById(R.id.headsButton);
+        final Button tailsButton = findViewById(R.id.tailsButton);
+        final TextView text = (TextView)findViewById(R.id.resultsLabel);
+        headsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentPlayer == player1) {
+                    player1Choice = Coin.HEADS;
+                } else {
+                    player1Choice = Coin.TAILS;
+                }
+                text.setText("");
                 coin.flip();
-                //TODO add animation here:
-                // flipAnimation();
                 flipAnimation();
+                headsButton.setClickable(false);
+                tailsButton.setClickable(false);
+                if (isPlayers) {
+                    addToHistory();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        alternatePlayer();
+                        headsButton.setClickable(true);
+                        tailsButton.setClickable(true);
 
+                    }
+                }, 1800);
             }
         });
+        tailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPlayer == player1) {
+                    player1Choice = Coin.TAILS;
+                } else {
+                    player1Choice = Coin.HEADS;
+                }
+                text.setText("");
+                coin.flip();
+                flipAnimation();
+                headsButton.setClickable(false);
+                tailsButton.setClickable(false);
+                if (isPlayers) {
+                    addToHistory();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        alternatePlayer();
+                        headsButton.setClickable(true);
+                        tailsButton.setClickable(true);
+                    }
+                }, 1800);
+            }
+        });
+
     }
 
     /**
      * Citation: https://ssaurel.medium.com/learn-to-create-a-flip-coin-application-on-android-7f2ba5c6dc64
      */
     private void flipAnimation() {
-        final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
-        Animation fadeOut = new AlphaAnimation(1,0);
-        fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(500);
-        fadeOut.setFillAfter(true);
+        /*
+          Sound: https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
+         */
+        MediaPlayer sound = MediaPlayer.create(CoinFlipActivity.this,R.raw.coin_flip_audio);
+        sound.start();
 
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+        final ImageView coinImage = (ImageView) findViewById(R.id.coinDisplay);
+        Animation coinFlip = AnimationUtils.loadAnimation(this, R.anim.coin_flip_anim);
+        coinImage.startAnimation(coinFlip);
+
+        coinFlip.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
-                Animation fadeIn = new AlphaAnimation(0,1);
-                fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(2000);
-                fadeIn.setFillAfter(true);
 
-                coinImage.startAnimation(fadeIn);
-                updateResultLabel();
+                Animation coinResult = AnimationUtils.loadAnimation(CoinFlipActivity.this, R.anim.coin_flip_result);
+                coinImage.startAnimation(coinResult);
+
+                coinImage.setImageResource(coin.getCoin() == Coin.HEADS ? R.drawable.coin_heads : R.drawable.coin_tails);
+                coinImage.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateResultLabel();
+                    }
+                }, 100);
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
-        coinImage.startAnimation(fadeOut);
     }
+
+    private void addToHistory() {
+        int headsPlayer = (player1Choice == Coin.HEADS) ? player1 : player2;
+        int tailsPlayer = (player1Choice == Coin.TAILS) ? player1 : player2;
+        HistoryEntry entry = new HistoryEntry(headsPlayer, tailsPlayer, coin.getCoin());
+        historyManager.addEntry(entry);
+        //saveHistoryToSP(entry);
+    }
+
+    private void saveHistoryToSP(HistoryEntry entry) {
+        HistoryManager historyManager = HistoryManager.getInstance();
+        SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (int i = 0; i < historyManager.size(); i++) {
+            editor.putInt("heads_player"+i, entry.getHeadsPlayer());
+            editor.putInt("tails_player"+i, entry.getTailsPlayer());
+            editor.putString("date"+i, entry.getDate());
+            editor.putString("time"+i, entry.getTime());
+            editor.putInt("result"+i, entry.getCoinResult());
+        }
+        editor.putInt("size", historyManager.size()+1);
+        editor.apply();
+    }
+
+    static public void loadHistoryEntryFromSP(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        HistoryManager historyManager = HistoryManager.getInstance();
+        historyManager.clear();
+        int size = prefs.getInt("size", 0);
+        for (int i = 0; i < size; i++) {
+            int playerHeads = prefs.getInt("heads_player"+i, 0);
+            int playerTails = prefs.getInt("tails_player"+i, 0);
+            String date = prefs.getString("date"+i, "");
+            String time = prefs.getString("time"+i, "");
+            int result = prefs.getInt("result"+i, 0);
+            HistoryEntry entry = new HistoryEntry(playerHeads, playerTails, result, date, time);
+            historyManager.addEntry(entry);
+        }
+    }
+
+    private void clearHistory() {
+        SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+    }
+
 
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);
@@ -103,8 +268,21 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
+    private void extractDataFromIntent() {
+        Intent intent = getIntent();
+        player1 = intent.getIntExtra(EXTRA_PLAYER_ONE, -1);
+        player2 = intent.getIntExtra(EXTRA_PLAYER_TWO, -1);
+    }
+
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
+    }
+
+    public static Intent makeIntent(Context context, int player1, int player2) {
+        Intent intent = new Intent(context, CoinFlipActivity.class);
+        intent.putExtra(EXTRA_PLAYER_ONE, player1);
+        intent.putExtra(EXTRA_PLAYER_TWO, player2);
+        return intent;
     }
 
 }
