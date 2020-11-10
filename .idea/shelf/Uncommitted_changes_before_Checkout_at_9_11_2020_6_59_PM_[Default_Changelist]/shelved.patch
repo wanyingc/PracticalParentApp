@@ -1,0 +1,40 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">Practical Parent</string>\r\n    <string name=\"action_settings\">Settings</string>\r\n    <string name=\"title_activity_child_list\">Child List</string>\r\n    <string name=\"child_configuration\">View Children</string>\r\n    <string name=\"use_the_below_to_add_a_child\">Use the \\'+\\' below to add a child, or select a child to edit or delete it.</string>\r\n    <string name=\"title_activity_child_add\">Add Child</string>\r\n    <string name=\"child_name_placeholder\">Name</string>\r\n    <string name=\"btnAdd\">add</string>\r\n    <string name=\"title_activity_child_edit\">Edit Child</string>\r\n    <string name=\"show_content\">Show Content</string>\r\n    <string name=\"time_out\">Time Out</string>\r\n    <string name=\"flip_coin\">Flip Coin</string>\r\n    <string name=\"configure\">Configure</string>\r\n    <string name=\"practical_parent\">Practical Parent</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 0cbbd5687fe96c4028138dae336cba9593c4ed13)
++++ app/src/main/res/values/strings.xml	(date 1604977188745)
+@@ -13,4 +13,11 @@
+     <string name="flip_coin">Flip Coin</string>
+     <string name="configure">Configure</string>
+     <string name="practical_parent">Practical Parent</string>
++    <string name="notify">Notify</string>
++    <string name="_00_00">00:00</string>
++    <string name="set">Set</string>
++    <string name="start">Start</string>
++    <string name="reset">Reset</string>
++    <string name="set_timer">Set Timer:</string>
++
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_time_out.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".TimeOut\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/timerText\"\r\n        android:layout_width=\"154dp\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_marginBottom=\"320dp\"\r\n        android:text=\"@string/_00_00\"\r\n        android:textAlignment=\"center\"\r\n        android:textSize=\"60sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/resetTimer\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"100dp\"\r\n        android:layout_marginBottom=\"208dp\"\r\n        android:text=\"@string/reset\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/startTimer\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"208dp\"\r\n        android:text=\"@string/start\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/resetTimer\"\r\n        app:layout_constraintHorizontal_bias=\"0.703\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/spinner\"\r\n        android:layout_width=\"126dp\"\r\n        android:layout_height=\"36dp\"\r\n        android:layout_marginTop=\"48dp\"\r\n        android:layout_marginEnd=\"100dp\"\r\n        android:spinnerMode=\"dropdown\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView2\"\r\n        android:layout_width=\"82dp\"\r\n        android:layout_height=\"31dp\"\r\n        android:layout_marginTop=\"52dp\"\r\n        android:text=\"@string/set_timer\"\r\n        android:textSize=\"18sp\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/spinner\"\r\n        app:layout_constraintHorizontal_bias=\"0.903\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <EditText\r\n        android:id=\"@+id/editCustomTimerInput\"\r\n        android:layout_width=\"141dp\"\r\n        android:layout_height=\"47dp\"\r\n        android:layout_marginStart=\"72dp\"\r\n        android:autofillHints=\"\"\r\n        android:ems=\"10\"\r\n        android:hint=\"@string/minutes\"\r\n        android:inputType=\"number\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/setCustomTimerButton\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.27\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/setCustomTimerButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"80dp\"\r\n        android:text=\"@string/set\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.269\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/stopAlarm\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"144dp\"\r\n        android:text=\"@string/stop_alarm\"\r\n        android:visibility=\"invisible\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        app:layout_constraintStart_toStartOf=\"parent\" />\r\n\r\n    <Button\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"16dp\"\r\n        android:layout_marginBottom=\"24dp\"\r\n        android:text=\"Notify\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_time_out.xml	(revision 0cbbd5687fe96c4028138dae336cba9593c4ed13)
++++ app/src/main/res/layout/activity_time_out.xml	(date 1604977188740)
+@@ -110,7 +110,7 @@
+         android:layout_height="wrap_content"
+         android:layout_marginEnd="16dp"
+         android:layout_marginBottom="24dp"
+-        android:text="Notify"
++        android:text="@string/notify"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent" />
+ 
