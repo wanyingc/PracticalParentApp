@@ -175,9 +175,8 @@ public class CoinFlipActivity extends AppCompatActivity {
      * Citation: https://ssaurel.medium.com/learn-to-create-a-flip-coin-application-on-android-7f2ba5c6dc64
      */
     private void flipAnimation() {
-
-        /* Sound
-          https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
+        /*
+          Sound: https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
          */
         MediaPlayer sound = MediaPlayer.create(CoinFlipActivity.this,R.raw.coin_flip_audio);
         sound.start();
