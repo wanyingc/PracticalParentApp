@@ -34,7 +34,7 @@ import ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;
 import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;
 
 /**
- * Used to manage Time out Activities
+ * Used to manage Time out Activities.
  */
 public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private MediaPlayer mp;
