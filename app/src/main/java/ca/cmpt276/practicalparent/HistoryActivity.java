@@ -83,19 +83,20 @@ public class HistoryActivity extends AppCompatActivity {
             tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()));
 
             TextView dateText = itemView.findViewById(R.id.date_text);
-            dateText.setText(currentEntry.getDate());
+            dateText.setText(currentEntry.getTime() + " - " + currentEntry.getDate());
 
             ImageView image = itemView.findViewById(R.id.checkMark);
             ImageView image2 = itemView.findViewById(R.id.checkMark2);
+            image.setVisibility(View.VISIBLE);
+            image2.setVisibility(View.VISIBLE);
+
             if (currentEntry.getResult() == Coin.HEADS) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);
+                image2.setVisibility(View.INVISIBLE);
             } else {
                 image2.setImageResource(R.drawable.ic_baseline_check_24);
+                image.setVisibility(View.INVISIBLE);
             }
-
-
-
-
 
             return itemView;
         }
