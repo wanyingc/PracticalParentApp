@@ -1,11 +1,18 @@
 package ca.cmpt276.practicalparent.model;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import ca.cmpt276.practicalparent.R;
+
 public class TimeOutNotification extends Application {
+    private NotificationManagerCompat notifManager;
     public static final String CHANNEL_ID = "TimeOutChannel";
 
     @Override
@@ -26,7 +33,7 @@ public class TimeOutNotification extends Application {
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
-            
         }
     }
+
 }

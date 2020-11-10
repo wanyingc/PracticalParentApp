@@ -1,12 +1,11 @@
 package ca.cmpt276.practicalparent;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
@@ -27,6 +26,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;
 
 import static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;
 
@@ -62,13 +63,26 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         stopAlarm();
     }
 
-    public void notifChannel(View v) {
+    public void notifChannel() {
+        Intent openTimeOutIntent = new Intent(this, TimeOut.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, openTimeOutIntent, 0);
+
+        Intent broadcastIntent = new Intent(this, TimeOutNotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", "Times Up!");
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Practical Parent")
-                .setContentText("Time Remaining: ")
+                .setContentText("Times Up!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .addAction(R.mipmap.ic_launcher,"Dismiss",actionIntent)
+                .setVibrate(new long[] { 1000, 1000})
                 .build();
 
         notifManager.notify(1,notification);
@@ -81,6 +95,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
             public void onClick(View v) {
                 mp.stop();
                 mp.release();
+                stopAlarmButton.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -153,6 +168,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
             public void onFinish() {
                 timerRunning = false;
                 playAlarm();
+                notifChannel();
                 stopAlarmButton.setVisibility(View.VISIBLE);
                 startPauseButton.setText("Start");
                 startPauseButton.setVisibility(View.INVISIBLE);
