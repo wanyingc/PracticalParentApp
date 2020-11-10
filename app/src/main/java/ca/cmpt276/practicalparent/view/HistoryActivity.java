@@ -50,6 +50,7 @@ public class HistoryActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
 
+
         CoinFlipActivity.loadHistoryEntryFromSP(this);
         extractDataFromIntent();
         historyManager = HistoryManager.getInstance();

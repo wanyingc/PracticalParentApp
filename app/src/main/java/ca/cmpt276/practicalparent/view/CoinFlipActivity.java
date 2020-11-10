@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,12 +66,14 @@ public class CoinFlipActivity extends AppCompatActivity {
             currentPlayer = NO_PLAYER;
             isPlayers = false;
         }
+        Log.e("log", "create");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         extractDataFromIntent();
+        Log.e("log", "resume");
     }
 
     @Override
