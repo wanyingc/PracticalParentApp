@@ -113,7 +113,6 @@ public class ChildList extends AppCompatActivity {
         }
         editor.apply();
     }
-
     @Override
     protected void onResume() {
         super.onResume();

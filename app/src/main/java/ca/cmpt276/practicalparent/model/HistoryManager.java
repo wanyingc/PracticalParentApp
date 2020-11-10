@@ -31,6 +31,11 @@ public class HistoryManager implements Iterable<HistoryEntry> {
     public int size() {
         return historyList.size();
     }
+    public void clear() {historyList.clear();}
+    public List<HistoryEntry> list() {
+        return historyList;
+    }
+
 
     @Override
     public Iterator<HistoryEntry> iterator() {
