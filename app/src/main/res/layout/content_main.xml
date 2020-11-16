@@ -10,8 +10,18 @@
         android:id="@+id/timeOut"
         android:layout_width="177dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/time_out"
+        app:layout_constraintBottom_toTopOf="@+id/help"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="177dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="120dp"
+        android:text="help"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
