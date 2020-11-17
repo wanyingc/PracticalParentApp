@@ -1,5 +1,6 @@
 package ca.cmpt276.practicalparent.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +36,9 @@ public class ChildManager implements Iterable<String> {
     }
     public String getChild(int index) {
         return children.get(index);
+    }
+    public ArrayList getChildren() {
+        return (ArrayList) children;
     }
 
     // Setters

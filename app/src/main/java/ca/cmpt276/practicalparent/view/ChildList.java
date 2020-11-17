@@ -12,11 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.ChildManager;
@@ -64,15 +68,31 @@ public class ChildList extends AppCompatActivity {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
-        int i = 0;
-        String[] children = new String[manager.size()];
-        for (String s: manager) {
-            children[i] = s;
-            i++;
-        }
-        adapter = new ArrayAdapter<String>(this, R.layout.item, children);
+        adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.childrenList);
         list.setAdapter(adapter);
+    }
+
+    private class MyListAdapter extends ArrayAdapter<String> {
+        public MyListAdapter() {
+            super(ChildList.this,R.layout.child_config_item, manager.getChildren());
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.child_config_item,parent,false);
+            }
+
+            String currentChild = manager.getChild(position);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.config_item_image); // default profile image: tangi.co
+            imageView.setImageResource(R.drawable.default_image);
+
+            TextView nameView = (TextView) itemView.findViewById(R.id.config_item_name);
+            nameView.setText(currentChild);
+
+            return itemView;
+        }
     }
 
     private void childClickHandler() {
@@ -81,8 +101,7 @@ public class ChildList extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                TextView textView = (TextView) viewClicked;
-                String message = "Editing " + textView.getText().toString();
+                String message = "Editing " + manager.getChild(position);
                 Toast.makeText(ChildList.this, message, Toast.LENGTH_LONG).show();
 
                 Intent intent = ChildEdit.makeIntent(ChildList.this, position);
