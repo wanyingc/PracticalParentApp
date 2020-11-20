@@ -55,8 +55,7 @@ public class PlayerChoice extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = CoinFlipActivity.makeIntent(PlayerChoice.this, savedPlayer1, savedPlayer2);
-                startActivity(intent);
+
             }
         });
     }

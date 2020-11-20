@@ -9,7 +9,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -118,7 +117,7 @@ public class HistoryActivity extends AppCompatActivity {
     private List<HistoryEntry> updateCurrentPlayerList(int player) {
         List<HistoryEntry> list = new ArrayList<HistoryEntry>();
         for (HistoryEntry entry : historyManager) {
-            if (entry.getHeadsPlayer() == player || entry.getTailsPlayer() == player) {
+            if (entry.getPlayer() == player) {
                 list.add(entry);
             }
         }
@@ -151,25 +150,24 @@ public class HistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.grid_item, parent,false);
             }
             HistoryEntry currentEntry = historyManager.getEntry(position);
-            TextView headText = itemView.findViewById(R.id.head_name_text);
-            headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()));
+            TextView playerText = itemView.findViewById(R.id.history_player_name_text);
+            playerText.setText(childManager.getChild(currentEntry.getPlayer()));
 
-            TextView tailsText = itemView.findViewById(R.id.tails_name_text);
-            tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()));
+            TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
+            if (currentEntry.getPlayerChoice() == Coin.HEADS) {
+                playerChoiceText.setText("Heads");
+            } else {
+                playerChoiceText.setText("Tails");
+            }
 
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
 
-            ImageView image = itemView.findViewById(R.id.checkMark);
-            ImageView image2 = itemView.findViewById(R.id.checkMark2);
-            image.setVisibility(View.VISIBLE);
-            image2.setVisibility(View.VISIBLE);
+            ImageView image = itemView.findViewById(R.id.resultImage);
 
-            if (currentEntry.getCoinResult() == Coin.HEADS) {
+            if (currentEntry.didWin()) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);
-                image2.setImageResource(R.drawable.ic_baseline_clear_24);
             } else {
-                image2.setImageResource(R.drawable.ic_baseline_check_24);
                 image.setImageResource(R.drawable.ic_baseline_clear_24);
             }
 
@@ -189,28 +187,26 @@ public class HistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.grid_item, parent,false);
             }
             HistoryEntry currentEntry = currentPlayerGameList.get(position);
-            TextView headText = itemView.findViewById(R.id.head_name_text);
-            headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()));
+            TextView playerText = itemView.findViewById(R.id.history_player_name_text);
+            playerText.setText(childManager.getChild(currentEntry.getPlayer()));
 
-            TextView tailsText = itemView.findViewById(R.id.tails_name_text);
-            tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()));
+            TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
+            if (currentEntry.getPlayerChoice() == Coin.HEADS) {
+                playerChoiceText.setText("Heads");
+            } else {
+                playerChoiceText.setText("Tails");
+            }
 
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
 
-            ImageView image = itemView.findViewById(R.id.checkMark);
-            ImageView image2 = itemView.findViewById(R.id.checkMark2);
-            image.setVisibility(View.VISIBLE);
-            image2.setVisibility(View.VISIBLE);
+            ImageView image = itemView.findViewById(R.id.resultImage);
 
-            if (currentEntry.getCoinResult() == Coin.HEADS) {
+            if (currentEntry.didWin()) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);
-                image2.setImageResource(R.drawable.ic_baseline_clear_24);
             } else {
-                image2.setImageResource(R.drawable.ic_baseline_check_24);
                 image.setImageResource(R.drawable.ic_baseline_clear_24);
             }
-
             return itemView;
         }
     }

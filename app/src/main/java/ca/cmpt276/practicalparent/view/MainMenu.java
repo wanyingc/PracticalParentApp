@@ -68,13 +68,8 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void openCoinFlipActivity() {
-        if (ChildManager.getInstance().size() == 0) {
-            Intent intent = CoinFlipActivity.makeIntent(MainMenu.this);
-            startActivity(intent);
-        } else {
-            Intent intent = PlayerChoice.makeIntent(MainMenu.this);
-            startActivity(intent);
-        }
+        Intent intent = CoinFlipActivity.makeIntent(MainMenu.this);
+        startActivity(intent);
     }
     public void openTimeOutActivity() {
         Intent intent = TimeOut.makeIntent(MainMenu.this);

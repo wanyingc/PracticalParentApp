@@ -3,6 +3,7 @@ package ca.cmpt276.practicalparent.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Used to manage a list of children.
@@ -11,6 +12,7 @@ import java.util.List;
 public class ChildManager implements Iterable<String> {
     // Creates an ArrayList to store lenses
     private List<String> children = new ArrayList<>();
+    private Queue<Integer> childrenOrder;
 
     // Singleton support
     private static ChildManager instance;
@@ -46,6 +48,13 @@ public class ChildManager implements Iterable<String> {
     public void deleteChild(int index) {
         children.remove(index);
         return;
+    }
+
+    public void addToQueue() {
+
+    }
+    public int getNextChild() {
+        return childrenOrder.peek();
     }
 
     public void clear() {
