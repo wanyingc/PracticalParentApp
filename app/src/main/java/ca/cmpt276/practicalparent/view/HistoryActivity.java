@@ -93,7 +93,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void setupCurrentPlayerLabel() {
         if (currentChild != CoinFlipActivity.NO_PLAYER) {
             TextView text = findViewById(R.id.current_player_label);
-            text.setText("Current Player: " + childManager.getChild(currentChild));
+            text.setText("Current Player: " + childManager.getChild(currentChild).getName());
         }
     }
 
@@ -152,10 +152,10 @@ public class HistoryActivity extends AppCompatActivity {
             }
             HistoryEntry currentEntry = historyManager.getEntry(position);
             TextView headText = itemView.findViewById(R.id.head_name_text);
-            headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()));
+            headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()).getName());
 
             TextView tailsText = itemView.findViewById(R.id.tails_name_text);
-            tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()));
+            tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()).getName());
 
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
@@ -190,10 +190,10 @@ public class HistoryActivity extends AppCompatActivity {
             }
             HistoryEntry currentEntry = currentPlayerGameList.get(position);
             TextView headText = itemView.findViewById(R.id.head_name_text);
-            headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()));
+            headText.setText(childManager.getChild(currentEntry.getHeadsPlayer()).getName());
 
             TextView tailsText = itemView.findViewById(R.id.tails_name_text);
-            tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()));
+            tailsText.setText(childManager.getChild(currentEntry.getTailsPlayer()).getName());
 
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());

@@ -86,7 +86,7 @@ public class PlayerChoice extends AppCompatActivity {
         for (int i = 0; i < manager.size(); i++) {
             final int childIndex = i;
             RadioButton b = new RadioButton(this);
-            b.setText(manager.getChild(childIndex));
+            b.setText(manager.getChild(childIndex).getName());
 
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,7 +103,7 @@ public class PlayerChoice extends AppCompatActivity {
         for (int i = 0; i < manager.size(); i++) {
             final int childIndex = i;
             RadioButton b = new RadioButton(this);
-            b.setText(manager.getChild(childIndex));
+            b.setText(manager.getChild(childIndex).getName());
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

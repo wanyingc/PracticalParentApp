@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
 
 /**
@@ -48,7 +49,8 @@ public class ChildAdd extends AppCompatActivity {
                 String name = textBox.getText().toString();
 
                 String message = name + " added!";
-                ChildManager.getInstance().add(name);
+                Child child = new Child(name);
+                ChildManager.getInstance().add(child);
 
                 Toast.makeText(ChildAdd.this, message, Toast.LENGTH_SHORT).show();
             }

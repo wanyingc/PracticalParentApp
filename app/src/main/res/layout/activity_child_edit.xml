@@ -10,33 +10,37 @@
         android:id="@+id/editTextSelectedChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintBottom_toBottomOf="@+id/childEditImage"
+        app:layout_constraintStart_toEndOf="@+id/childEditImage"
+        app:layout_constraintTop_toTopOf="@+id/childEditImage" />
 
     <Button
         android:id="@+id/btnApplyChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:text="@string/apply_change"
-        app:layout_constraintStart_toEndOf="@+id/editTextSelectedChild"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnDeleteChild"
+        app:layout_constraintStart_toEndOf="@+id/btnDeleteChild"
+        app:layout_constraintTop_toTopOf="@+id/btnDeleteChild" />
 
     <Button
         android:id="@+id/btnDeleteChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#F12F2F"
         android:text="@string/delete_child"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#BD6D6D"
+        android:textColorLink="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSelectedChild" />
+        app:layout_constraintTop_toBottomOf="@+id/childEditImage" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -54,5 +58,15 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/childEditImage"
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:srcCompat="@drawable/default_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

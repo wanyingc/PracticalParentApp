@@ -28,7 +28,9 @@
     <string name="heads">Heads</string>
     <string name="tails">Tails</string>
     <string name="name">Name</string>
-    <string name="apply_change">Apply Change</string>
+    <string name="apply_change">Apply Changes</string>
     <string name="delete_child">Delete Child</string>
     <string name="date">Date</string>
+    <string name="child_config_item_name_placeholder">Name</string>
+    <string name="child_config_item_image_placeholder">Image</string>
 </resources>
