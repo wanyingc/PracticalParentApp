@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.cmpt276.practicalparent">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".model.TimeOutNotification"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".model.TimeOutNotification"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".view.Help"
+            android:parentActivityName=".view.MainMenu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.CoinFlipActivity"
-            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:parentActivityName=".view.MainMenu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.MainMenu"
             android:label="@string/app_name"
@@ -34,40 +37,35 @@
         </activity>
         <activity
             android:name=".view.ChildList"
-            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:parentActivityName=".view.MainMenu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.ChildEdit"
-            android:parentActivityName=".view.ChildList"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:parentActivityName=".view.ChildList"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.ChildAdd"
-            android:parentActivityName=".view.ChildList"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:parentActivityName=".view.ChildList"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.TimeOut"
-            android:parentActivityName=".view.MainMenu"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:parentActivityName=".view.MainMenu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.HistoryActivity"
-            android:parentActivityName=".view.CoinFlipActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:parentActivityName=".view.CoinFlipActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.PlayerChoice"
             android:parentActivityName=".view.CoinFlipActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <receiver android:name=".model.TimeOutNotificationReceiver" />
     </application>
 

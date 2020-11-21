@@ -92,7 +92,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void setupCurrentPlayerLabel() {
         if (currentChild != CoinFlipActivity.NO_PLAYER) {
             TextView text = findViewById(R.id.current_player_label);
-            text.setText("Current Player: " + childManager.getChild(currentChild));
+            text.setText("Current Player: " + childManager.getChild(currentChild).getName());
         }
     }
 
@@ -151,7 +151,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
             HistoryEntry currentEntry = historyManager.getEntry(position);
             TextView playerText = itemView.findViewById(R.id.history_player_name_text);
-            playerText.setText(childManager.getChild(currentEntry.getPlayer()));
+            playerText.setText(childManager.getChild(currentEntry.getPlayer()).getName());
 
             TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
             if (currentEntry.getPlayerChoice() == Coin.HEADS) {
@@ -188,7 +188,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
             HistoryEntry currentEntry = currentPlayerGameList.get(position);
             TextView playerText = itemView.findViewById(R.id.history_player_name_text);
-            playerText.setText(childManager.getChild(currentEntry.getPlayer()));
+            playerText.setText(childManager.getChild(currentEntry.getPlayer()).getName());
 
             TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
             if (currentEntry.getPlayerChoice() == Coin.HEADS) {

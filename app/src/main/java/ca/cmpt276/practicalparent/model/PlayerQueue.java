@@ -22,7 +22,7 @@ public class PlayerQueue {
 
     private void fillQueue() {
         for (int i = 0; i < childManager.size(); i++) {
-            playerQueue.add(childManager.getChild(i));
+            playerQueue.add(childManager.getChild(i).getName());
         }
     }
 

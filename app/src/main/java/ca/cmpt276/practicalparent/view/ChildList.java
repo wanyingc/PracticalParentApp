@@ -3,6 +3,8 @@ package ca.cmpt276.practicalparent.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,14 +13,21 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
 
 /**
@@ -29,8 +38,10 @@ public class ChildList extends AppCompatActivity {
 
     private static final String PREF_NAME = "Name List Storage";
     private static final String NUM_STORED_VALUES = "Number of Stored Values";
+    private static final String STORED_NAME = "Stored Name";
+    private static final String STORED_BITMAP = "Stored Bitmap";
     private ChildManager manager;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<Child> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +75,40 @@ public class ChildList extends AppCompatActivity {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
-        int i = 0;
-        String[] children = new String[manager.size()];
-        for (String s: manager) {
-            children[i] = s;
-            i++;
-        }
-        adapter = new ArrayAdapter<String>(this, R.layout.item, children);
+        adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.childrenList);
         list.setAdapter(adapter);
+    }
+
+    private class MyListAdapter extends ArrayAdapter<Child> {
+        public MyListAdapter() {
+            super(ChildList.this,R.layout.child_config_item, manager.children());
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.child_config_item,parent,false);
+            }
+
+            // Current Child
+            Child currentChild = manager.getChild(position);
+
+            // Names
+            TextView nameView = (TextView) itemView.findViewById(R.id.config_item_name);
+            nameView.setText(currentChild.getName());
+
+            // Images
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.config_item_image);
+            if (currentChild.getBitmap() == null) {
+                imageView.setImageResource(R.drawable.default_image); // Default Image: tangi.co
+            } else {
+                Bitmap icon = decodeBase64(currentChild.getBitmap());
+                imageView.setImageBitmap(icon); // User Inputted Image
+            }
+
+            return itemView;
+        }
     }
 
     private void childClickHandler() {
@@ -81,8 +117,7 @@ public class ChildList extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                TextView textView = (TextView) viewClicked;
-                String message = "Editing " + textView.getText().toString();
+                String message = "Editing " + manager.getChild(position).getName();
                 Toast.makeText(ChildList.this, message, Toast.LENGTH_LONG).show();
 
                 Intent intent = ChildEdit.makeIntent(ChildList.this, position);
@@ -96,11 +131,34 @@ public class ChildList extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(NUM_STORED_VALUES,manager.size());
         for(int i=0;i<manager.size();i++) {
-            String index = "Stored Name " + i;
-            editor.putString(index,manager.getChild(i));
+            String name = STORED_NAME + i;
+            editor.putString(name,manager.getChild(i).getName());
+
+            String bitmap = STORED_BITMAP + i;
+            editor.putString(bitmap,manager.getChild(i).getBitmap());
         }
         editor.apply();
     }
+
+    public static String encodeToBase64(Bitmap image) {
+        /*
+         * https://stackoverflow.com/questions/18072448/how-to-save-image-in-shared-preference-in-android-shared-preference-issue-in-a
+         */
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return imageEncoded;
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();

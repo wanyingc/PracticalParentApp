@@ -96,7 +96,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void setPlayerLabel() {
         TextView text = findViewById(R.id.playerTurn);
-        text.setText(manager.getChild(currentPlayer) + "'s turn!");
+        text.setText(manager.getChild(currentPlayer).getName() + "'s turn!");
     }
 
     private void alternatePlayer() {

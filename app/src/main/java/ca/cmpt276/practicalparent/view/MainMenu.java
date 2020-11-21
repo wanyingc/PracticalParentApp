@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.TimeOutNotification;
 
@@ -21,9 +22,12 @@ public class MainMenu extends AppCompatActivity {
     private Button timeOutButton;
     private Button configButton;
     private Button coinFlipButton;
+    private Button helpButton;
     private ChildManager manager;
     private static final String PREF_NAME = "Name List Storage";
     private static final String NUM_STORED_VALUES = "Number of Stored Values";
+    private static final String STORED_NAME = "Stored Name";
+    private static final String STORED_BITMAP = "Stored Bitmap";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,15 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        // start Activity when help button is clicked
+        helpButton = (Button) findViewById(R.id.help);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHelpActivity();
+            }
+        });
+
         getNamesAndSizeFromSP();
     }
 
@@ -76,14 +89,21 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openHelpActivity() {
+        Intent intent = Help.makeIntent(MainMenu.this);
+        startActivity(intent);
+    }
+
     public void getNamesAndSizeFromSP() {
         manager = ChildManager.getInstance();
         SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
         final int childListSize = prefs.getInt(NUM_STORED_VALUES,0);
         manager.clear();
         for(int i=0;i<childListSize;i++) {
-            String index = "Stored Name " + i;
-            manager.add(prefs.getString(index,""));
+            String name = STORED_NAME + i;
+            String bitmap = STORED_BITMAP + i;
+            Child child = new Child(prefs.getString(name,""),prefs.getString(bitmap,null));
+            manager.add(child);
         }
     }
 
