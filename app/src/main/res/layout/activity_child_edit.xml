@@ -6,38 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.ChildEdit">
 
-    <EditText
-        android:id="@+id/editTextSelectedChild"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-    <Button
-        android:id="@+id/btnApplyChange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/apply_change"
-        app:layout_constraintStart_toEndOf="@+id/editTextSelectedChild"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-    <Button
-        android:id="@+id/btnDeleteChild"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/delete_child"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSelectedChild" />
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -54,5 +22,63 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/childEditImage"
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@drawable/default_image" />
+
+    <Button
+        android:id="@+id/btnDeleteChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#F12F2F"
+        android:text="@string/delete_child"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#BD6D6D"
+        android:textColorLink="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/childEditImage" />
+
+    <Button
+        android:id="@+id/btnApplyChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="@string/apply_change"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDeleteChild"
+        app:layout_constraintStart_toEndOf="@+id/btnDeleteChild"
+        app:layout_constraintTop_toTopOf="@+id/btnDeleteChild"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextSelectedChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/name"
+        app:layout_constraintBottom_toBottomOf="@+id/childEditImage"
+        app:layout_constraintStart_toEndOf="@+id/childEditImage"
+        app:layout_constraintTop_toTopOf="@+id/childEditImage"
+        app:layout_constraintVertical_bias="0.485" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Select the image or name to make changes."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

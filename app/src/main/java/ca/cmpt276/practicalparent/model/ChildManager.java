@@ -8,9 +8,9 @@ import java.util.List;
  * Used to manage a list of children.
  */
 
-public class ChildManager implements Iterable<String> {
+public class ChildManager implements Iterable<Child> {
     // Creates an ArrayList to store lenses
-    private List<String> children = new ArrayList<>();
+    private List<Child> children = new ArrayList<>();
 
     // Singleton support
     private static ChildManager instance;
@@ -25,7 +25,7 @@ public class ChildManager implements Iterable<String> {
     }
 
     // Method to add lenses
-    public void add(String child) {
+    public void add(Child child) {
         children.add(child);
     }
 
@@ -33,14 +33,11 @@ public class ChildManager implements Iterable<String> {
     public int size() {
         return children.size();
     }
-    public String getChild(int index) {
+    public Child getChild(int index) {
         return children.get(index);
     }
-
-    // Setters
-    public void setChild(int index, String name) {
-        children.set(index, name);
-        return;
+    public List children() {
+        return children;
     }
 
     public void deleteChild(int index) {
@@ -53,7 +50,7 @@ public class ChildManager implements Iterable<String> {
     }
 
     @Override
-    public Iterator<String> iterator() {
+    public Iterator<Child> iterator() {
         return children.iterator(); // passes ArrayList's iterator method
     }
 
