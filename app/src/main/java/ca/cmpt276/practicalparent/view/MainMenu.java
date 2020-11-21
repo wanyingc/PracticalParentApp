@@ -1,10 +1,7 @@
 package ca.cmpt276.practicalparent.view;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +13,9 @@ import android.widget.Button;
 import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
-import ca.cmpt276.practicalparent.model.TimeOutNotification;
 
 public class MainMenu extends AppCompatActivity {
+    private Button tasksButton;
     private Button timeOutButton;
     private Button configButton;
     private Button coinFlipButton;
@@ -72,6 +69,14 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        //start Activity when tasks button is clicked
+        tasksButton = (Button) findViewById(R.id.tasks);
+        tasksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTasksActivity();            }
+        });
+
         getNamesAndSizeFromSP();
     }
 
@@ -110,6 +115,11 @@ public class MainMenu extends AppCompatActivity {
             Child child = new Child(prefs.getString(name,""),prefs.getString(bitmap,null));
             manager.add(child);
         }
+    }
+
+    public void openTasksActivity() {
+        Intent intent = TasksList.makeIntent(MainMenu.this);
+        startActivity(intent);
     }
 
 }

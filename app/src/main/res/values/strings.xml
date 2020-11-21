@@ -40,4 +40,12 @@
     <string name="help_screen_bullet_points">○\n○\n○</string>
     <string name="child_config_item_name_placeholder">Child Name</string>
     <string name="child_config_item_image_placeholder">Child Photo</string>
+    <string name="help">help</string>
+    <string name="tasks">Tasks</string>
+    <string name="use_the_below_to_add_a_task">Use the \'+\' below to add a task.</string>
+    <string name="add">Add</string>
+    <string name="task_name">Task Name:</string>
+    <string name="task_description">Task Description:</string>
+    <string name="todo">TODO</string>
+
 </resources>
