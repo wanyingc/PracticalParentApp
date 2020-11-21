@@ -31,4 +31,11 @@
     <string name="apply_change">Apply Change</string>
     <string name="delete_child">Delete Child</string>
     <string name="date">Date</string>
+    <string name="help_screen_violet">Violet</string>
+    <string name="help_screen_creators">Reid Gendron\nGage Tylee\nWan Ying C</string>
+    <string name="help_screen_team">Team</string>
+    <string name="help_screen_creator">Creators:</string>
+    <string name="help_screen_copyright">Copyright:</string>
+    <string name="help_screen_references">○ reference...\n○ reference...\n○ reference...</string>
+    <string name="help_screen_bullet_points">○\n○\n○</string>
 </resources>
