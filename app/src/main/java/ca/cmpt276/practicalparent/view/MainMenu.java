@@ -22,6 +22,7 @@ public class MainMenu extends AppCompatActivity {
     private Button timeOutButton;
     private Button configButton;
     private Button coinFlipButton;
+    private Button helpButton;
     private ChildManager manager;
     private static final String PREF_NAME = "Name List Storage";
     private static final String NUM_STORED_VALUES = "Number of Stored Values";
@@ -62,6 +63,15 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        // start Activity when help button is clicked
+        helpButton = (Button) findViewById(R.id.help);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHelpActivity();
+            }
+        });
+
         getNamesAndSizeFromSP();
     }
 
@@ -81,6 +91,11 @@ public class MainMenu extends AppCompatActivity {
     }
     public void openTimeOutActivity() {
         Intent intent = TimeOut.makeIntent(MainMenu.this);
+        startActivity(intent);
+    }
+
+    public void openHelpActivity() {
+        Intent intent = Help.makeIntent(MainMenu.this);
         startActivity(intent);
     }
 
