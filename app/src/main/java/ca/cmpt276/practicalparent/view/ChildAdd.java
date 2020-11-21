@@ -62,18 +62,22 @@ public class ChildAdd extends AppCompatActivity {
                 // Name
                 EditText textBox = (EditText) findViewById(R.id.editTextChildAdd);
                 String name = textBox.getText().toString();
+                if (name.matches("")) {
+                    String message = "Name cannot be empty!";
+                    Toast.makeText(ChildAdd.this, message, Toast.LENGTH_SHORT).show();
+                } else {
+                    // Image
+                    ImageView selectedImage = (ImageView) findViewById(R.id.childAddImage);
+                    String encoded = encodeToBase64(((BitmapDrawable) selectedImage.getDrawable()).getBitmap());
 
-                // Image
-                ImageView selectedImage = (ImageView) findViewById(R.id.childAddImage);
-                String encoded = encodeToBase64(((BitmapDrawable) selectedImage.getDrawable()).getBitmap());
+                    // Add
+                    Child child = new Child(name, encoded);
+                    ChildManager.getInstance().add(child);
 
-                // Add
-                Child child = new Child(name, encoded);
-                ChildManager.getInstance().add(child);
-
-                String message = name + " added!";
-                Toast.makeText(ChildAdd.this, message, Toast.LENGTH_SHORT).show();
-                finish();
+                    String message = name + " added!";
+                    Toast.makeText(ChildAdd.this, message, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
     }

@@ -164,16 +164,21 @@ public class ChildEdit extends AppCompatActivity {
                 // Name
                 EditText editBox = (EditText) findViewById(R.id.editTextSelectedChild);
                 String name = editBox.getText().toString();
-                ChildManager.getInstance().getChild(childIndex).setName(name);
+                if (name.matches("")) {
+                    String message = "Name cannot be empty!";
+                    Toast.makeText(ChildEdit.this, message, Toast.LENGTH_SHORT).show();
+                } else {
+                    ChildManager.getInstance().getChild(childIndex).setName(name);
 
-                // Image
-                ImageView selectedImage = (ImageView) findViewById(R.id.childEditImage);
-                String encoded = encodeToBase64( ((BitmapDrawable) selectedImage.getDrawable()).getBitmap() );
-                ChildManager.getInstance().getChild(childIndex).setBitmap(encoded);
+                    // Image
+                    ImageView selectedImage = (ImageView) findViewById(R.id.childEditImage);
+                    String encoded = encodeToBase64( ((BitmapDrawable) selectedImage.getDrawable()).getBitmap() );
+                    ChildManager.getInstance().getChild(childIndex).setBitmap(encoded);
 
-                String message = "Changes successful!";
-                Toast.makeText(ChildEdit.this, message, Toast.LENGTH_SHORT).show();
-                finish();
+                    String message = "Changes successful!";
+                    Toast.makeText(ChildEdit.this, message, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
     }
