@@ -4,8 +4,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +31,8 @@ import static ca.cmpt276.practicalparent.view.ChildList.encodeToBase64;
  */
 
 public class ChildAdd extends AppCompatActivity {
-    public static final int PICK_IMAGE = 1;
+    public static final int REQUEST_IMAGE_CAPTURE = 0;
+    public static final int REQUEST_IMAGE_GALLERY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class ChildAdd extends AppCompatActivity {
 
                 // Image
                 ImageView selectedImage = (ImageView) findViewById(R.id.childAddImage);
-                String encoded = encodeToBase64( ((BitmapDrawable) selectedImage.getDrawable()).getBitmap() );
+                String encoded = encodeToBase64(((BitmapDrawable) selectedImage.getDrawable()).getBitmap());
 
                 // Add
                 Child child = new Child(name, encoded);
@@ -73,33 +78,78 @@ public class ChildAdd extends AppCompatActivity {
         });
     }
 
+    private void selectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChildAdd.this);
+        builder.setTitle("Make a Selection");
+
+        String[] buttons = {"Open Gallery", "Open Camera", "Remove Photo", "Cancel"};
+        builder.setItems(buttons, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        openGallery();
+                        break;
+                    case 1:
+                        openCamera();
+                        break;
+                    case 2:
+                        ImageView image = (ImageView) findViewById(R.id.childAddImage);
+                        image.setImageResource(R.drawable.default_image);
+                        break;
+                    case 3:
+                        break;
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void setupChangeImage() {
         ImageView image = (ImageView) findViewById(R.id.childAddImage);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                selectionDialog();
             }
         });
     }
 
+    private void openCamera() {
+        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
+        } catch (ActivityNotFoundException e) {
+            System.out.println("Unable to open Camera");
+        }
+    }
+
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
+        startActivityForResult(gallery, REQUEST_IMAGE_GALLERY);
     }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-
-            // Retrieve Image from Gallery
-            Uri imageUri = data.getData();
+        if (resultCode == RESULT_OK) {
             ImageView selectedImage = (ImageView) findViewById(R.id.childAddImage);
-            selectedImage.setImageURI(imageUri);
-
+            switch (requestCode) {
+                case REQUEST_IMAGE_CAPTURE:
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    selectedImage.setImageBitmap(imageBitmap);
+                    break;
+                case REQUEST_IMAGE_GALLERY:
+                    // Retrieve Image from Gallery
+                    Uri imageUri = data.getData();
+                    selectedImage.setImageURI(imageUri);
+                    break;
+            }
             String message = "Image added!";
             Toast.makeText(ChildAdd.this, message, Toast.LENGTH_SHORT).show();
         }
     }
-
 }
