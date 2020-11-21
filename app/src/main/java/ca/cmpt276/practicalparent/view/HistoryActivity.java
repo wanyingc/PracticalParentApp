@@ -163,7 +163,7 @@ public class HistoryActivity extends AppCompatActivity {
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
 
-            ImageView image = itemView.findViewById(R.id.resultImage);
+            ImageView image = itemView.findViewById(R.id.result_image);
 
             if (currentEntry.didWin()) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);
@@ -200,7 +200,7 @@ public class HistoryActivity extends AppCompatActivity {
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
 
-            ImageView image = itemView.findViewById(R.id.resultImage);
+            ImageView image = itemView.findViewById(R.id.result_image);
 
             if (currentEntry.didWin()) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);

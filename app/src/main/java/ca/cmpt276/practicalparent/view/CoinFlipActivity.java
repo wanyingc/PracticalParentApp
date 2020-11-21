@@ -249,7 +249,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = PlayerChoice.makeIntent(CoinFlipActivity.this);
+                startActivity(intent);
             }
         });
     }

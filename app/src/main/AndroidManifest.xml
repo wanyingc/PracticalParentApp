@@ -64,7 +64,7 @@
         </activity>
         <activity
             android:name=".view.PlayerChoice"
-            android:parentActivityName=".view.MainMenu"
+            android:parentActivityName=".view.CoinFlipActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
