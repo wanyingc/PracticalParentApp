@@ -7,25 +7,22 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.ByteArrayOutputStream;
-
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
+
+import static ca.cmpt276.practicalparent.view.ChildList.decodeBase64;
+import static ca.cmpt276.practicalparent.view.ChildList.encodeToBase64;
 
 /**
  * Used to display the UI for the child edit activity.
@@ -47,7 +44,7 @@ public class ChildEdit extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         extractExtras();
-        updateEditBox();
+        inputFields();
         setupChangeImage();
         setupApplyChange();
         setupDelete();
@@ -64,10 +61,19 @@ public class ChildEdit extends AppCompatActivity {
         childIndex = intent.getIntExtra("ca.cmpt276.practicalparent - selectedChild",0);
     }
 
-    private void updateEditBox() {
+    private void inputFields() {
+        Child child = ChildManager.getInstance().getChild(childIndex);
+
         EditText name = (EditText) findViewById(R.id.editTextSelectedChild);
-        String child = ChildManager.getInstance().getChild(childIndex).getName();
-        name.setText(child);
+        name.setText(child.getName());
+
+        ImageView image = (ImageView) findViewById(R.id.childEditImage);
+        if (child.getBitmap() == null) {
+            image.setImageResource(R.drawable.default_image); // Default Image: tangi.co
+        } else {
+            Bitmap icon = decodeBase64(child.getBitmap());
+            image.setImageBitmap(icon); // User Inputted Image
+        }
     }
 
     private void setupChangeImage() {
@@ -117,6 +123,7 @@ public class ChildEdit extends AppCompatActivity {
 
                 String message = "Changes successful!";
                 Toast.makeText(ChildEdit.this, message, Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -133,20 +140,6 @@ public class ChildEdit extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    public static String encodeToBase64(Bitmap image) {
-        /*
-         * https://stackoverflow.com/questions/18072448/how-to-save-image-in-shared-preference-in-android-shared-preference-issue-in-a
-         */
-        Bitmap immage = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-
-        Log.d("Image Log:", imageEncoded);
-        return imageEncoded;
     }
 
 }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import java.io.ByteArrayOutputStream;
 
 import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.Child;
@@ -137,6 +138,19 @@ public class ChildList extends AppCompatActivity {
             editor.putString(bitmap,manager.getChild(i).getBitmap());
         }
         editor.apply();
+    }
+
+    public static String encodeToBase64(Bitmap image) {
+        /*
+         * https://stackoverflow.com/questions/18072448/how-to-save-image-in-shared-preference-in-android-shared-preference-issue-in-a
+         */
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return imageEncoded;
     }
 
     public static Bitmap decodeBase64(String input) {
