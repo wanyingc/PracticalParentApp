@@ -12,7 +12,7 @@ import java.util.Queue;
 public class ChildManager implements Iterable<Child> {
     // Creates an ArrayList to store lenses
     private List<Child> children = new ArrayList<>();
-
+    public final static Child NO_CHILD = new Child("");
     // Singleton support
     private static ChildManager instance;
     private ChildManager() {
@@ -35,6 +35,9 @@ public class ChildManager implements Iterable<Child> {
         return children.size();
     }
     public Child getChild(int index) {
+        if (index < 0) {
+            return NO_CHILD;
+        }
         return children.get(index);
     }
     public List children() {
@@ -46,8 +49,22 @@ public class ChildManager implements Iterable<Child> {
         return;
     }
 
+    public int indexOfChild(Child child) {
+        int index = -1;
+        for (int i = 0; i < size(); i++) {
+            if (getChild(i).getName().equals(child.getName())) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
     public void clear() {
         children.clear();
+    }
+
+    public List<Child> list() {
+        return children;
     }
 
     @Override

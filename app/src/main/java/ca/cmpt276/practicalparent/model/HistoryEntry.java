@@ -14,14 +14,15 @@ import java.util.Date;
  * Stores the previous turn of a coin flip
  */
 public class HistoryEntry {
-    private int player, playerChoice;
+    private String player;
+    private int playerChoice;
     private int coinResult;
     private String time;
     private String date;
     private String dateTime;
 
 
-    public HistoryEntry(int player, int playerChoice, int result) {
+    public HistoryEntry(String player, int playerChoice, int result) {
         this.player = player;
         this.playerChoice = playerChoice;
         this.coinResult = result;
@@ -29,7 +30,7 @@ public class HistoryEntry {
         setDate();
     }
 
-    public HistoryEntry(int player, int playerChoice, int result, String date, String time) {
+    public HistoryEntry(String player, int playerChoice, int result, String date, String time) {
         this.player = player;
         this.playerChoice = playerChoice;
         this.coinResult = result;
@@ -54,7 +55,7 @@ public class HistoryEntry {
 
     // Getters
 
-    public int getPlayer() {
+    public String getPlayer() {
         return player;
     }
     public int getPlayerChoice() {

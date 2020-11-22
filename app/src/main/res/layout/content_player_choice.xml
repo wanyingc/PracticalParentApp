@@ -22,9 +22,9 @@
 
     <ListView
         android:id="@+id/player_queue_list"
-        android:layout_width="311dp"
-        android:layout_height="541dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="310dp"
+        android:layout_height="473dp"
+        android:layout_marginBottom="156dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/playerChoiceGuideline2"
         app:layout_constraintStart_toStartOf="@+id/playerChoiceGuideline" />

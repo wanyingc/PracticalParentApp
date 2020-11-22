@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Coin;
 import ca.cmpt276.practicalparent.model.HistoryEntry;
@@ -35,7 +36,7 @@ public class HistoryActivity extends AppCompatActivity {
     public static final String CURRENT_PLAYER = "ca.cmpt276.practicalparent.view.HistoryActivity - currentPlayer";
     HistoryManager historyManager;
     ChildManager childManager;
-    int currentChild;
+    Child currentChild;
     List<HistoryEntry> currentPlayerGameList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +49,18 @@ public class HistoryActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-
-
         CoinFlipActivity.loadHistoryEntryFromSP(this);
-        extractDataFromIntent();
         historyManager = HistoryManager.getInstance();
         childManager = ChildManager.getInstance();
+        extractDataFromIntent();
 
-        currentPlayerGameList = updateCurrentPlayerList(currentChild);
-        fillHistory();
+
+        currentPlayerGameList = updateCurrentPlayerList(currentChild.getName());
         setupCurrentPlayerModeSwitch();
+
+
+        fillHistory();
+
         setupCurrentPlayerLabel();
 
         setupClearHistoryButton();
@@ -92,7 +95,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void setupCurrentPlayerLabel() {
         if (currentChild != CoinFlipActivity.NO_PLAYER) {
             TextView text = findViewById(R.id.current_player_label);
-            text.setText("Current Player: " + childManager.getChild(currentChild).getName());
+            text.setText("Current Player: " + currentChild.getName());
         }
     }
 
@@ -104,7 +107,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 if(s.isChecked()) {
                     // display win mode
-                    updateCurrentPlayerList(currentChild);
+                    updateCurrentPlayerList(currentChild.getName());
                     fillCurrentPlayerHistory();
                 } else {
                     // display regular mode
@@ -114,10 +117,10 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
 
-    private List<HistoryEntry> updateCurrentPlayerList(int player) {
+    private List<HistoryEntry> updateCurrentPlayerList(String player) {
         List<HistoryEntry> list = new ArrayList<HistoryEntry>();
         for (HistoryEntry entry : historyManager) {
-            if (entry.getPlayer() == player) {
+            if (entry.getPlayer().equals(player)) {
                 list.add(entry);
             }
         }
@@ -151,7 +154,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
             HistoryEntry currentEntry = historyManager.getEntry(position);
             TextView playerText = itemView.findViewById(R.id.history_player_name_text);
-            playerText.setText(childManager.getChild(currentEntry.getPlayer()).getName());
+            playerText.setText(currentEntry.getPlayer());
 
             TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
             if (currentEntry.getPlayerChoice() == Coin.HEADS) {
@@ -188,7 +191,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
             HistoryEntry currentEntry = currentPlayerGameList.get(position);
             TextView playerText = itemView.findViewById(R.id.history_player_name_text);
-            playerText.setText(childManager.getChild(currentEntry.getPlayer()).getName());
+            playerText.setText(currentEntry.getPlayer());
 
             TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
             if (currentEntry.getPlayerChoice() == Coin.HEADS) {
@@ -213,7 +216,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        currentChild = intent.getIntExtra(CURRENT_PLAYER, -1);
+        if (intent.getIntExtra(CURRENT_PLAYER, -1) == -1) {
+
+        }
+        currentChild = childManager.getChild(intent.getIntExtra(CURRENT_PLAYER, -1));
     }
 
     public static Intent makeIntent(Context context, int child) {

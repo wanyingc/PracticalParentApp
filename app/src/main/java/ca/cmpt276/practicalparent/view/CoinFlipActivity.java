@@ -22,10 +22,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
+import ca.cmpt276.practicalparent.model.ChildQueue;
 import ca.cmpt276.practicalparent.model.Coin;
 import ca.cmpt276.practicalparent.model.HistoryEntry;
 import ca.cmpt276.practicalparent.model.HistoryManager;
@@ -34,13 +35,15 @@ import ca.cmpt276.practicalparent.model.HistoryManager;
  * Used to display the UI of CoinFlipActivity
  */
 public class CoinFlipActivity extends AppCompatActivity {
-    public static final int NO_PLAYER = -1;
+    public static final Child NO_PLAYER = new Child("");
     private boolean isPlayer;
     private Coin coin = Coin.getInstance();
     private ChildManager manager;
-    private int currentPlayer;
+    private Child currentPlayer;
     private int currentPlayerChoice;
     private HistoryManager historyManager;
+    private ChildQueue childQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,24 +56,32 @@ public class CoinFlipActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         manager = ChildManager.getInstance();
         historyManager = HistoryManager.getInstance();
-        //loadHistoryEntryFromSP(this);
-        currentPlayer = (manager.size() == 0) ? NO_PLAYER : 0;
-
+        childQueue = ChildQueue.getInstance();
         setupFlipButtons();
 
-        if (currentPlayer == NO_PLAYER) {
+        if (manager.size() <= 0) {
             isPlayer = false;
         } else {
+            currentPlayer = childQueue.peek();
             setPlayerLabel();
             isPlayer = true;
         }
-
+//        SharedPreferences preferences = getSharedPreferences("HistPrefs", 0);
+//        preferences.edit().clear().commit();
         setupSwitchPlayerButton();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        childQueue.update();
+        if (manager.size() <= 0) {
+            isPlayer = false;
+        } else {
+            currentPlayer = childQueue.peek();
+            setPlayerLabel();
+            isPlayer = true;
+        }
     }
 
     @Override
@@ -84,7 +95,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.go_to_history:
                 try {
-                    Intent intent = HistoryActivity.makeIntent(this, currentPlayer);
+                    Intent intent = HistoryActivity.makeIntent(this, manager.indexOfChild(currentPlayer));
                     startActivity(intent);
                 } catch (Exception e) {
                     return false;
@@ -96,12 +107,13 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void setPlayerLabel() {
         TextView text = findViewById(R.id.playerTurn);
-        text.setText(manager.getChild(currentPlayer).getName() + "'s turn!");
+        text.setText(currentPlayer.getName() + "'s turn!");
     }
 
     private void alternatePlayer() {
         if (isPlayer) {
-            currentPlayer = (currentPlayer + 1) % manager.size();
+//            currentPlayer = manager.getChild((manager.indexOfChild(currentPlayer)+1) % manager.size());
+            currentPlayer = childQueue.rotate();
             setPlayerLabel();
         } else {
             return;
@@ -199,7 +211,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void addToHistory() {
-        HistoryEntry entry = new HistoryEntry(currentPlayer, currentPlayerChoice, coin.getCoin());
+        HistoryEntry entry = new HistoryEntry(currentPlayer.getName(), currentPlayerChoice, coin.getCoin());
         historyManager.addEntry(entry);
         saveHistoryToSP(entry);
     }
@@ -209,7 +221,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences("HistPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         int i = historyManager.size();
-        editor.putInt("player"+i, entry.getPlayer());
+        editor.putString("player"+i, entry.getPlayer());
         editor.putInt("player_choice"+i, entry.getPlayerChoice());
         editor.putString("date"+i, entry.getDate());
         editor.putString("time"+i, entry.getTime());
@@ -224,7 +236,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         historyManager.clear();
         int size = prefs.getInt("size", 0);
         for (int i = 1; i <= size; i++) {
-            int player = prefs.getInt("player"+i, 0);
+            String player = prefs.getString("player"+i, "");
             int playerChoice = prefs.getInt("player_choice"+i, 0);
             String date = prefs.getString("date"+i, "");
             String time = prefs.getString("time"+i, "");
