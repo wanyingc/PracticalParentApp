@@ -29,6 +29,7 @@ public class TaskManager implements Iterable<Task>  {
     public void addTask(Task task) {
         taskList.add(task);
     }
+    public boolean emptyTask() {return taskList.isEmpty();}
 
     public Task getTask(int index) {
         return taskList.get(index);
@@ -38,6 +39,10 @@ public class TaskManager implements Iterable<Task>  {
     }
     public void clear() {
         taskList.clear();
+    }
+
+    public void deleteTask(int index) {
+        taskList.remove(index);
     }
 
     @Override

@@ -47,5 +47,8 @@
     <string name="task_name">Task Name:</string>
     <string name="task_description">Task Description:</string>
     <string name="todo">TODO</string>
+    <string name="use_the_below_to_add_a_new_task_hold_on_task_to_edit_delete_a_task">Use the \'+\' below to add a new task. Hold on task to Edit/Delete a task.</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
 
 </resources>

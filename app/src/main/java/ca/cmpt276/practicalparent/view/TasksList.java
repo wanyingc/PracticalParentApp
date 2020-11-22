@@ -10,10 +10,12 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -48,10 +50,45 @@ public class TasksList extends AppCompatActivity {
 
         manager = TaskManager.getInstance();
 
-        // Populate the List with some test lenses
-        manager.addTask(new Task("First bath"));
-        manager.addTask(new Task("Put pop can into can cooler"));
+        if (manager.emptyTask() == true){
+            Task task1 = new Task("First bath");
+            Task task2 = new Task("Put pop can into can cooler");
 
+            TaskManager.getInstance().addTask(task1);
+            TaskManager.getInstance().addTask(task2);
+        }
+
+        taskClickHandler();
+
+    }
+
+    private void taskClickHandler() {
+        ListView list = (ListView) findViewById(R.id.taskList);
+
+        //Hold item to delete
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String message = "Editing " + manager.getTask(position).getTaskName();
+                Toast.makeText(TasksList.this, message, Toast.LENGTH_LONG).show();
+                Intent intent = TaskEdit.makeIntent(TasksList.this, position);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        //Click on item to show pop up message
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+                String message = "Showing " + manager.getTask(position).getTaskName();
+                Toast.makeText(TasksList.this, message, Toast.LENGTH_LONG).show();
+
+//                Intent intent = ChildEdit.makeIntent(ChildList.this, position);
+//                startActivity(intent);
+            }
+        });
     }
 
     // Intent from Main menu to task list activity

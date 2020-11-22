@@ -14,12 +14,13 @@
             android:id="@+id/textView7"
             android:layout_width="384dp"
             android:layout_height="52dp"
-            android:text="@string/use_the_below_to_add_a_task"
+            android:text="@string/use_the_below_to_add_a_new_task_hold_on_task_to_edit_delete_a_task"
             app:layout_constraintBottom_toTopOf="@+id/taskList"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.592"
+            app:layout_constraintHorizontal_bias="0.407"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.497" />
 
         <ListView
             android:id="@+id/taskList"

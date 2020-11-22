@@ -52,7 +52,7 @@ public class ChildEdit extends AppCompatActivity {
 
     public static Intent makeIntent(Context context, int index) {
         Intent intent = new Intent(context, ChildEdit.class);
-        intent.putExtra("ca.cmpt276.practicalparent - selectedChild", index);
+        intent.putExtra("ca.cmpt276.practicalparent - selectedTask", index);
         return intent;
     }
 
