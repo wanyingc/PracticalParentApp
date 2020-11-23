@@ -75,12 +75,19 @@ public class TaskEdit extends AppCompatActivity {
 
                 EditText editBox = (EditText) findViewById(R.id.textInputSelectedTask);
                 String name = editBox.getText().toString();
-                TaskManager.getInstance().getTask(taskIndex).setTaskName(name);
+
+                if (name.length() == 0) {
+                    String message = "Failed to edit. Field is empty.";
+                    Toast.makeText(TaskEdit.this, message, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    TaskManager.getInstance().getTask(taskIndex).setTaskName(name);
 
 
-                String message = "Changes successful!";
-                Toast.makeText(TaskEdit.this, message, Toast.LENGTH_SHORT).show();
-                finish();
+                    String message = "Changes successful!";
+                    Toast.makeText(TaskEdit.this, message, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
     }
