@@ -60,8 +60,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         historyManager = HistoryManager.getInstance();
         childQueue = ChildQueue.getInstance();
 
-
+        fillQueueFromSP();
         childQueue.update();
+
+
         setupFlipButtons();
         checkForPlayers();
         setPlayerLabel();
@@ -126,6 +128,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         else {
             text.setText("");
+//            Bitmap icon = ChildList.decodeBase64(currentPlayer.getBitmap());
+            imageView.setImageResource(R.drawable.default_image);
         }
     }
 
@@ -271,16 +275,18 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void saveQueueOrderToSP() {
         SharedPreferences prefs = this.getSharedPreferences("QueuePrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         for (int i = 0; i < manager.size(); i++) {
-            editor.putInt(childQueue.getChild(i).getName(), i);
+            editor.putInt(childQueue.getChild(i).getName(), childQueue.getPosition(childQueue.getChild(i)));
         }
         editor.apply();
     }
 
-    private void fillQueue() {
+    private void fillQueueFromSP() {
         if (manager.size() > 0) {
             SharedPreferences prefs = getSharedPreferences("QueuePrefs", MODE_PRIVATE);
             childQueue.clearQueue();
@@ -289,12 +295,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
 
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);
