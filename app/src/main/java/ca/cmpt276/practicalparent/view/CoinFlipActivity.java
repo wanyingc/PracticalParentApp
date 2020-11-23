@@ -3,6 +3,7 @@ package ca.cmpt276.practicalparent.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -51,37 +53,28 @@ public class CoinFlipActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Coin Flip");
-
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
         manager = ChildManager.getInstance();
         historyManager = HistoryManager.getInstance();
         childQueue = ChildQueue.getInstance();
-        setupFlipButtons();
 
-        if (manager.size() <= 0) {
-            isPlayer = false;
-        } else {
-            currentPlayer = childQueue.peek();
-            setPlayerLabel();
-            isPlayer = true;
-        }
-//        SharedPreferences preferences = getSharedPreferences("HistPrefs", 0);
-//        preferences.edit().clear().commit();
+        childQueue.update();
+        setupFlipButtons();
+        checkForPlayers();
+        setPlayerLabel();
         setupSwitchPlayerButton();
     }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
         childQueue.update();
-        if (manager.size() <= 0) {
-            isPlayer = false;
-        } else {
-            currentPlayer = childQueue.peek();
-            setPlayerLabel();
-            isPlayer = true;
-        }
+        checkForPlayers();
+        setPlayerLabel();
     }
 
     @Override
@@ -105,14 +98,33 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
+    private void checkForPlayers() {
+        if (manager.size() <= 0 || childQueue.peek().equals(ChildQueue.EMPTY_PLAYER)) {
+            currentPlayer = ChildQueue.EMPTY_PLAYER;
+            isPlayer = false;
+        } else {
+            currentPlayer = childQueue.peek();
+            isPlayer = true;
+        }
+    }
+
     private void setPlayerLabel() {
         TextView text = findViewById(R.id.playerTurn);
-        text.setText(currentPlayer.getName() + "'s turn!");
+        ImageView imageView = findViewById(R.id.coin_flip_player_image);
+
+        if (isPlayer) {
+            text.setText(currentPlayer.getName());
+            Bitmap icon = ChildList.decodeBase64(currentPlayer.getBitmap());
+            imageView.setImageBitmap(icon);
+        }
+        else {
+            text.setText("");
+        }
     }
+
 
     private void alternatePlayer() {
         if (isPlayer) {
-//            currentPlayer = manager.getChild((manager.indexOfChild(currentPlayer)+1) % manager.size());
             currentPlayer = childQueue.rotate();
             setPlayerLabel();
         } else {
@@ -136,6 +148,9 @@ public class CoinFlipActivity extends AppCompatActivity {
                 tailsButton.setClickable(false);
                 if (isPlayer) {
                     addToHistory();
+                } else {
+                    childQueue.removeEmptyPlayer();
+                    checkForPlayers();
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -145,7 +160,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                         tailsButton.setClickable(true);
 
                     }
-                }, 1800);
+                }, 2500);
             }
         });
         tailsButton.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +174,9 @@ public class CoinFlipActivity extends AppCompatActivity {
                 tailsButton.setClickable(false);
                 if (isPlayer) {
                     addToHistory();
+                } else {
+                    childQueue.removeEmptyPlayer();
+                    checkForPlayers();
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -167,7 +185,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                         headsButton.setClickable(true);
                         tailsButton.setClickable(true);
                     }
-                }, 1800);
+                }, 2500);
             }
         });
 
@@ -246,6 +264,16 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
     private void updateResultLabel() {
         TextView text = (TextView)findViewById(R.id.resultsLabel);
         if (coin.getCoin() == Coin.HEADS) {
@@ -256,7 +284,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void setupSwitchPlayerButton() {
-        LinearLayout layout = findViewById(R.id.current_child_bar);
+        ConstraintLayout layout = findViewById(R.id.current_child_bar);
         layout.setClickable(true);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override

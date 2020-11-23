@@ -1,10 +1,15 @@
 package ca.cmpt276.practicalparent.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.practicalparent.view.CoinFlipActivity;
+
 public class ChildQueue {
     private static ChildQueue instance;
+    public static final Child EMPTY_PLAYER = new Child("");
     private ChildManager childManager;
     private List<Child> queue;
     private ChildQueue() {
@@ -41,6 +46,17 @@ public class ChildQueue {
         }
     }
 
+    public void setEmptyPlayer() {
+        queue.set(0, EMPTY_PLAYER);
+        Log.e("tag", peek().getName());
+    }
+
+    public void removeEmptyPlayer() {
+        if (queue.contains(EMPTY_PLAYER)) {
+            queue.remove(EMPTY_PLAYER);
+        }
+    }
+
     public Child peek() {
         try {
             return queue.get(0);
@@ -56,7 +72,7 @@ public class ChildQueue {
     public void update() {
         // Check if any children have been removed from ChildManager
         for (int i = 0; i < queue.size(); i++) {
-            if (!childManager.list().contains(queue.get(i))) {
+            if (!childManager.list().contains(queue.get(i)) && !queue.get(i).equals(EMPTY_PLAYER)) {
                 queue.remove(i);
             }
         }

@@ -8,11 +8,14 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +45,8 @@ public class PlayerChoice extends AppCompatActivity {
         childManager = ChildManager.getInstance();
         childQueue = ChildQueue.getInstance();
         populatePlayerList();
+        setNobodyButton();
+        childClickHandler();
 
     }
 
@@ -66,15 +71,6 @@ public class PlayerChoice extends AppCompatActivity {
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.child_config_item, parent,false);
             }
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.e("tag", ""+childQueue.getChild(position));
-                    childQueue.moveToFront(position);
-                    Log.e("tag", ""+childQueue.peek());
-                    finish();
-                }
-            });
 
             // Current Child
             Child currentChild = childQueue.getChild(position);
@@ -94,6 +90,28 @@ public class PlayerChoice extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    public void childClickHandler() {
+        ListView list = (ListView) findViewById(R.id.player_queue_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                childQueue.moveToFront(position);
+                finish();
+            }
+        });
+    }
+
+    public void setNobodyButton() {
+        Button button = findViewById(R.id.nobody_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                childQueue.setEmptyPlayer();
+                finish();
+            }
+        });
     }
 
     public static Intent makeIntent(Context context) {
