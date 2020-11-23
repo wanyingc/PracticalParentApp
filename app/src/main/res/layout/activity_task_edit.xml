@@ -39,8 +39,8 @@
 
     <Button
         android:id="@+id/removeTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="81dp"
+        android:layout_height="47dp"
         android:layout_marginBottom="360dp"
         android:background="#FF0000"
         android:text="@string/remove"

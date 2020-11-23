@@ -10,21 +10,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.cmpt276.practicalparent.R;
 
+import ca.cmpt276.practicalparent.model.Child;
+import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Task;
 import ca.cmpt276.practicalparent.model.TaskManager;
 
 
 public class TaskAdd extends AppCompatActivity {
+    private TaskManager manager;
+    private ChildManager childManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_add);
-        Toolbar toolbar = findViewById(R.id.toolbar2);
+        Toolbar toolbar = findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Add Task");
 
@@ -46,13 +51,15 @@ public class TaskAdd extends AppCompatActivity {
                 EditText textBox = (EditText) findViewById(R.id.textInputEditTask);
                 String taskName = textBox.getText().toString();
 
+
                 if (taskName.length() == 0) {
                     String message = "Failed to add task. Field is empty.";
                     Toast.makeText(TaskAdd.this, message, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     // Add
-                    Task task = new Task(taskName);
+ //                   String childTurnNext = childManager.getChild(0).getName();
+                    Task task = new Task(taskName,"childTurnNext");
                     TaskManager.getInstance().addTask(task);
 
                     String message = "New task added!";
