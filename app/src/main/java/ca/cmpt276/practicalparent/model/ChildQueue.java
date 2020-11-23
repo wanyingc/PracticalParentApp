@@ -15,15 +15,23 @@ public class ChildQueue {
     private ChildQueue() {
         childManager = ChildManager.getInstance();
         queue = new ArrayList<Child>();
-        for (int i = 0; i < ChildManager.getInstance().size(); i++) {
-            queue.add(childManager.getChild(i));
-        }
+//        for (int i = 0; i < ChildManager.getInstance().size(); i++) {
+//            queue.add(childManager.getChild(i));
+//        }
     }
     public static ChildQueue getInstance() {
         if (instance == null) {
             instance = new ChildQueue();
         }
         return instance;
+    }
+
+    public void enqueue(Child child) {
+        queue.add(child);
+    }
+
+    public void enqueue(Child child, int pos) {
+        queue.add(pos, child);
     }
 
     public Child rotate() {
@@ -69,6 +77,14 @@ public class ChildQueue {
         return queue.get(i);
     }
 
+    public int getPosition(Child child) {
+        try {
+            return queue.indexOf(child);
+        } catch(Exception e) {
+            return -1;
+        }
+    }
+
     public void update() {
         // Check if any children have been removed from ChildManager
         for (int i = 0; i < queue.size(); i++) {
@@ -83,6 +99,10 @@ public class ChildQueue {
                 queue.add(childManager.list().get(i));
             }
         }
+    }
+
+    public void clearQueue() {
+        queue.clear();
     }
 
     public List<Child> list() {

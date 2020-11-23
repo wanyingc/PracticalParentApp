@@ -60,6 +60,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         historyManager = HistoryManager.getInstance();
         childQueue = ChildQueue.getInstance();
 
+
         childQueue.update();
         setupFlipButtons();
         checkForPlayers();
@@ -96,6 +97,12 @@ public class CoinFlipActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveQueueOrderToSP();
     }
 
     private void checkForPlayers() {
@@ -264,9 +271,24 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
+    private void saveQueueOrderToSP() {
+        SharedPreferences prefs = this.getSharedPreferences("QueuePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (int i = 0; i < manager.size(); i++) {
+            editor.putInt(childQueue.getChild(i).getName(), i);
+        }
+        editor.apply();
+    }
 
-
-
+    private void fillQueue() {
+        if (manager.size() > 0) {
+            SharedPreferences prefs = getSharedPreferences("QueuePrefs", MODE_PRIVATE);
+            childQueue.clearQueue();
+            for (int i = 0; i < manager.size(); i++) {
+                childQueue.enqueue(manager.getChild(i), prefs.getInt(manager.getChild(i).getName(), i));
+            }
+        }
+    }
 
 
 
