@@ -1,10 +1,12 @@
 package ca.cmpt276.practicalparent.view;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,8 +28,13 @@ import ca.cmpt276.practicalparent.model.Task;
 import ca.cmpt276.practicalparent.model.TaskManager;
 
 public class TasksList extends AppCompatActivity {
+    private AlertDialog dialogBuilder;
+    private AlertDialog dialog;
     private TaskManager manager;
     private ArrayAdapter<Task> adapter;
+    private int popUpTaskIndex;
+    public TextView testText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +66,43 @@ public class TasksList extends AppCompatActivity {
             TaskManager.getInstance().addTask(task2);
         }
 
-        taskClickHandler();
+        taskItemClickHandler();
 
     }
 
-    private void taskClickHandler() {
+    // Display pop up screen
+    public void createPopUpDialog() {
+        dialogBuilder = new AlertDialog.Builder(this).create();
+        final  View contactPopupView = getLayoutInflater().inflate(R.layout.popupscreen,null);
+
+        Task task = TaskManager.getInstance().getTask(popUpTaskIndex);
+
+        //Set image for popup
+        ImageView childImageDialog = (ImageView) contactPopupView.findViewById(R.id.childImagePopUp);
+        childImageDialog.setImageResource(R.drawable.default_image);
+
+        dialogBuilder.setTitle(task.getTaskName());
+        dialogBuilder.setMessage("Child Name");
+        dialogBuilder.setView(contactPopupView);
+        dialogBuilder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        dialogBuilder.setButton(AlertDialog.BUTTON_POSITIVE, "Done",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        dialogBuilder.show();
+    }
+
+    private void taskItemClickHandler() {
         ListView list = (ListView) findViewById(R.id.taskList);
 
         //Hold item to delete
@@ -85,10 +125,11 @@ public class TasksList extends AppCompatActivity {
                 String message = "Showing " + manager.getTask(position).getTaskName();
                 Toast.makeText(TasksList.this, message, Toast.LENGTH_LONG).show();
 
-//                Intent intent = ChildEdit.makeIntent(ChildList.this, position);
-//                startActivity(intent);
+                popUpTaskIndex = position;
+                createPopUpDialog();
             }
         });
+
     }
 
     // Intent from Main menu to task list activity
