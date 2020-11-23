@@ -65,6 +65,21 @@
             android:label="@string/app_name"
             android:parentActivityName=".view.MainMenu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.TasksList"
+            android:label="Practical Parent"
+            android:parentActivityName=".view.MainMenu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.TaskEdit"
+            android:label="Practical Parent"
+            android:parentActivityName=".view.TasksList"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.TaskAdd"
+            android:label="Practical Parent"
+            android:parentActivityName=".view.TasksList"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver android:name=".model.TimeOutNotificationReceiver" />
     </application>
