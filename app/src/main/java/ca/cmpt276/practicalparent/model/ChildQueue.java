@@ -1,6 +1,7 @@
 package ca.cmpt276.practicalparent.model;
 
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,11 @@ public class ChildQueue {
     }
 
     public void enqueue(Child child, int pos) {
-        queue.add(pos, child);
+        try {
+            queue.add(pos, child);
+        } catch (Exception e) {
+            enqueue(child);
+        }
     }
 
     public Child rotate() {
@@ -54,9 +59,8 @@ public class ChildQueue {
         }
     }
 
-    public void setEmptyPlayer() {
-        queue.set(0, EMPTY_PLAYER);
-        Log.e("tag", peek().getName());
+    public void addEmptyPlayer() {
+        queue.add(0, EMPTY_PLAYER);
     }
 
     public void removeEmptyPlayer() {
@@ -97,6 +101,18 @@ public class ChildQueue {
         for (int i = 0; i < childManager.size(); i++) {
             if (!queue.contains(childManager.list().get(i))) {
                 queue.add(childManager.list().get(i));
+            }
+        }
+
+        updatePlayerPortraits();
+    }
+
+    private void updatePlayerPortraits() {
+        if (childManager.size() > 0) {
+            Child child;
+            for (int i = 0; i < queue.size(); i++) {
+                child = queue.get(i);
+                queue.set(i, childManager.getChild(childManager.indexOfChild(child)));
             }
         }
     }

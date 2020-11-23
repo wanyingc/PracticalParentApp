@@ -49,11 +49,6 @@ public class PlayerChoice extends AppCompatActivity {
         childClickHandler();
 
     }
-
-
-
-
-
     private void populatePlayerList() {
         ArrayAdapter<Child> adapter = new PlayerChoice.PlayerListAdapter();
         ListView listView = findViewById(R.id.player_queue_list);
@@ -98,6 +93,9 @@ public class PlayerChoice extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 childQueue.moveToFront(position);
+                if (!childQueue.peek().equals(ChildQueue.EMPTY_PLAYER)) {
+                    childQueue.removeEmptyPlayer();
+                }
                 finish();
             }
         });
@@ -108,7 +106,10 @@ public class PlayerChoice extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                childQueue.setEmptyPlayer();
+                // only add empty player if empty player does not already exist
+                if(!childQueue.peek().equals(ChildQueue.EMPTY_PLAYER)) {
+                    childQueue.addEmptyPlayer();
+                }
                 finish();
             }
         });
