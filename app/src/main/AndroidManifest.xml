@@ -62,8 +62,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.PlayerChoice"
+            android:parentActivityName=".view.CoinFlipActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".view.MainMenu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver android:name=".model.TimeOutNotificationReceiver" />

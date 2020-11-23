@@ -2,31 +2,35 @@ package ca.cmpt276.practicalparent.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import ca.cmpt276.practicalparent.R;
+import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
+import ca.cmpt276.practicalparent.model.ChildQueue;
 
 /**
  * Used to choose players if there are children stored
  */
 public class PlayerChoice extends AppCompatActivity {
-    private ChildManager manager;
-    private int savedPlayer1, savedPlayer2;
-    private RadioButton buttonSet1[];
-    private RadioButton buttonSet2[];
-
-    private int previousSelection;
+    private ChildManager childManager;
+    private ChildQueue childQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,80 +42,76 @@ public class PlayerChoice extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-
-        manager = ChildManager.getInstance();
-        previousSelection = -1;
-        savedPlayer1 = savedPlayer2 = -1;
-        buttonSet1 = new RadioButton[manager.size()];
-        buttonSet2 = new RadioButton[manager.size()];
-
-        setupRadioGroup1();
-        setupRadioGroup2();
-        setupPlayButton();
+        childManager = ChildManager.getInstance();
+        childQueue = ChildQueue.getInstance();
+        populatePlayerList();
+        setNobodyButton();
+        childClickHandler();
 
     }
-    private void setupPlayButton() {
-        Button button = findViewById(R.id.playButton);
-        button.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+    private void populatePlayerList() {
+        ArrayAdapter<Child> adapter = new PlayerChoice.PlayerListAdapter();
+        ListView listView = findViewById(R.id.player_queue_list);
+        listView.setAdapter(adapter);
+    }
+
+    private class PlayerListAdapter extends ArrayAdapter<Child> {
+        public PlayerListAdapter() {
+            super(PlayerChoice.this, R.layout.child_config_item, childQueue.list());
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.child_config_item, parent,false);
+            }
+
+            // Current Child
+            Child currentChild = childQueue.getChild(position);
+
+            // Names
+            TextView nameView = (TextView) itemView.findViewById(R.id.config_item_name);
+            nameView.setText(currentChild.getName());
+
+            // Images
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.config_item_image);
+            if (currentChild.getBitmap() == null) {
+                imageView.setImageResource(R.drawable.default_image); // Default Image: tangi.co
+            } else {
+                Bitmap icon = ChildList.decodeBase64(currentChild.getBitmap());
+                imageView.setImageBitmap(icon); // User Inputted Image
+            }
+
+            return itemView;
+        }
+    }
+
+    public void childClickHandler() {
+        ListView list = (ListView) findViewById(R.id.player_queue_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = CoinFlipActivity.makeIntent(PlayerChoice.this, savedPlayer1, savedPlayer2);
-                startActivity(intent);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                childQueue.moveToFront(position);
+                finish();
             }
         });
     }
 
-
-
-    private void updateRadioButtons() {
-        for (int i = 0; i < manager.size(); i++) {
-            if (buttonSet1[i].isActivated()) {
-                Log.e("TAG", "yes");
-                buttonSet2[i].setClickable(false);
-            } else {
-                buttonSet2[i].setClickable(true);
+    public void setNobodyButton() {
+        Button button = findViewById(R.id.nobody_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                childQueue.setEmptyPlayer();
+                finish();
             }
-
-            if (buttonSet2[i].isActivated()) {
-                buttonSet1[i].setClickable(false);
-            } else {
-                buttonSet1[i].setClickable(true);
-            }
-        }
-    }
-
-
-    private void setupRadioGroup1() {
-        RadioGroup radio = findViewById(R.id.playerGroup1);
-        for (int i = 0; i < manager.size(); i++) {
-            final int childIndex = i;
-            RadioButton b = new RadioButton(this);
-            b.setText(manager.getChild(childIndex).getName());
-
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    savedPlayer1 = childIndex;
-                }
-            });
-            radio.addView(b);
-        }
-    }
-
-    private void setupRadioGroup2() {
-        RadioGroup radio = findViewById(R.id.playerGroup2);
-        for (int i = 0; i < manager.size(); i++) {
-            final int childIndex = i;
-            RadioButton b = new RadioButton(this);
-            b.setText(manager.getChild(childIndex).getName());
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    savedPlayer2 = childIndex;
-                }
-            });
-            radio.addView(b);
-        }
+        });
     }
 
     public static Intent makeIntent(Context context) {
