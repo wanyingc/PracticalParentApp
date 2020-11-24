@@ -78,6 +78,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         childQueue.update();
         checkForPlayers();
         setPlayerLabel();
+        saveQueueOrderToSP();
     }
 
     @Override
