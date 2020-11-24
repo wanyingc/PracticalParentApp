@@ -63,19 +63,7 @@ public class TasksList extends AppCompatActivity {
         childManager = ChildManager.getInstance();
         manager = TaskManager.getInstance();
         loadTasksFromSP();
-        if (manager.emptyTask()){
-            updatePlayers();
-            Task task1 = new Task("First bath", currentChild);
-            Task task2 = new Task("Put pop can into can cooler", currentChild);
-
-            TaskManager.getInstance().addTask(task1);
-            TaskManager.getInstance().addTask(task2);
-
-        }
-
-
         taskItemClickHandler();
-
     }
 
     @Override
