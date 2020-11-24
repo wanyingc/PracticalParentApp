@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:text="Player"
+            android:text="@string/player"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -55,7 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Choice"
+                android:text="@string/choice"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold" />

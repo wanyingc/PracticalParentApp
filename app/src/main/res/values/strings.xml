@@ -56,6 +56,12 @@
     <string name="textview">TextView</string>
     <string name="task_item_name">Task Item Name</string>
     <string name="child_name">Child Name</string>
+    <string name="top">Top</string>
+    <string name="nobody">Nobody</string>
+    <string name="player">Player</string>
+    <string name="choice">Choice</string>
+    <string name="current_player">Current Player:</string>
+    <string name="select_the_image_or_name_to_make_changes">Select the image or name to make changes.</string>
 
 
 </resources>
