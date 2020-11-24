@@ -7,11 +7,21 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <Button
-        android:id="@+id/timeOut"
+        android:id="@+id/flipCoin"
         android:layout_width="177dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/time_out"
+        android:layout_marginBottom="20dp"
+        android:text="@string/flip_coin"
+        app:layout_constraintBottom_toTopOf="@+id/timeOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/tasks"
+        android:layout_width="177dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/tasks"
         app:layout_constraintBottom_toTopOf="@+id/help"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -20,19 +30,19 @@
         android:id="@+id/help"
         android:layout_width="177dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="120dp"
-        android:text="help"
+        android:layout_marginBottom="96dp"
+        android:text="@string/help"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/flipCoin"
+        android:id="@+id/timeOut"
         android:layout_width="177dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/flip_coin"
-        app:layout_constraintBottom_toTopOf="@+id/timeOut"
+        android:layout_marginBottom="20dp"
+        android:text="@string/time_out"
+        app:layout_constraintBottom_toTopOf="@+id/tasks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -40,7 +50,7 @@
         android:id="@+id/configChild"
         android:layout_width="177dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/configure"
         app:layout_constraintBottom_toTopOf="@+id/flipCoin"
         app:layout_constraintEnd_toEndOf="parent"
