@@ -1,15 +1,8 @@
 
+Scrum Master: Reid
 
-Scrum Master: Gage
+Product Owner: Ying
 
-Product Owner: Reid
+Repo Manager: Gage
 
-Repo Manager: Ying
-
-Resources:
-
-Coin Images: https://www.coinsandcanada.com/coins-prices.php?coin=25-cents-2003&years=
-
-Sky Wallpaper: https://cutewallpaper.org/21/wallpaper-blue-skies/Wallpapers-Poketo.jpg
-
-Coin Flip Sound: https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html
+Style Guide: https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
