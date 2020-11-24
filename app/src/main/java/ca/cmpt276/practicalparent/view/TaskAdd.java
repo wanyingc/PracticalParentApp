@@ -59,8 +59,10 @@ public class TaskAdd extends AppCompatActivity {
                 else {
                     // Add
  //                   String childTurnNext = childManager.getChild(0).getName();
-                    Task task = new Task(taskName,"childTurnNext");
-                    TaskManager.getInstance().addTask(task);
+                    if (childManager.size() > 0) {
+                        Task task = new Task(taskName, childManager.getChild(0));
+                        TaskManager.getInstance().addTask(task);
+                    }
 
                     String message = "New task added!";
                     Toast.makeText(TaskAdd.this, message, Toast.LENGTH_SHORT).show();

@@ -6,27 +6,27 @@ package ca.cmpt276.practicalparent.model;
 
 public class Task {
     private String taskName;
-    private String childTurn;
+    private Child child;
 
     //Constructor
-    public Task(String taskName, String childTurn) {
+    public Task(String taskName, Child child) {
         this.taskName = taskName;
-        this.childTurn = childTurn;
+        this.child = child;
     }
 
     public String getTaskName() {
         return taskName;
     }
-    public String getChildTurn() {
-        return childTurn;
+    public Child getChild() {
+        return child;
     }
 
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
-    public void setChildTurn(String childTurn) {
-        this.childTurn = childTurn;
+    public void setChild(Child child) {
+        this.child = child;
     }
 
 

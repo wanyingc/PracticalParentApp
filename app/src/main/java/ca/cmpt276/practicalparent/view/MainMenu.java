@@ -80,6 +80,12 @@ public class MainMenu extends AppCompatActivity {
         getNamesAndSizeFromSP();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getNamesAndSizeFromSP();
+    }
+
     public void openConfigChildActivity() {
         Intent intent = ChildList.makeIntent(MainMenu.this);
         startActivity(intent);

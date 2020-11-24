@@ -35,7 +35,7 @@ public class TasksList extends AppCompatActivity {
     private TaskManager manager;
     private ChildManager childManager;
     private ArrayAdapter<Task> adapter;
-    private int indexOfChild = 1;
+    private Child currentChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +61,10 @@ public class TasksList extends AppCompatActivity {
         manager = TaskManager.getInstance();
 
 
-        if (manager.emptyTask() == true){
-            String childNameExist;
-            if (childManager.size() == 0){
-                childNameExist = "No children configured.";
-            }
-            else {
-                childNameExist = childManager.getChild(0).getName();
-            }
-            Task task1 = new Task("First bath", childNameExist);
-            Task task2 = new Task("Put pop can into can cooler", childNameExist);
+        if (manager.emptyTask()){
+            updatePlayers();
+            Task task1 = new Task("First bath", currentChild);
+            Task task2 = new Task("Put pop can into can cooler", currentChild);
 
             TaskManager.getInstance().addTask(task1);
             TaskManager.getInstance().addTask(task2);
@@ -81,22 +75,30 @@ public class TasksList extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        updatePlayers();
+    }
+
     // Display pop up screen
-    public void createPopUpDialog(View viewClicked, int position) {
+    public void createPopUpDialog(View viewClicked, final int position) {
         dialogBuilder = new AlertDialog.Builder(this).create();
         View contactPopupView = getLayoutInflater().inflate(R.layout.popupscreen,null);
-
         final Task task = manager.getTask(position);
         final TextView viewChildName = (TextView) findViewById(R.id.nextTurnChild);
-        final String childName = viewChildName.getText().toString();
-
+        final Child childTurn = task.getChild();
         //Set image for popup
         ImageView childImageDialog = (ImageView) contactPopupView.findViewById(R.id.childImagePopUp);
-        childImageDialog.setImageResource(R.drawable.default_image);
+        //childImageDialog.setImageResource(R.drawable.default_image);
+        if (!childTurn.equals(ChildManager.NO_CHILD)) {
+            Bitmap icon = ChildList.decodeBase64(childTurn.getBitmap());
+            childImageDialog.setImageBitmap(icon); // User Inputted Image
+        }
 
 
         dialogBuilder.setTitle(task.getTaskName());
-        dialogBuilder.setMessage(childName);
+        dialogBuilder.setMessage(childTurn.getName());
         dialogBuilder.setView(contactPopupView);
         dialogBuilder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
                 new DialogInterface.OnClickListener() {
@@ -109,17 +111,30 @@ public class TasksList extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (childName == "No child configured.") {
+                        if (task.getChild().equals(childManager.NO_CHILD)) {
                             viewChildName.setText("No child configured.");
                         }
                         else {
-                            Child childNextTurn = childManager.getChild(indexOfChild++ % childManager.size());
-                            viewChildName.setText(childNextTurn.getName());
+                            // TODO: change this so it only changes the current child of THIS TASK
+                            task.setChild(childManager.getChild((childManager.indexOfChild(childTurn) + 1) % childManager.size()));
+                            viewChildName.setText(childTurn.getName());
+                            populateTaskList();
                         }
                     }
                 });
 
         dialogBuilder.show();
+    }
+
+
+
+    public void updatePlayers() {
+        if (childManager.size() == 0){
+            currentChild = childManager.NO_CHILD;
+        }
+        else {
+            currentChild = childManager.getChild(0);
+        }
     }
 
 
@@ -194,7 +209,7 @@ public class TasksList extends AppCompatActivity {
 //                testChildCount.setText(defaultChildTurn.getName());
 
                 TextView childNext = (TextView) itemView.findViewById(R.id.nextTurnChild);
-                childNext.setText(manager.getTask(index).getChildTurn());
+                childNext.setText(currentTask.getChild().getName());
             }
 
 
