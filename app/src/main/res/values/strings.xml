@@ -32,11 +32,11 @@
     <string name="delete_child">Delete Child</string>
     <string name="date">Date</string>
     <string name="help_screen_violet">Violet</string>
-    <string name="help_screen_creators">Reid Gendron\nGage Tylee\nWan Ying C</string>
+    <string name="help_screen_creators">Reid Gendron\nGage Tylee\nWan Ying Chan</string>
     <string name="help_screen_team">Team</string>
     <string name="help_screen_creator">Creators:</string>
     <string name="help_screen_copyright">Copyright:</string>
-    <string name="help_screen_references">○ reference...\n○ reference...\n○ reference...</string>
+    <string name="help_screen_references">Coin Sound\n○ https://www.storyblocks.com/audio/stock/coin-flip-whirl-high-pitched-land-solid-surface-bounce-bgnx4za2ldbk0wxw9fq.html\n\nCoin Images\n○ https://www.coinsandcanada.com/coins-prices.php?coin=25-cents-2003\n\nSky Wallpaper\n○ https://cutewallpaper.org/21/wallpaper-blue-skies/Wallpapers-Poketo.jpg\n\nBitmap Encoding\n○ https://stackoverflow.com/questions/18072448/how-to-save-image-in-shared-preference-in-android-shared-preference-issue-in-a\n\nDefault Image\n○ https://tangi.co</string>
     <string name="help_screen_bullet_points">○\n○\n○</string>
     <string name="child_config_item_name_placeholder">Child Name</string>
     <string name="child_config_item_image_placeholder">Child Photo</string>

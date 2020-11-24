@@ -101,7 +101,7 @@ public class ChildList extends AppCompatActivity {
             // Images
             ImageView imageView = (ImageView) itemView.findViewById(R.id.config_item_image);
             if (currentChild.getBitmap() == null) {
-                imageView.setImageResource(R.drawable.default_image); // Default Image: tangi.co
+                imageView.setImageResource(R.drawable.default_image);
             } else {
                 Bitmap icon = decodeBase64(currentChild.getBitmap());
                 imageView.setImageBitmap(icon); // User Inputted Image
@@ -141,9 +141,6 @@ public class ChildList extends AppCompatActivity {
     }
 
     public static String encodeToBase64(Bitmap image) {
-        /*
-         * https://stackoverflow.com/questions/18072448/how-to-save-image-in-shared-preference-in-android-shared-preference-issue-in-a
-         */
         Bitmap immage = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immage.compress(Bitmap.CompressFormat.PNG, 100, baos);

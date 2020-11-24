@@ -25,7 +25,7 @@ public class ChildManager implements Iterable<Child> {
         return instance;
     }
 
-    // Method to add lenses
+    // Method to add children
     public void add(Child child) {
         children.add(child);
     }

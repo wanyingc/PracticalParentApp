@@ -142,6 +142,7 @@ public class ChildAdd extends AppCompatActivity {
             ImageView selectedImage = (ImageView) findViewById(R.id.childAddImage);
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
+                    // Retrieve Image from Camera
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     selectedImage.setImageBitmap(imageBitmap);
