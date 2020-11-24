@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import ca.cmpt276.practicalparent.R;
 
+/**
+ * Displays the help screen
+ */
 public class Help extends AppCompatActivity {
 
     @Override

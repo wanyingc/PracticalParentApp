@@ -33,6 +33,9 @@ import ca.cmpt276.practicalparent.model.HistoryManager;
 import ca.cmpt276.practicalparent.model.Task;
 import ca.cmpt276.practicalparent.model.TaskManager;
 
+/**
+ * Displays task list
+ */
 public class TasksList extends AppCompatActivity {
     private AlertDialog dialogBuilder;
     private TaskManager manager;

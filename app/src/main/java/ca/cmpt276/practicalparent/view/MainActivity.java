@@ -15,6 +15,9 @@ import android.view.MenuItem;
 
 import ca.cmpt276.practicalparent.R;
 
+/**
+ * Main Activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

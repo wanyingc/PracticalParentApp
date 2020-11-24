@@ -22,6 +22,9 @@ import ca.cmpt276.practicalparent.model.TaskManager;
 import static ca.cmpt276.practicalparent.view.ChildList.decodeBase64;
 import static ca.cmpt276.practicalparent.view.ChildList.encodeToBase64;
 
+/**
+ * Used to edit a task
+ */
 public class TaskEdit extends AppCompatActivity {
     private int taskIndex;
 

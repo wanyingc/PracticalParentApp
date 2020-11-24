@@ -20,7 +20,9 @@ import ca.cmpt276.practicalparent.model.ChildManager;
 import ca.cmpt276.practicalparent.model.Task;
 import ca.cmpt276.practicalparent.model.TaskManager;
 
-
+/**
+ * Adds a task
+ */
 public class TaskAdd extends AppCompatActivity {
     private TaskManager manager;
     private ChildManager childManager;

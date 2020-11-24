@@ -8,6 +8,9 @@ import java.util.List;
 
 import ca.cmpt276.practicalparent.view.CoinFlipActivity;
 
+/**
+ * Used to manage a queue of children for the coin flip
+ */
 public class ChildQueue {
     private static ChildQueue instance;
     public static final Child EMPTY_PLAYER = new Child("");
@@ -16,9 +19,6 @@ public class ChildQueue {
     private ChildQueue() {
         childManager = ChildManager.getInstance();
         queue = new ArrayList<Child>();
-//        for (int i = 0; i < ChildManager.getInstance().size(); i++) {
-//            queue.add(childManager.getChild(i));
-//        }
     }
     public static ChildQueue getInstance() {
         if (instance == null) {

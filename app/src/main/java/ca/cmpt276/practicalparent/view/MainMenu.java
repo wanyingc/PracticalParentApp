@@ -14,6 +14,9 @@ import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
 
+/**
+ * Displays the main menu
+ */
 public class MainMenu extends AppCompatActivity {
     private Button tasksButton;
     private Button timeOutButton;
