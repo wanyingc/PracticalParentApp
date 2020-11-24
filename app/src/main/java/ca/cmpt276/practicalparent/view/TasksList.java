@@ -79,6 +79,7 @@ public class TasksList extends AppCompatActivity {
     protected void onResumeFragments() {
         super.onResumeFragments();
         updatePlayers();
+        updateTasks();
     }
 
     // Display pop up screen
@@ -115,7 +116,6 @@ public class TasksList extends AppCompatActivity {
                             viewChildName.setText("No child configured.");
                         }
                         else {
-                            // TODO: change this so it only changes the current child of THIS TASK
                             task.setChild(childManager.getChild((childManager.indexOfChild(childTurn) + 1) % childManager.size()));
                             viewChildName.setText(childTurn.getName());
                             populateTaskList();
@@ -126,7 +126,13 @@ public class TasksList extends AppCompatActivity {
         dialogBuilder.show();
     }
 
-
+    public void updateTasks() {
+        for (Task t : manager) {
+            if (!childManager.list().contains(t.getChild())) {
+                t.setChild(currentChild);
+            }
+        }
+    }
 
     public void updatePlayers() {
         if (childManager.size() == 0){
