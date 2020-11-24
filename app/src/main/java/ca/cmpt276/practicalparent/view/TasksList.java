@@ -8,8 +8,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +29,7 @@ import java.util.Random;
 import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.Child;
 import ca.cmpt276.practicalparent.model.ChildManager;
+import ca.cmpt276.practicalparent.model.HistoryManager;
 import ca.cmpt276.practicalparent.model.Task;
 import ca.cmpt276.practicalparent.model.TaskManager;
 
@@ -59,8 +62,7 @@ public class TasksList extends AppCompatActivity {
 
         childManager = ChildManager.getInstance();
         manager = TaskManager.getInstance();
-
-
+        loadTasksFromSP();
         if (manager.emptyTask()){
             updatePlayers();
             Task task1 = new Task("First bath", currentChild);
@@ -71,17 +73,19 @@ public class TasksList extends AppCompatActivity {
 
         }
 
+
         taskItemClickHandler();
 
     }
 
     @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
+    protected void onResume() {
+        super.onResume();
         updatePlayers();
         updateTasks();
+        populateTaskList();
+        saveTasksToSP();
     }
-
     // Display pop up screen
     public void createPopUpDialog(View viewClicked, final int position) {
         dialogBuilder = new AlertDialog.Builder(this).create();
@@ -120,13 +124,47 @@ public class TasksList extends AppCompatActivity {
                             viewChildName.setText(childTurn.getName());
                             populateTaskList();
                         }
+                        saveTasksToSP();
                     }
                 });
 
         dialogBuilder.show();
     }
 
-    public void updateTasks() {
+    private void saveTasksToSP() {
+        SharedPreferences prefs = this.getSharedPreferences("taskPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (int i = 0; i < manager.size(); i++) {
+            if (childManager.size() > 0) {
+                editor.putInt("task_child_index" + i, childManager.indexOfChild(manager.getTask(i).getChild()));
+            }
+            editor.putString("task_name" + i, manager.getTask(i).getTaskName());
+        }
+        editor.putInt("task_size", manager.size());
+        editor.apply();
+    }
+
+    private void loadTasksFromSP() {
+        SharedPreferences prefs = getSharedPreferences("taskPrefs", MODE_PRIVATE);
+        manager.clear();
+        Child child;
+        int playerIndex;
+        String taskName;
+        int size = prefs.getInt("task_size", 0);
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                playerIndex = prefs.getInt("task_child_index" + i, 0);
+                taskName = prefs.getString("task_name"+i, "");
+                child = childManager.getChild(playerIndex);
+                Task task = new Task(taskName, child);
+                if (!manager.contains(taskName)) {
+                    manager.addTask(task);
+                }
+            }
+        }
+    }
+
+    private void updateTasks() {
         for (Task t : manager) {
             if (!childManager.list().contains(t.getChild())) {
                 t.setChild(currentChild);
@@ -225,9 +263,5 @@ public class TasksList extends AppCompatActivity {
 
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        populateTaskList();
-    }
+
 }

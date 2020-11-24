@@ -1,5 +1,7 @@
 package ca.cmpt276.practicalparent.model;
 
+import androidx.annotation.Nullable;
+
 /**
  * Used to store attributes of a task
  */
@@ -21,7 +23,6 @@ public class Task {
         return child;
     }
 
-
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
@@ -29,5 +30,9 @@ public class Task {
         this.child = child;
     }
 
-
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        Task t = (Task)obj;
+        return this.getTaskName().equals(t.getTaskName());
+    }
 }

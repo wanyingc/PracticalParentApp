@@ -36,7 +36,7 @@ public class TaskAdd extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-
+        childManager = ChildManager.getInstance();
         setupAdd();
 
     }
@@ -61,6 +61,9 @@ public class TaskAdd extends AppCompatActivity {
  //                   String childTurnNext = childManager.getChild(0).getName();
                     if (childManager.size() > 0) {
                         Task task = new Task(taskName, childManager.getChild(0));
+                        TaskManager.getInstance().addTask(task);
+                    } else {
+                        Task task = new Task(taskName, ChildManager.NO_CHILD);
                         TaskManager.getInstance().addTask(task);
                     }
 

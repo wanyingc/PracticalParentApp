@@ -40,7 +40,10 @@ public class TaskManager implements Iterable<Task>  {
     public void clear() {
         taskList.clear();
     }
-
+    public boolean contains(String taskName) {
+        return (taskList.contains(taskName));
+    }
+    public int size(){return taskList.size();}
     public void deleteTask(int index) {
         taskList.remove(index);
     }
