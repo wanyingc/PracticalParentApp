@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.TakeBreath"></activity>
+        <activity
+            android:name=".view.TakeBreath"
+            android:parentActivityName=".view.MainMenu"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.Help"
             android:parentActivityName=".view.MainMenu"
