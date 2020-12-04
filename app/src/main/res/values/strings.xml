@@ -65,6 +65,7 @@
     <string name="take_breath">Take Breath</string>
     <string name="let_s_take_breaths_together">Let\'s take breaths together</string>
     <string name="begin">Begin</string>
+    <string name="breaths_remaining"> </string>
 
 
 </resources>

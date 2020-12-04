@@ -7,16 +7,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ca.cmpt276.practicalparent.R;
 
@@ -25,10 +27,19 @@ import ca.cmpt276.practicalparent.R;
  */
 
 public class TakeBreath extends AppCompatActivity {
+    private static final String PREF_NAME = "Breaths Storage";
+    private static final String NUM_BREATHS = "Number of Breaths";
+    private Spinner dropDown;
+    private static final String[] breaths = {"1 breath","2 breaths","3 breaths","4 breaths","5 breaths","6 breaths","7 breaths","8 breaths","9 breaths","10 breaths"};
+    private int breathCount = 3;
 
     /////////////////////////////////////////////////////////////////////
     // STATE PATTERN                                                   //
     /////////////////////////////////////////////////////////////////////
+
+    /**
+     * Displays and handles the UI for each individual state
+     */
 
     private abstract class State {
         // Empty implementations, so the derived class doesn't
@@ -42,6 +53,7 @@ public class TakeBreath extends AppCompatActivity {
     private final State inState = new InState();
     private final State outState = new OutState();
     private final State idleState = new IdleState();
+    private final State endState = new EndState();
     private State currentState = idleState;
 
     private void setState(State newState) {
@@ -51,27 +63,40 @@ public class TakeBreath extends AppCompatActivity {
     }
 
     private class OutState extends State {
+        Handler timerHandler = new Handler();
+        Runnable changeState = new Runnable() {
+            @Override
+            public void run() {
+                breathCount--;
+                if (breathCount > 0) {
+                    setState(inState);
+                } else {
+                    setState(endState);
+                }
+            }
+        };
+
         @Override
         void handleEnter() {
             super.handleEnter();
 
-            TextView helpText = (TextView) findViewById(R.id.breathText);
+            // Help Text
+            TextView helpText = (TextView) findViewById(R.id.helpText);
             helpText.setText("Release button and breathe out");
 
-            Button breath = findViewById(R.id.btnBreath);
-            breath.setText("OUT");
-        }
-
-        @Override
-        void handlePress() {
-            super.handlePress();
-            Toast.makeText(TakeBreath.this, "Tapped from OUT state!", Toast.LENGTH_SHORT).show();
-            setState(inState);
+            // Button
+            Button breath = (Button) findViewById(R.id.btnBreath);
+            breath.setText("Out");
+            breath.setBackgroundResource(R.drawable.breathe_out_button);
         }
 
         @Override
         void handleRelease() {
-            super.handlePress();
+            super.handleRelease();
+
+            // Timer
+            timerHandler.removeCallbacks(changeState);
+            timerHandler.postDelayed(changeState,3000);
 
             // Animation
             Button breath = (Button) findViewById(R.id.btnBreath);
@@ -80,11 +105,20 @@ public class TakeBreath extends AppCompatActivity {
             scaleDown.setFillAfter(true);
             breath.startAnimation(scaleDown);
         }
+
+        @Override
+        void handleExit() {
+            super.handleExit();
+
+            // Breath Count
+            TextView breathsRemaining = (TextView) findViewById(R.id.helpTextSupplementary);
+            breathsRemaining.setText("Breaths remaining: " + breathCount);
+        }
     }
 
     private class InState extends State {
         Handler timerHandler = new Handler();
-        Runnable timerRunnable = new Runnable() {
+        Runnable changeState = new Runnable() {
             @Override
             public void run() {
                 setState(outState);
@@ -95,11 +129,18 @@ public class TakeBreath extends AppCompatActivity {
         void handleEnter() {
             super.handleEnter();
 
-            TextView helpText = (TextView) findViewById(R.id.breathText);
+            // Help Text
+            TextView helpText = (TextView) findViewById(R.id.helpText);
             helpText.setText("Hold button and breathe in");
 
+            // Show Breath Count
+            TextView breathsRemaining = (TextView) findViewById(R.id.helpTextSupplementary);
+            breathsRemaining.setVisibility(View.VISIBLE);
+
+            // Button
             Button breath = (Button) findViewById(R.id.btnBreath);
-            breath.setText("IN");
+            breath.setText("In");
+            breath.setBackgroundResource(R.drawable.breathe_in_button);
         }
 
         @Override
@@ -107,8 +148,8 @@ public class TakeBreath extends AppCompatActivity {
             super.handlePress();
 
             // Timer
-            timerHandler.removeCallbacks(timerRunnable);
-            timerHandler.postDelayed(timerRunnable,3000);
+            timerHandler.removeCallbacks(changeState);
+            timerHandler.postDelayed(changeState,3000);
 
             // Animation
             Button breath = (Button) findViewById(R.id.btnBreath);
@@ -116,22 +157,22 @@ public class TakeBreath extends AppCompatActivity {
             scaleUp.setDuration(3000);
             scaleUp.setFillAfter(true);
             breath.startAnimation(scaleUp);
-
-            Toast.makeText(TakeBreath.this, "Tapped from IN state!", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         void handleRelease() {
             super.handleRelease();
+
+            // Button
             Button breath = (Button) findViewById(R.id.btnBreath);
             breath.clearAnimation();
-            timerHandler.removeCallbacks(timerRunnable);
+            timerHandler.removeCallbacks(changeState);
         }
 
         @Override
         void handleExit() {
             super.handleExit();
-            timerHandler.removeCallbacks(timerRunnable);
+            timerHandler.removeCallbacks(changeState);
         }
     }
 
@@ -140,20 +181,72 @@ public class TakeBreath extends AppCompatActivity {
         void handleEnter() {
             super.handleEnter();
 
-            TextView helpText = (TextView) findViewById(R.id.breathText);
-            helpText.setText("Let's take breaths together");
+            // Breath Count
+            getBreathsFromSP();
+            TextView helpText = (TextView) findViewById(R.id.helpText);
+            if (breathCount == 1) {
+                helpText.setText("Let's take " + breathCount + " breath together");
+            } else {
+                helpText.setText("Let's take " + breathCount + " breaths together");
+            }
 
+            // Show Drop Down
+            dropDown.setVisibility(View.VISIBLE);
+            dropDown.setSelection(breathCount-1);
+
+            // Hide Breath Count
+            TextView breathsRemaining = (TextView) findViewById(R.id.helpTextSupplementary);
+            breathsRemaining.setVisibility(View.GONE);
+
+            // Button
             Button breath = (Button) findViewById(R.id.btnBreath);
             breath.setText("Begin");
-
-            Toast.makeText(TakeBreath.this, "Entered IDLE state", Toast.LENGTH_SHORT).show();
+            breath.setBackgroundResource(R.drawable.breathe_idle_button);
         }
 
         @Override
         void handlePress() {
             super.handlePress();
-            Toast.makeText(TakeBreath.this, "Tapped from IDLE state!", Toast.LENGTH_SHORT).show();
             setState(inState);
+            inState.handlePress();
+        }
+
+        @Override
+        void handleExit() {
+            super.handleExit();
+
+            // Hide Drop Down
+            dropDown.setVisibility(View.GONE);
+
+            // Breath Count
+            TextView breathsRemaining = (TextView) findViewById(R.id.helpTextSupplementary);
+            breathsRemaining.setText("Breaths remaining: " + breathCount);
+        }
+    }
+
+    private class EndState extends State {
+        @Override
+        void handleEnter() {
+            super.handleEnter();
+
+            // Help Text
+            TextView helpText = (TextView) findViewById(R.id.helpText);
+            helpText.setText("Press button to reset breaths");
+
+            // Breath Count
+            TextView breathsRemaining = (TextView) findViewById(R.id.helpTextSupplementary);
+            breathsRemaining.setText("There are no breaths remaining");
+
+            // Button
+            Button breath = (Button) findViewById(R.id.btnBreath);
+            breath.setText("Good job");
+            breath.setBackgroundResource(R.drawable.breathe_end_button);
+        }
+
+        @Override
+        void handlePress() {
+            super.handlePress();
+            setState(idleState);
         }
     }
 
@@ -172,11 +265,36 @@ public class TakeBreath extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        setupDropDown();
+        currentState.handleEnter();
         setupBreathButton();
     }
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TakeBreath.class);
+    }
+
+    private void setupDropDown() {
+        dropDown = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, breaths);
+        dropDown.setAdapter(adapter);
+        dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView helpText = (TextView) findViewById(R.id.helpText);
+                breathCount = position+1;
+                if (position == 0) {
+                    helpText.setText("Let's take " + breathCount + " breath together");
+                } else {
+                    helpText.setText("Let's take " + breathCount + " breaths together");
+                }
+                storeBreathsToSP();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -199,4 +317,17 @@ public class TakeBreath extends AppCompatActivity {
             }
         });
     }
+
+    public void storeBreathsToSP() {
+        SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(NUM_BREATHS,breathCount);
+        editor.apply();
+    }
+
+    public void getBreathsFromSP() {
+        SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
+        breathCount = prefs.getInt(NUM_BREATHS,3);
+    }
+
 }
