@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     private boolean timerRunning;
     private long startTime;
     private long timeLeft;
+    private ProgressBar progressBarCircle;
 
     private NotificationManagerCompat notifManager;
 
@@ -66,6 +68,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
         editTimerInput = findViewById(R.id.editCustomTimerInput);
         setButton = findViewById(R.id.setCustomTimerButton);
+        progressBarCircle = findViewById(R.id.progressBarCircle);
 
         setSpinner();
 
@@ -176,12 +179,14 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
             public void onTick(long millisUntilFinished) {
                 timeLeft = millisUntilFinished;
                 updateCountDownText();
+                progressBarCircle.setProgress((int) (timeLeft/1000));
             }
             @Override
             public void onFinish() {
                 timerRunning = false;
                 playAlarm();
                 notifChannel();
+                setProgressBarValues();
                 stopAlarmButton.setVisibility(View.VISIBLE);
                 startPauseButton.setText("Start");
                 startPauseButton.setVisibility(View.INVISIBLE);
@@ -191,6 +196,11 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         timerRunning = true;
         startPauseButton.setText("pause");
         resetButton.setVisibility(View.VISIBLE);
+    }
+
+    private void setProgressBarValues() {
+        progressBarCircle.setMax((int) timeLeft/1000);
+        progressBarCircle.setProgress((int) timeLeft/1000);
     }
 
     private void playAlarm() {
@@ -220,6 +230,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     private void resetTimer() {
         timeLeft = startTime;
         updateCountDownText();
+        setProgressBarValues();
         resetButton.setVisibility(View.INVISIBLE);
         startPauseButton.setText("Start");
         startPauseButton.setVisibility(View.VISIBLE);
