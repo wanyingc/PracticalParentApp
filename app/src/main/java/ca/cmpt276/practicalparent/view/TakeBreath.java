@@ -29,9 +29,9 @@ import ca.cmpt276.practicalparent.R;
 public class TakeBreath extends AppCompatActivity {
     private static final String PREF_NAME = "Breaths Storage";
     private static final String NUM_BREATHS = "Number of Breaths";
-    private Spinner dropDown;
     private static final String[] breaths = {"1 breath","2 breaths","3 breaths","4 breaths","5 breaths","6 breaths","7 breaths","8 breaths","9 breaths","10 breaths"};
     private int breathCount = 3;
+    private Spinner dropDown;
 
     /////////////////////////////////////////////////////////////////////
     // STATE PATTERN                                                   //
@@ -329,5 +329,4 @@ public class TakeBreath extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(PREF_NAME,MODE_PRIVATE);
         breathCount = prefs.getInt(NUM_BREATHS,3);
     }
-
 }
