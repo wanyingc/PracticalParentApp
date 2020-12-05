@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -32,6 +33,8 @@ public class TakeBreath extends AppCompatActivity {
     private static final String[] breaths = {"1 breath","2 breaths","3 breaths","4 breaths","5 breaths","6 breaths","7 breaths","8 breaths","9 breaths","10 breaths"};
     private int breathCount = 3;
     private Spinner dropDown;
+    private MediaPlayer inhale;
+    private MediaPlayer exhale;
 
     /////////////////////////////////////////////////////////////////////
     // STATE PATTERN                                                   //
@@ -70,6 +73,13 @@ public class TakeBreath extends AppCompatActivity {
                 breathCount--;
                 if (breathCount > 0) {
                     setState(inState);
+
+                    // Animate 7s more
+                    Button breath = (Button) findViewById(R.id.btnBreath);
+                    Animation pulse = AnimationUtils.loadAnimation(TakeBreath.this, R.anim.pulse_down);
+                    pulse.setDuration(1000);
+                    pulse.setFillAfter(true);
+                    breath.startAnimation(pulse);
                 } else {
                     setState(endState);
                 }
@@ -98,12 +108,27 @@ public class TakeBreath extends AppCompatActivity {
             timerHandler.removeCallbacks(changeState);
             timerHandler.postDelayed(changeState,3000);
 
+            // Sound
+            exhale = MediaPlayer.create(TakeBreath.this,R.raw.exhale_audio);
+            exhale.start();
+
             // Animation
             Button breath = (Button) findViewById(R.id.btnBreath);
             Animation scaleDown = AnimationUtils.loadAnimation(TakeBreath.this, R.anim.scale_down);
             scaleDown.setDuration(3000);
             scaleDown.setFillAfter(true);
             breath.startAnimation(scaleDown);
+        }
+
+        @Override
+        void handlePress() {
+            super.handlePress();
+
+            // Button
+            Button breath = (Button) findViewById(R.id.btnBreath);
+            exhale.stop();
+            timerHandler.removeCallbacks(changeState);
+
         }
 
         @Override
@@ -122,6 +147,13 @@ public class TakeBreath extends AppCompatActivity {
             @Override
             public void run() {
                 setState(outState);
+
+                // Animate 7s more
+                Button breath = (Button) findViewById(R.id.btnBreath);
+                Animation pulse = AnimationUtils.loadAnimation(TakeBreath.this, R.anim.pulse_up);
+                pulse.setDuration(1000);
+                pulse.setFillAfter(true);
+                breath.startAnimation(pulse);
             }
         };
 
@@ -151,6 +183,10 @@ public class TakeBreath extends AppCompatActivity {
             timerHandler.removeCallbacks(changeState);
             timerHandler.postDelayed(changeState,3000);
 
+            // Sound
+            inhale = MediaPlayer.create(TakeBreath.this,R.raw.inhale_audio);
+            inhale.start();
+
             // Animation
             Button breath = (Button) findViewById(R.id.btnBreath);
             Animation scaleUp = AnimationUtils.loadAnimation(TakeBreath.this, R.anim.scale_up);
@@ -166,6 +202,7 @@ public class TakeBreath extends AppCompatActivity {
             // Button
             Button breath = (Button) findViewById(R.id.btnBreath);
             breath.clearAnimation();
+            inhale.stop();
             timerHandler.removeCallbacks(changeState);
         }
 
@@ -246,6 +283,8 @@ public class TakeBreath extends AppCompatActivity {
         @Override
         void handlePress() {
             super.handlePress();
+            inhale.stop();
+            exhale.stop();
             setState(idleState);
         }
     }
