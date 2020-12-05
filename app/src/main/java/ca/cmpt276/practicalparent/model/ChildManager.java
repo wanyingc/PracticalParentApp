@@ -40,6 +40,16 @@ public class ChildManager implements Iterable<Child> {
         }
         return children.get(index);
     }
+
+    public Child getChildByName(String name) {
+        for (int i = 0; i < size(); i++) {
+            if (getChild(i).getName().equals(name)) {
+                return getChild(i);
+            }
+        }
+        return NO_CHILD;
+    }
+
     public List children() {
         return children;
     }

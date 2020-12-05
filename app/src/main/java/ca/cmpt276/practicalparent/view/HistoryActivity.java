@@ -3,6 +3,7 @@ package ca.cmpt276.practicalparent.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -153,9 +154,18 @@ public class HistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.grid_item, parent,false);
             }
             HistoryEntry currentEntry = historyManager.getEntry(position);
+            Child currentEntryChild = childManager.getChildByName(currentEntry.getPlayer());
+
+            // set player portrait
+            ImageView portrait = itemView.findViewById(R.id.child_portrait_history);
+            Bitmap icon = ChildList.decodeBase64(currentEntryChild.getBitmap());
+            portrait.setImageBitmap(icon);
+
+            // set player name text
             TextView playerText = itemView.findViewById(R.id.history_player_name_text);
             playerText.setText(currentEntry.getPlayer());
 
+            // set player choice
             TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
             if (currentEntry.getPlayerChoice() == Coin.HEADS) {
                 playerChoiceText.setText("Heads");
@@ -163,11 +173,12 @@ public class HistoryActivity extends AppCompatActivity {
                 playerChoiceText.setText("Tails");
             }
 
+            // set date
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
 
+            // set win/lose icon
             ImageView image = itemView.findViewById(R.id.result_image);
-
             if (currentEntry.didWin()) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);
             } else {
@@ -190,9 +201,18 @@ public class HistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.grid_item, parent,false);
             }
             HistoryEntry currentEntry = currentPlayerGameList.get(position);
+            Child currentEntryChild = childManager.getChildByName(currentEntry.getPlayer());
+
+            // set player portrait
+            ImageView portrait = itemView.findViewById(R.id.child_portrait_history);
+            Bitmap icon = ChildList.decodeBase64(currentEntryChild.getBitmap());
+            portrait.setImageBitmap(icon);
+
+            // set player name
             TextView playerText = itemView.findViewById(R.id.history_player_name_text);
             playerText.setText(currentEntry.getPlayer());
 
+            // set player choice
             TextView playerChoiceText = itemView.findViewById(R.id.history_player_choice);
             if (currentEntry.getPlayerChoice() == Coin.HEADS) {
                 playerChoiceText.setText("Heads");
@@ -200,11 +220,12 @@ public class HistoryActivity extends AppCompatActivity {
                 playerChoiceText.setText("Tails");
             }
 
+            // set date
             TextView dateText = itemView.findViewById(R.id.date_text);
             dateText.setText(currentEntry.getTime() + "  " + currentEntry.getDate());
 
+            // set win/lose icon
             ImageView image = itemView.findViewById(R.id.result_image);
-
             if (currentEntry.didWin()) {
                 image.setImageResource(R.drawable.ic_baseline_check_24);
             } else {

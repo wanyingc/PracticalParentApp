@@ -38,16 +38,16 @@
             android:id="@+id/headTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             android:text="@string/player"
-            android:textAlignment="center"
             android:textSize="18sp"
+            android:layout_marginStart="10dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.35"
+            android:layout_weight="0.25"
             android:orientation="horizontal">
 
             <TextView
@@ -56,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:text="@string/choice"
-                android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
