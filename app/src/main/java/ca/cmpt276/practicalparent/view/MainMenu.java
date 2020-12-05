@@ -23,6 +23,7 @@ public class MainMenu extends AppCompatActivity {
     private Button configButton;
     private Button coinFlipButton;
     private Button helpButton;
+    private Button takeBreathButton;
     private ChildManager manager;
     private static final String PREF_NAME = "Name List Storage";
     private static final String NUM_STORED_VALUES = "Number of Stored Values";
@@ -80,6 +81,15 @@ public class MainMenu extends AppCompatActivity {
                 openTasksActivity();            }
         });
 
+        //start Activity when tasks button is clicked
+        takeBreathButton = (Button) findViewById(R.id.takeBreath);
+        takeBreathButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTakeBreathActivity();
+            }
+        });
+
         getNamesAndSizeFromSP();
     }
 
@@ -105,6 +115,11 @@ public class MainMenu extends AppCompatActivity {
 
     public void openHelpActivity() {
         Intent intent = Help.makeIntent(MainMenu.this);
+        startActivity(intent);
+    }
+
+    public void openTakeBreathActivity() {
+        Intent intent = TakeBreath.makeIntent(MainMenu.this);
         startActivity(intent);
     }
 

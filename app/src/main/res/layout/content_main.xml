@@ -22,7 +22,7 @@
         android:layout_height="68dp"
         android:layout_marginBottom="20dp"
         android:text="@string/tasks"
-        app:layout_constraintBottom_toTopOf="@+id/help"
+        app:layout_constraintBottom_toTopOf="@+id/takeBreath"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -30,9 +30,19 @@
         android:id="@+id/help"
         android:layout_width="177dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/help"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/takeBreath"
+        android:layout_width="177dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/take_breath"
+        app:layout_constraintBottom_toTopOf="@+id/help"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
