@@ -16,6 +16,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import ca.cmpt276.practicalparent.R;
 import ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;
@@ -49,14 +53,14 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     private CountDownTimer timerCountDown;
     private boolean timerRunning;
     private long startTime;
-    private long timeLeft;
+    private double timeLeft;
     private ProgressBar progressBarCircle;
     private long countDownInterval =1000;
     private Spinner timerRate;
     private TextView timeRateText;
-
+    final private ReentrantLock lock = new ReentrantLock();
     private NotificationManagerCompat notifManager;
-    private long currentTime;
+    private double currentTime;
     private TextView currTimeText;
 
     @Override
@@ -73,7 +77,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         editTimerInput = findViewById(R.id.editCustomTimerInput);
         setButton = findViewById(R.id.setCustomTimerButton);
         progressBarCircle = findViewById(R.id.progressBarCircle);
-
         setSpinner();
         setTimerRateSpinner();
 
@@ -83,7 +86,14 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         stopAlarm();
     }
 
-//    public class Timer extends CountDownTimer {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timerCountDown.cancel();
+    }
+
+
+    //    public class Timer extends CountDownTimer {
 //        private long millisInFuture;
 //        private long countDownInterval;
 //
@@ -202,6 +212,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
     private void setTimer(long milliseconds) {
         startTime = milliseconds;
+        currentTime = milliseconds;
         timeLeft = milliseconds;
         resetTimer();
         updateCountDownText();
@@ -238,37 +249,41 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
     // Function to start the countdown timer
     private void startTimer() {
-        timerCountDown = new CountDownTimer(timeLeft,countDownInterval) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                currentTime = millisUntilFinished;
-                timeLeft = millisUntilFinished;
-                updateCountDownText();
-                progressBarCircle.setProgress((int) (timeLeft/countDownInterval));
-            }
+        if (!timerRunning) {
+            timerCountDown = new CountDownTimer((long) timeLeft, countDownInterval) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    currentTime -= 1000;
+                    timeLeft = millisUntilFinished;
+                    updateCountDownText();
+                    //progressBarCircle.setProgress((int) (timeLeft/countDownInterval));
+                    progressBarCircle.setProgress((int) (currentTime));
+                    Log.e("Time", "Current: " + currentTime + ",Left: " + timeLeft);
+                }
 
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                timerCountDown.cancel();
-                playAlarm();
-                notifChannel();
-                setProgressBarValues();
-                stopAlarmButton.setVisibility(View.VISIBLE);
-                startPauseButton.setText("Start");
-                startPauseButton.setVisibility(View.INVISIBLE);
-                resetButton.setVisibility(View.VISIBLE);
-            }
-        };
-        timerCountDown.start();
-        timerRunning = true;
-        startPauseButton.setText("pause");
-        resetButton.setVisibility(View.VISIBLE);
+                @Override
+                public void onFinish() {
+                    timerRunning = false;
+                    timerCountDown.cancel();
+                    playAlarm();
+                    notifChannel();
+                    setProgressBarValues();
+                    stopAlarmButton.setVisibility(View.VISIBLE);
+                    startPauseButton.setText("Start");
+                    startPauseButton.setVisibility(View.INVISIBLE);
+                    resetButton.setVisibility(View.VISIBLE);
+                }
+            };
+            timerCountDown.start();
+            timerRunning = true;
+            startPauseButton.setText("pause");
+            resetButton.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setProgressBarValues() {
-        progressBarCircle.setMax((int) (timeLeft/countDownInterval));
-        progressBarCircle.setProgress((int) (timeLeft/countDownInterval));
+        progressBarCircle.setMax((int) (currentTime));
+        progressBarCircle.setProgress((int) (currentTime));
     }
 
     private void playAlarm() {
@@ -281,17 +296,21 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     private void pauseTimer() {
 //        currTimeText = findViewById(R.id.currTimeView);
 //        currTimeText.setText("TimeNow:" + currentTime);
-        timerCountDown.cancel();
-        timerRunning = false;
-        startPauseButton.setText("Resume");
-        resetButton.setVisibility(View.VISIBLE);
+        if (timerRunning) {
+            timerCountDown.cancel();
+            timerRunning = false;
+            startPauseButton.setText("Resume");
+            resetButton.setVisibility(View.VISIBLE);
+        }
     }
 
     // Update the text of the timer when timer is running
     private void updateCountDownText() {
         timerCountDownText = findViewById(R.id.timerText);
-        int minutes = (int) (timeLeft / countDownInterval) / 60;
-        int seconds = (int) (timeLeft / countDownInterval) % 60;
+        int minutes = (int) ((currentTime / 1000)/60);
+        int seconds = (int) ((currentTime / 1000)%60);
+//        int minutes = (int) (timeLeft / countDownInterval) / 60;
+//        int seconds = (int) (timeLeft / countDownInterval) % 60;
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         timerCountDownText.setText(timeLeftFormatted);
     }
@@ -299,6 +318,7 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     // Function to reset the timer back to last selected starting time
     private void resetTimer() {
         timeLeft = startTime;
+        currentTime = startTime;
         updateCountDownText();
         setProgressBarValues();
         resetButton.setVisibility(View.INVISIBLE);
@@ -331,60 +351,130 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     }
 
     public void setUpSelectedRate(String item) {
-        final long tempTimeLeft;
+        final double tempTimeLeft;
+        final boolean timerRunningState;
         TextView timeRateView;
 
         timeRateView = findViewById(R.id.timeRateView);
-
         if (item.contentEquals("25%")) {
-            tempTimeLeft = (currentTime * (3/4)) + currentTime;
-
-            // PROBLEM: Time not showing correctly when 25% was selected
-            setNewTimer(tempTimeLeft,1750);
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
+            tempTimeLeft = timeLeft * (0.75);
+            timeLeft += tempTimeLeft;
+            setNewTimer(timeLeft,1750);
             timeRateView.setText("Time @25%");
-
+            if (timerRunningState) {
+                startTimer();
+            }
         }
         else if (item.contentEquals("50%")) {
-            tempTimeLeft = timeLeft * (50/100);
-            timeLeft = timeLeft + tempTimeLeft;
-            setNewTimer(tempTimeLeft,1500);
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
+            tempTimeLeft = timeLeft * (0.5);
+            timeLeft += tempTimeLeft;
+            setNewTimer(timeLeft,1500);
             timeRateView.setText("Time @50%");
+            if (timerRunningState) {
+                startTimer();
+            }
         }
         else if (item.contentEquals("75%")) {
-            tempTimeLeft = timeLeft * (1/4);
-            timeLeft = timeLeft + tempTimeLeft;
-            setNewTimer(tempTimeLeft,1250);
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
+            tempTimeLeft = timeLeft * (0.25);
+            timeLeft += tempTimeLeft;
+            setNewTimer(timeLeft,1250);
             timeRateView.setText("Time @75%");
+            if (timerRunningState) {
+                startTimer();
+            }
         }
         else if (item.contentEquals("100%")) {
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
             tempTimeLeft = timeLeft;
             setNewTimer(tempTimeLeft,1000);
             timeRateView.setText("Time @100%");
+            if (timerRunningState) {
+                startTimer();
+            }
         }
         else if (item.contentEquals("200%")) {
-            tempTimeLeft = timeLeft/2;
-            timeLeft = timeLeft + tempTimeLeft;
-            setNewTimer(tempTimeLeft,500);
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
+            timeLeft = timeLeft /2;
+            setNewTimer(timeLeft,500);
             timeRateView.setText("Time @200%");
+            if (timerRunningState) {
+                startTimer();
+            }
         }
         else if (item.contentEquals("300%")) {
-            tempTimeLeft = timeLeft/3;
-            timeLeft = timeLeft + tempTimeLeft;
-            setNewTimer(tempTimeLeft,1000/3);
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
+            timeLeft = timeLeft/3;
+            setNewTimer(timeLeft,1000/3);
             timeRateView.setText("Time @300%");
+            if (timerRunningState) {
+                startTimer();
+            }
         }
         else if (item.contentEquals("400%")) {
-            tempTimeLeft = timeLeft/4;
-            timeLeft = timeLeft + tempTimeLeft;
-            setNewTimer(tempTimeLeft,250);
+            timerRunningState = timerRunning;
+            if (timerRunningState) {
+                pauseTimer();
+            }
+            timeLeft = currentTime;
+            timeLeft = timeLeft/4;
+            setNewTimer(timeLeft,250);
             timeRateView.setText("Time @400%");
+            if (timerRunningState) {
+                startTimer();
+            }
         }
+//        else if (item.contentEquals("200%")) {
+//            tempTimeLeft = timeLeft/2;
+//            timeLeft = timeLeft + tempTimeLeft;
+//            setNewTimer(tempTimeLeft,500);
+//            timeRateView.setText("Time @200%");
+//        }
+//        else if (item.contentEquals("300%")) {
+//            tempTimeLeft = timeLeft/3;
+//            timeLeft = timeLeft + tempTimeLeft;
+//            setNewTimer(tempTimeLeft,1000/3);
+//            timeRateView.setText("Time @300%");
+//        }
+//        else if (item.contentEquals("400%")) {
+//            tempTimeLeft = timeLeft/4;
+//            timeLeft = timeLeft + tempTimeLeft;
+//            setNewTimer(tempTimeLeft,250);
+//            timeRateView.setText("Time @400%");
+//        }
     }
 
-    private void setNewTimer(long tempTimeLeft, int interval) {
+    private void setNewTimer(double tempTimeLeft, int interval) {
         timeLeft = tempTimeLeft;
         countDownInterval = interval;
-        updateCountDownText();
+        //setProgressBarValues();
+        //updateCountDownText();
     }
 
     private void setUpSelectedTime(String item) {
@@ -442,7 +532,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
             editTimerInput.setVisibility(View.VISIBLE);
             setButton.setVisibility(View.VISIBLE);
         }
-
     }
 
     private void setCustomTimer() {
