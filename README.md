@@ -1,8 +1,7 @@
+Scrum Master: Ying
 
-Scrum Master: Reid
+Product Owner: Gage
 
-Product Owner: Ying
-
-Repo Manager: Gage
+Repo Manager: Reid
 
 Style Guide: https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
