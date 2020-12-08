@@ -57,11 +57,9 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
     private ProgressBar progressBarCircle;
     private long countDownInterval =1000;
     private Spinner timerRate;
-    private TextView timeRateText;
     final private ReentrantLock lock = new ReentrantLock();
     private NotificationManagerCompat notifManager;
     private double currentTime;
-    private TextView currTimeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,42 +90,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         timerCountDown.cancel();
     }
 
-
-    //    public class Timer extends CountDownTimer {
-//        private long millisInFuture;
-//        private long countDownInterval;
-//
-//        public Timer(long millisInFuture, long countDownInterval) {
-//            super(millisInFuture, countDownInterval);
-//            this.millisInFuture = millisInFuture;
-//            this.countDownInterval = countDownInterval;
-//        }
-//
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//            timeLeft = millisUntilFinished;
-//            updateCountDownText();
-//            progressBarCircle.setProgress((int) (timeLeft/countDownInterval));
-//        }
-//
-//        @Override
-//        public void onFinish() {
-//            timerRunning = false;
-//            timerCountDown.cancel();
-//            playAlarm();
-//            notifChannel();
-//            setProgressBarValues();
-//            stopAlarmButton.setVisibility(View.VISIBLE);
-//            startPauseButton.setText("Start");
-//            startPauseButton.setVisibility(View.INVISIBLE);
-//            resetButton.setVisibility(View.VISIBLE);
-//        }
-//
-//        public long getCurrentTime() {
-//            long currentTime = timeLeft;
-//            return currentTime;
-//        }
-//    }
 
     private void setTimerRateSpinner() {
         timerRate = findViewById(R.id.timeRateSpinner);
@@ -256,7 +218,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
                     currentTime -= 1000;
                     timeLeft = millisUntilFinished;
                     updateCountDownText();
-                    //progressBarCircle.setProgress((int) (timeLeft/countDownInterval));
                     progressBarCircle.setProgress((int) (currentTime));
                     Log.e("Time", "Current: " + currentTime + ",Left: " + timeLeft);
                 }
@@ -294,8 +255,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
 
     // Function to pause the timer
     private void pauseTimer() {
-//        currTimeText = findViewById(R.id.currTimeView);
-//        currTimeText.setText("TimeNow:" + currentTime);
         if (timerRunning) {
             timerCountDown.cancel();
             timerRunning = false;
@@ -309,8 +268,6 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
         timerCountDownText = findViewById(R.id.timerText);
         int minutes = (int) ((currentTime / 1000)/60);
         int seconds = (int) ((currentTime / 1000)%60);
-//        int minutes = (int) (timeLeft / countDownInterval) / 60;
-//        int seconds = (int) (timeLeft / countDownInterval) % 60;
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         timerCountDownText.setText(timeLeftFormatted);
     }
@@ -450,31 +407,11 @@ public class TimeOut extends AppCompatActivity implements AdapterView.OnItemSele
                 startTimer();
             }
         }
-//        else if (item.contentEquals("200%")) {
-//            tempTimeLeft = timeLeft/2;
-//            timeLeft = timeLeft + tempTimeLeft;
-//            setNewTimer(tempTimeLeft,500);
-//            timeRateView.setText("Time @200%");
-//        }
-//        else if (item.contentEquals("300%")) {
-//            tempTimeLeft = timeLeft/3;
-//            timeLeft = timeLeft + tempTimeLeft;
-//            setNewTimer(tempTimeLeft,1000/3);
-//            timeRateView.setText("Time @300%");
-//        }
-//        else if (item.contentEquals("400%")) {
-//            tempTimeLeft = timeLeft/4;
-//            timeLeft = timeLeft + tempTimeLeft;
-//            setNewTimer(tempTimeLeft,250);
-//            timeRateView.setText("Time @400%");
-//        }
     }
 
     private void setNewTimer(double tempTimeLeft, int interval) {
         timeLeft = tempTimeLeft;
         countDownInterval = interval;
-        //setProgressBarValues();
-        //updateCountDownText();
     }
 
     private void setUpSelectedTime(String item) {
