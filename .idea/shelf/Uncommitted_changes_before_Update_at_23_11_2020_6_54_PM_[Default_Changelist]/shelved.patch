@@ -1,0 +1,107 @@
+Index: app/src/main/java/ca/cmpt276/practicalparent/view/TasksList.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ca.cmpt276.practicalparent.view;\r\n\r\nimport androidx.appcompat.app.ActionBar;\r\nimport androidx.appcompat.app.AlertDialog;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\n\r\nimport android.content.Context;\r\nimport android.content.DialogInterface;\r\nimport android.content.Intent;\r\nimport android.graphics.Bitmap;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageView;\r\nimport android.widget.ListView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\r\n\r\nimport java.util.Random;\r\n\r\nimport ca.cmpt276.practicalparent.R;\r\nimport ca.cmpt276.practicalparent.model.Child;\r\nimport ca.cmpt276.practicalparent.model.ChildManager;\r\nimport ca.cmpt276.practicalparent.model.Task;\r\nimport ca.cmpt276.practicalparent.model.TaskManager;\r\n\r\npublic class TasksList extends AppCompatActivity {\r\n    private AlertDialog dialogBuilder;\r\n    private TaskManager manager;\r\n    private ChildManager childManager;\r\n    private ArrayAdapter<Task> adapter;\r\n    private Child currentChild;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_tasks_list);\r\n        Toolbar toolbar = findViewById(R.id.toolbar3);\r\n        setSupportActionBar(toolbar);\r\n        getSupportActionBar().setTitle(\"Task List\");\r\n\r\n        ActionBar ab = getSupportActionBar();\r\n        ab.setDisplayHomeAsUpEnabled(true);\r\n\r\n        FloatingActionButton fab = findViewById(R.id.fab2);\r\n        fab.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = TaskAdd.makeIntent(TasksList.this);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        childManager = ChildManager.getInstance();\r\n        manager = TaskManager.getInstance();\r\n\r\n\r\n        if (manager.emptyTask()){\r\n            updatePlayers();\r\n            Task task1 = new Task(\"First bath\", currentChild);\r\n            Task task2 = new Task(\"Put pop can into can cooler\", currentChild);\r\n\r\n            TaskManager.getInstance().addTask(task1);\r\n            TaskManager.getInstance().addTask(task2);\r\n\r\n        }\r\n\r\n        taskItemClickHandler();\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void onResumeFragments() {\r\n        super.onResumeFragments();\r\n        updatePlayers();\r\n        updateTasks();\r\n    }\r\n\r\n    // Display pop up screen\r\n    public void createPopUpDialog(View viewClicked, final int position) {\r\n        dialogBuilder = new AlertDialog.Builder(this).create();\r\n        View contactPopupView = getLayoutInflater().inflate(R.layout.popupscreen,null);\r\n        final Task task = manager.getTask(position);\r\n        final TextView viewChildName = (TextView) findViewById(R.id.nextTurnChild);\r\n        final Child childTurn = task.getChild();\r\n        //Set image for popup\r\n        ImageView childImageDialog = (ImageView) contactPopupView.findViewById(R.id.childImagePopUp);\r\n        //childImageDialog.setImageResource(R.drawable.default_image);\r\n        if (!childTurn.equals(ChildManager.NO_CHILD)) {\r\n            Bitmap icon = ChildList.decodeBase64(childTurn.getBitmap());\r\n            childImageDialog.setImageBitmap(icon); // User Inputted Image\r\n        }\r\n\r\n\r\n        dialogBuilder.setTitle(task.getTaskName());\r\n        dialogBuilder.setMessage(childTurn.getName());\r\n        dialogBuilder.setView(contactPopupView);\r\n        dialogBuilder.setButton(AlertDialog.BUTTON_NEGATIVE, \"Cancel\",\r\n                new DialogInterface.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(DialogInterface dialog, int which) {\r\n                        dialog.dismiss();\r\n                    }\r\n                });\r\n        dialogBuilder.setButton(AlertDialog.BUTTON_POSITIVE, \"Done\",\r\n                new DialogInterface.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(DialogInterface dialog, int which) {\r\n                        if (task.getChild().equals(childManager.NO_CHILD)) {\r\n                            viewChildName.setText(\"No child configured.\");\r\n                        }\r\n                        else {\r\n                            task.setChild(childManager.getChild((childManager.indexOfChild(childTurn) + 1) % childManager.size()));\r\n                            viewChildName.setText(childTurn.getName());\r\n                            populateTaskList();\r\n                        }\r\n                    }\r\n                });\r\n\r\n        dialogBuilder.show();\r\n    }\r\n\r\n    public void updateTasks() {\r\n        for (Task t : manager) {\r\n            if (!childManager.list().contains(t.getChild())) {\r\n                t.setChild(currentChild);\r\n            }\r\n        }\r\n    }\r\n\r\n    public void updatePlayers() {\r\n        if (childManager.size() == 0){\r\n            currentChild = childManager.NO_CHILD;\r\n        }\r\n        else {\r\n            currentChild = childManager.getChild(0);\r\n        }\r\n    }\r\n\r\n\r\n    private void taskItemClickHandler() {\r\n        ListView list = (ListView) findViewById(R.id.taskList);\r\n\r\n        //Hold item to delete\r\n        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {\r\n            @Override\r\n            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {\r\n                String message = \"Editing \" + manager.getTask(position).getTaskName();\r\n                Toast.makeText(TasksList.this, message, Toast.LENGTH_LONG).show();\r\n                Intent intent = TaskEdit.makeIntent(TasksList.this, position);\r\n                startActivity(intent);\r\n                return true;\r\n            }\r\n        });\r\n\r\n        //Click on item to show pop up message\r\n        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {\r\n\r\n            @Override\r\n            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {\r\n                String message = \"Showing \" + manager.getTask(position).getTaskName();\r\n                Toast.makeText(TasksList.this, message, Toast.LENGTH_LONG).show();\r\n\r\n                createPopUpDialog(viewClicked, position);\r\n            }\r\n        });\r\n\r\n    }\r\n\r\n    // Intent from Main menu to task list activity\r\n    public static Intent makeIntent(Context context) {\r\n        return new Intent(context, TasksList.class);\r\n    }\r\n\r\n    public void populateTaskList() {\r\n        if (adapter != null) {\r\n            adapter.notifyDataSetChanged();\r\n        }\r\n        adapter = new TaskListAdapter();\r\n        ListView list = (ListView) findViewById(R.id.taskList);\r\n        list.setAdapter(adapter);\r\n    }\r\n\r\n    public class TaskListAdapter extends ArrayAdapter<Task> {\r\n        public TaskListAdapter() {\r\n            super(TasksList.this,R.layout.activity_tasks_list, manager.TaskList());\r\n        }\r\n        @Override\r\n        public View getView(int index, View convertView, ViewGroup parent) {\r\n            View itemView = convertView;\r\n            if (itemView == null) {\r\n                itemView = getLayoutInflater().inflate(R.layout.task_items,parent,false);\r\n            }\r\n\r\n            // Current Task\r\n            Task currentTask = manager.getTask(index);\r\n            TextView taskView = (TextView) itemView.findViewById(R.id.taskDescription);\r\n            taskView.setText(currentTask.getTaskName());\r\n\r\n            // Task is set to default first child added\r\n            if (childManager.size() == 0){\r\n                TextView childNameText = (TextView) itemView.findViewById(R.id.nextTurnChild);\r\n                childNameText.setText(\"No child configured.\");\r\n            }\r\n            else if (childManager.size() >= 0){\r\n//                indexOfChild = 1;\r\n//                Child defaultChildTurn = childManager.getChild(0);\r\n//                TextView testChildCount = (TextView) itemView.findViewById(R.id.nextTurnChild);\r\n//                testChildCount.setText(defaultChildTurn.getName());\r\n\r\n                TextView childNext = (TextView) itemView.findViewById(R.id.nextTurnChild);\r\n                childNext.setText(currentTask.getChild().getName());\r\n            }\r\n\r\n\r\n            return itemView;\r\n        }\r\n    }\r\n\r\n\r\n\r\n    @Override\r\n    protected void onResume() {\r\n        super.onResume();\r\n        populateTaskList();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/view/TasksList.java	(revision bd448ee8156d7209ea1ba08b19dad5b971ea553f)
++++ app/src/main/java/ca/cmpt276/practicalparent/view/TasksList.java	(date 1606184384000)
+@@ -8,6 +8,7 @@
+ import android.content.Context;
+ import android.content.DialogInterface;
+ import android.content.Intent;
++import android.content.SharedPreferences;
+ import android.graphics.Bitmap;
+ import android.os.Bundle;
+ import android.view.View;
+@@ -27,6 +28,8 @@
+ import ca.cmpt276.practicalparent.R;
+ import ca.cmpt276.practicalparent.model.Child;
+ import ca.cmpt276.practicalparent.model.ChildManager;
++import ca.cmpt276.practicalparent.model.HistoryEntry;
++import ca.cmpt276.practicalparent.model.HistoryManager;
+ import ca.cmpt276.practicalparent.model.Task;
+ import ca.cmpt276.practicalparent.model.TaskManager;
+ 
+@@ -68,6 +71,8 @@
+ 
+             TaskManager.getInstance().addTask(task1);
+             TaskManager.getInstance().addTask(task2);
++            saveTasksToSP(task1);
++            saveTasksToSP(task2);
+ 
+         }
+ 
+@@ -91,13 +96,11 @@
+         final Child childTurn = task.getChild();
+         //Set image for popup
+         ImageView childImageDialog = (ImageView) contactPopupView.findViewById(R.id.childImagePopUp);
+-        //childImageDialog.setImageResource(R.drawable.default_image);
+         if (!childTurn.equals(ChildManager.NO_CHILD)) {
+             Bitmap icon = ChildList.decodeBase64(childTurn.getBitmap());
+             childImageDialog.setImageBitmap(icon); // User Inputted Image
+         }
+ 
+-
+         dialogBuilder.setTitle(task.getTaskName());
+         dialogBuilder.setMessage(childTurn.getName());
+         dialogBuilder.setView(contactPopupView);
+@@ -114,11 +117,13 @@
+                     public void onClick(DialogInterface dialog, int which) {
+                         if (task.getChild().equals(childManager.NO_CHILD)) {
+                             viewChildName.setText("No child configured.");
++                            saveTasksToSP(task);
+                         }
+                         else {
+                             task.setChild(childManager.getChild((childManager.indexOfChild(childTurn) + 1) % childManager.size()));
+                             viewChildName.setText(childTurn.getName());
+                             populateTaskList();
++                            saveTasksToSP(task);
+                         }
+                     }
+                 });
+@@ -154,6 +159,7 @@
+                 String message = "Editing " + manager.getTask(position).getTaskName();
+                 Toast.makeText(TasksList.this, message, Toast.LENGTH_LONG).show();
+                 Intent intent = TaskEdit.makeIntent(TasksList.this, position);
++         //       saveTasksToSP(manager);
+                 startActivity(intent);
+                 return true;
+             }
+@@ -209,10 +215,6 @@
+                 childNameText.setText("No child configured.");
+             }
+             else if (childManager.size() >= 0){
+-//                indexOfChild = 1;
+-//                Child defaultChildTurn = childManager.getChild(0);
+-//                TextView testChildCount = (TextView) itemView.findViewById(R.id.nextTurnChild);
+-//                testChildCount.setText(defaultChildTurn.getName());
+ 
+                 TextView childNext = (TextView) itemView.findViewById(R.id.nextTurnChild);
+                 childNext.setText(currentTask.getChild().getName());
+@@ -223,6 +225,16 @@
+         }
+     }
+ 
++    public void saveTasksToSP(Task task) {
++        TaskManager taskManager = TaskManager.getInstance();
++        SharedPreferences prefs = this.getSharedPreferences("TasksPref",MODE_PRIVATE);
++        SharedPreferences.Editor editor = prefs.edit();
++        int i = taskManager.TaskList().size();
++        editor.putString("Task"+i,task.getTaskName());
++        editor.putString("Child_Name"+i, task.getChild().getName());
++        editor.apply();
++    }
++
+ 
+ 
+     @Override
+@@ -230,4 +242,5 @@
+         super.onResume();
+         populateTaskList();
+     }
++
+ }
+\ No newline at end of file
+diff --git .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM__Default_Changelist_.xml

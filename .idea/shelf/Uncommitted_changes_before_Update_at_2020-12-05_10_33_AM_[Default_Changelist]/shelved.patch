@@ -1,0 +1,320 @@
+Index: app/src/main/res/layout/activity_time_out.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@drawable/skywallpaper\"\r\n    tools:context=\".view.TimeOut\">\r\n\r\n    <com.google.android.material.appbar.AppBarLayout\r\n        android:id=\"@+id/appBarLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:theme=\"@style/AppTheme.AppBarOverlay\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimary\"\r\n            app:popupTheme=\"@style/AppTheme.PopupOverlay\" />\r\n\r\n    </com.google.android.material.appbar.AppBarLayout>\r\n\r\n    <TextView\r\n        android:id=\"@+id/timerText\"\r\n        android:layout_width=\"154dp\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_marginBottom=\"320dp\"\r\n        android:text=\"@string/_00_00\"\r\n        android:textAlignment=\"center\"\r\n        android:textSize=\"60sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/resetTimer\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"100dp\"\r\n        android:layout_marginBottom=\"208dp\"\r\n        android:text=\"@string/reset\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/startTimer\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"208dp\"\r\n        android:text=\"@string/start\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/resetTimer\"\r\n        app:layout_constraintHorizontal_bias=\"0.703\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView2\"\r\n        android:layout_width=\"93dp\"\r\n        android:layout_height=\"45dp\"\r\n        android:layout_marginTop=\"108dp\"\r\n        android:text=\"@string/set_timer\"\r\n        android:textSize=\"18sp\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/spinner\"\r\n        app:layout_constraintHorizontal_bias=\"0.887\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/spinner\"\r\n        android:layout_width=\"126dp\"\r\n        android:layout_height=\"36dp\"\r\n        android:layout_marginTop=\"104dp\"\r\n        android:layout_marginEnd=\"96dp\"\r\n        android:spinnerMode=\"dropdown\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        tools:ignore=\"MissingConstraints\" />\r\n\r\n    <EditText\r\n        android:id=\"@+id/editCustomTimerInput\"\r\n        android:layout_width=\"141dp\"\r\n        android:layout_height=\"47dp\"\r\n        android:layout_marginStart=\"72dp\"\r\n        android:autofillHints=\"\"\r\n        android:ems=\"10\"\r\n        android:hint=\"@string/minutes\"\r\n        android:inputType=\"number\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/setCustomTimerButton\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.27\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/setCustomTimerButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"80dp\"\r\n        android:text=\"@string/set\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.269\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/stopAlarm\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"144dp\"\r\n        android:text=\"@string/stop_alarm\"\r\n        android:visibility=\"invisible\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        app:layout_constraintStart_toStartOf=\"parent\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_time_out.xml	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ app/src/main/res/layout/activity_time_out.xml	(date 1607160498000)
+@@ -28,36 +28,49 @@
+         android:id="@+id/timerText"
+         android:layout_width="154dp"
+         android:layout_height="90dp"
+-        android:layout_marginBottom="320dp"
++        android:layout_marginBottom="288dp"
+         android:text="@string/_00_00"
+         android:textAlignment="center"
+         android:textSize="60sp"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.498"
+         app:layout_constraintStart_toStartOf="parent"
+         tools:ignore="MissingConstraints" />
+ 
+     <Button
+-        android:id="@+id/resetTimer"
++        android:id="@+id/startTimer"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginEnd="100dp"
+-        android:layout_marginBottom="208dp"
+-        android:text="@string/reset"
++        android:layout_marginBottom="116dp"
++        android:text="@string/start"
+         app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintEnd_toStartOf="@+id/resetTimer"
++        app:layout_constraintHorizontal_bias="0.687"
++        app:layout_constraintStart_toStartOf="parent"
+         tools:ignore="MissingConstraints" />
+ 
+     <Button
+-        android:id="@+id/startTimer"
++        android:id="@+id/stopAlarm"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginBottom="208dp"
+-        android:text="@string/start"
++        android:layout_marginBottom="52dp"
++        android:text="@string/stop_alarm"
++        android:visibility="invisible"
+         app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toStartOf="@+id/resetTimer"
+-        app:layout_constraintHorizontal_bias="0.703"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.481"
++        app:layout_constraintStart_toStartOf="parent" />
++
++    <Button
++        android:id="@+id/resetTimer"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginEnd="104dp"
++        android:layout_marginBottom="116dp"
++        android:text="@string/reset"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         tools:ignore="MissingConstraints" />
+ 
+     <TextView
+@@ -111,16 +124,24 @@
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintVertical_bias="0.269" />
+ 
+-    <Button
+-        android:id="@+id/stopAlarm"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginBottom="144dp"
+-        android:text="@string/stop_alarm"
+-        android:visibility="invisible"
+-        app:layout_constraintBottom_toBottomOf="parent"
++    <ProgressBar
++        android:id="@+id/progressBarCircle"
++        style="?android:attr/progressBarStyleHorizontal"
++        android:layout_width="270dp"
++        android:layout_height="270dp"
++        android:layout_centerInParent="true"
++        android:layout_marginTop="32dp"
++        android:background="@drawable/drawable_circle_dark_blue"
++        android:indeterminate="false"
++        android:max="100"
++        android:progress="100"
++        android:progressDrawable="@drawable/drawable_circle_yellow"
++        android:rotation="-90"
++        app:layout_constraintBottom_toTopOf="@+id/startTimer"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.498"
+-        app:layout_constraintStart_toStartOf="parent" />
++        app:layout_constraintHorizontal_bias="0.496"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/editCustomTimerInput"
++        app:layout_constraintVertical_bias="0.0" />
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/ca/cmpt276/practicalparent/view/TimeOut.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ca.cmpt276.practicalparent.view;\r\n\r\nimport androidx.appcompat.app.ActionBar;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.core.app.NotificationCompat;\r\nimport androidx.core.app.NotificationManagerCompat;\r\n\r\nimport android.app.Notification;\r\nimport android.app.PendingIntent;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\n\r\nimport android.media.MediaPlayer;\r\nimport android.media.RingtoneManager;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.os.CountDownTimer;\r\nimport android.view.View;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.Spinner;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Locale;\r\n\r\nimport ca.cmpt276.practicalparent.R;\r\nimport ca.cmpt276.practicalparent.model.TimeOutNotification;\r\nimport ca.cmpt276.practicalparent.model.TimeOutNotificationReceiver;\r\n\r\nimport static ca.cmpt276.practicalparent.model.TimeOutNotification.CHANNEL_ID;\r\n\r\n/**\r\n * Used to manage Time out Activities.\r\n */\r\npublic class TimeOut extends AppCompatActivity implements AdapterView.OnItemSelectedListener {\r\n    public static MediaPlayer mp;\r\n    private Button stopAlarmButton;\r\n    private TextView timerCountDownText;\r\n    private EditText editTimerInput;\r\n    private Button setButton;\r\n    private Button startPauseButton;\r\n    private Button resetButton;\r\n    private CountDownTimer timerCountDown;\r\n    private boolean timerRunning;\r\n    private long startTime;\r\n    private long timeLeft;\r\n\r\n    private NotificationManagerCompat notifManager;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_time_out);\r\n        Toolbar toolbar = findViewById(R.id.toolbar);\r\n        setSupportActionBar(toolbar);\r\n        getSupportActionBar().setTitle(\"Timer\");\r\n\r\n        ActionBar ab = getSupportActionBar();\r\n        ab.setDisplayHomeAsUpEnabled(true);\r\n\r\n        editTimerInput = findViewById(R.id.editCustomTimerInput);\r\n        setButton = findViewById(R.id.setCustomTimerButton);\r\n\r\n        setSpinner();\r\n\r\n        updateCountDownText();\r\n        setStartPauseButton();  //Call start button function when clicked\r\n        notifManager = NotificationManagerCompat.from(this);\r\n        setResetButton();       //Call reset button function when clicked\r\n        stopAlarm();\r\n    }\r\n\r\n    public void notifChannel() {\r\n        Intent openTimeOutIntent = new Intent(this, TimeOut.class);\r\n        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, openTimeOutIntent, 0);\r\n\r\n        Intent broadcastIntent = new Intent(this, TimeOutNotificationReceiver.class);\r\n        broadcastIntent.putExtra(\"toastMessage\", \"Dismissed\");\r\n        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);\r\n\r\n\r\n        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)\r\n                .setSmallIcon(R.drawable.ic_launcher_foreground)\r\n                .setContentTitle(\"Practical Parent\")\r\n                .setContentText(\"Times Up!\")\r\n                .setPriority(NotificationCompat.PRIORITY_HIGH)\r\n                .setCategory(NotificationCompat.CATEGORY_MESSAGE)\r\n                .setContentIntent(contentIntent)\r\n                .setAutoCancel(true)\r\n                .setOnlyAlertOnce(true)\r\n                .addAction(R.mipmap.ic_launcher,\"Dismiss\",actionIntent)\r\n                .setVibrate(new long[] { 1000, 1000})\r\n                .build();\r\n\r\n        notifManager.notify(1,notification);\r\n    }\r\n\r\n    private void stopAlarm() {\r\n        stopAlarmButton = findViewById(R.id.stopAlarm);\r\n        stopAlarmButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                mp.stop();\r\n                mp.release();\r\n                stopAlarmButton.setVisibility(View.INVISIBLE);\r\n            }\r\n        });\r\n    }\r\n\r\n    private void setSpinner() {\r\n        Spinner spinner = (Spinner) findViewById(R.id.spinner);\r\n        spinner.setOnItemSelectedListener(this);\r\n\r\n        // Spinner Drop down elements\r\n        List<String> categories = new ArrayList<String>();\r\n        categories.add(\"1 min\");\r\n        categories.add(\"2 min\");\r\n        categories.add(\"3 min\");\r\n        categories.add(\"5 min\");\r\n        categories.add(\"10 min\");\r\n        categories.add(\"Custom\");\r\n\r\n        // Creating adapter for spinner\r\n        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);\r\n\r\n        // Drop down layout style - list view with radio button\r\n        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\r\n\r\n        // attaching data adapter to spinner\r\n        spinner.setAdapter(dataAdapter);\r\n    }\r\n\r\n    private void setTimer(long milliseconds) {\r\n        startTime = milliseconds;\r\n        resetTimer();\r\n    }\r\n\r\n\r\n    private void setResetButton() {\r\n        resetButton = findViewById(R.id.resetTimer);\r\n        resetButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                timerCountDown.cancel();\r\n                timerRunning = false;\r\n                resetTimer();\r\n            }\r\n        });\r\n        updateCountDownText();\r\n    }\r\n\r\n    private void setStartPauseButton() {\r\n        startPauseButton = findViewById(R.id.startTimer);\r\n        startPauseButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if (timerRunning) {\r\n                    pauseTimer();\r\n                } else {\r\n                    startTimer();\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    // Function to start the countdown timer\r\n    private void startTimer() {\r\n        timerCountDown = new CountDownTimer(timeLeft, 1000) {\r\n            @Override\r\n            public void onTick(long millisUntilFinished) {\r\n                timeLeft = millisUntilFinished;\r\n                updateCountDownText();\r\n            }\r\n            @Override\r\n            public void onFinish() {\r\n                timerRunning = false;\r\n                playAlarm();\r\n                notifChannel();\r\n                stopAlarmButton.setVisibility(View.VISIBLE);\r\n                startPauseButton.setText(\"Start\");\r\n                startPauseButton.setVisibility(View.INVISIBLE);\r\n                resetButton.setVisibility(View.VISIBLE);\r\n            }\r\n        }.start();\r\n        timerRunning = true;\r\n        startPauseButton.setText(\"pause\");\r\n        resetButton.setVisibility(View.VISIBLE);\r\n    }\r\n\r\n    private void playAlarm() {\r\n        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);\r\n        mp = MediaPlayer.create(getApplicationContext(), alarmSound);\r\n        mp.start();\r\n    }\r\n\r\n    // Function to pause the timer\r\n    private void pauseTimer() {\r\n        timerCountDown.cancel();\r\n        timerRunning = false;\r\n        startPauseButton.setText(\"Resume\");\r\n        resetButton.setVisibility(View.VISIBLE);\r\n    }\r\n\r\n    // Update the text of the timer when timer is running\r\n    private void updateCountDownText() {\r\n        timerCountDownText = findViewById(R.id.timerText);\r\n        int minutes = (int) (timeLeft / 1000) / 60;\r\n        int seconds = (int) (timeLeft / 1000) % 60;\r\n        String timeLeftFormatted = String.format(Locale.getDefault(), \"%02d:%02d\", minutes, seconds);\r\n        timerCountDownText.setText(timeLeftFormatted);\r\n    }\r\n\r\n    // Function to reset the timer back to last selected starting time\r\n    private void resetTimer() {\r\n        timeLeft = startTime;\r\n        updateCountDownText();\r\n        resetButton.setVisibility(View.INVISIBLE);\r\n        startPauseButton.setText(\"Start\");\r\n        startPauseButton.setVisibility(View.VISIBLE);\r\n\r\n    }\r\n\r\n    public static Intent makeIntent(Context context) {\r\n        return new Intent(context, TimeOut.class);\r\n    }\r\n\r\n    @Override\r\n    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\r\n        String item = parent.getItemAtPosition(position).toString();\r\n\r\n        if (item.contentEquals(\"1 min\")) {\r\n            setTimer(60000);\r\n            editTimerInput.setVisibility(View.INVISIBLE);\r\n            setButton.setVisibility(View.INVISIBLE);\r\n\r\n        }\r\n        else if (item.contentEquals(\"2 min\")) {\r\n            setTimer(120000);\r\n            editTimerInput.setVisibility(View.INVISIBLE);\r\n            setButton.setVisibility(View.INVISIBLE);\r\n        }\r\n        else if (item.contentEquals(\"3 min\")) {\r\n            setTimer(180000);\r\n            editTimerInput.setVisibility(View.INVISIBLE);\r\n            setButton.setVisibility(View.INVISIBLE);\r\n        }\r\n        else if (item.contentEquals(\"5 min\")) {\r\n            setTimer(300000);\r\n            editTimerInput.setVisibility(View.INVISIBLE);\r\n            setButton.setVisibility(View.INVISIBLE);\r\n        }\r\n        else if (item.contentEquals(\"10 min\")) {\r\n            setTimer(600000);\r\n            editTimerInput.setVisibility(View.INVISIBLE);\r\n            setButton.setVisibility(View.INVISIBLE);\r\n        }\r\n        else if (item.contentEquals(\"Custom\")) {\r\n            setCustomTimer();\r\n            editTimerInput.setVisibility(View.VISIBLE);\r\n            setButton.setVisibility(View.VISIBLE);\r\n        }\r\n\r\n        Toast.makeText(parent.getContext(), \"Selected: \" + item, Toast.LENGTH_LONG).show();\r\n    }\r\n\r\n    private void setCustomTimer() {\r\n\r\n        setButton.setOnClickListener(new View.OnClickListener() {\r\n\r\n            @Override\r\n            public void onClick(View v) {\r\n                String input = editTimerInput.getText().toString();\r\n                if (input.length() == 0) {\r\n                    Toast.makeText(TimeOut.this, \"Field cannot be empty\", Toast.LENGTH_SHORT).show();\r\n                    return;\r\n                }\r\n\r\n                long textInput = Long.parseLong(input) * 60000;\r\n                if (textInput == 0) {\r\n                    Toast.makeText(TimeOut.this, \"Please enter a valid number of minutes\", Toast.LENGTH_SHORT).show();\r\n                    return;\r\n                }\r\n\r\n                setTimer(textInput);\r\n                editTimerInput.setText(\"\");\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onNothingSelected(AdapterView<?> parent) {\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/ca/cmpt276/practicalparent/view/TimeOut.java	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ app/src/main/java/ca/cmpt276/practicalparent/view/TimeOut.java	(date 1607185374000)
+@@ -21,6 +21,7 @@
+ import android.widget.ArrayAdapter;
+ import android.widget.Button;
+ import android.widget.EditText;
++import android.widget.ProgressBar;
+ import android.widget.Spinner;
+ import android.widget.TextView;
+ import android.widget.Toast;
+@@ -50,6 +51,7 @@
+     private boolean timerRunning;
+     private long startTime;
+     private long timeLeft;
++    private ProgressBar progressBarCircle;
+ 
+     private NotificationManagerCompat notifManager;
+ 
+@@ -66,6 +68,7 @@
+ 
+         editTimerInput = findViewById(R.id.editCustomTimerInput);
+         setButton = findViewById(R.id.setCustomTimerButton);
++        progressBarCircle = findViewById(R.id.progressBarCircle);
+ 
+         setSpinner();
+ 
+@@ -74,6 +77,7 @@
+         notifManager = NotificationManagerCompat.from(this);
+         setResetButton();       //Call reset button function when clicked
+         stopAlarm();
++
+     }
+ 
+     public void notifChannel() {
+@@ -175,6 +179,7 @@
+             @Override
+             public void onTick(long millisUntilFinished) {
+                 timeLeft = millisUntilFinished;
++                progressBarCircle.setProgress((int) (millisUntilFinished/1000));
+                 updateCountDownText();
+             }
+             @Override
+@@ -182,6 +187,7 @@
+                 timerRunning = false;
+                 playAlarm();
+                 notifChannel();
++                setProgressBarValues();
+                 stopAlarmButton.setVisibility(View.VISIBLE);
+                 startPauseButton.setText("Start");
+                 startPauseButton.setVisibility(View.INVISIBLE);
+@@ -193,6 +199,12 @@
+         resetButton.setVisibility(View.VISIBLE);
+     }
+ 
++    // Method to set circular progress bar values
++    private void setProgressBarValues() {
++        progressBarCircle.setMax((int) timeLeft/1000);
++        progressBarCircle.setProgress((int) timeLeft/1000);
++    }
++
+     private void playAlarm() {
+         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+         mp = MediaPlayer.create(getApplicationContext(), alarmSound);
+@@ -219,6 +231,7 @@
+     // Function to reset the timer back to last selected starting time
+     private void resetTimer() {
+         timeLeft = startTime;
++        setProgressBarValues();
+         updateCountDownText();
+         resetButton.setVisibility(View.INVISIBLE);
+         startPauseButton.setText("Start");
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM__Default_Changelist_.xml	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM__Default_Changelist_.xml	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM_[Default_Changelist]" date="1606118208192" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 22/11/2020 11:56 PM [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM_[Default_Changelist]/shelved.patch	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ .idea/shelf/Uncommitted_changes_before_Checkout_at_22_11_2020_11_56_PM_[Default_Changelist]/shelved.patch	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
+@@ -1,34 +0,0 @@
+-Index: .idea/misc.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- .idea/misc.xml	(revision bf01abd1ea045aa915db0d66a3a035bf132f35e9)
+-+++ .idea/misc.xml	(date 1606103768000)
+-@@ -1,6 +1,6 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+--  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+-+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+-     <output url="file://$PROJECT_DIR$/build/classes" />
+-   </component>
+-   <component name="ProjectType">
+-Index: .idea/gradle.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- .idea/gradle.xml	(revision bf01abd1ea045aa915db0d66a3a035bf132f35e9)
+-+++ .idea/gradle.xml	(date 1606103768000)
+-@@ -15,6 +15,7 @@
+-           </set>
+-         </option>
+-         <option name="resolveModulePerSourceSet" value="false" />
+-+        <option name="useQualifiedModuleNames" value="true" />
+-       </GradleProjectSettings>
+-     </option>
+-   </component>
+Index: app/src/main/res/drawable/drawable_circle_dark_blue.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/drawable_circle_dark_blue.xml	(date 1607160050000)
++++ app/src/main/res/drawable/drawable_circle_dark_blue.xml	(date 1607160050000)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:innerRadiusRatio="2.3"
++    android:shape="ring"
++    android:thickness="10dp"
++    android:useLevel="false">
++
++    <solid android:color="@color/colorPrimaryDark" />
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/drawable/drawable_circle_yellow.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/drawable_circle_yellow.xml	(date 1607160184000)
++++ app/src/main/res/drawable/drawable_circle_yellow.xml	(date 1607160184000)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:innerRadiusRatio="2.3"
++    android:shape="ring"
++    android:thickness="10dp"
++    android:useLevel="true">
++    <solid android:color="@color/colorAccent" />
++</shape>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ .idea/misc.xml	(date 1606976268000)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ .idea/gradle.xml	(date 1606976234000)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n    buildToolsVersion \"30.0.2\"\r\n\r\n    defaultConfig {\r\n        applicationId \"ca.cmpt276.practicalparent\"\r\n        minSdkVersion 26\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'\r\n    implementation 'androidx.navigation:navigation-fragment:2.3.0'\r\n    implementation 'androidx.navigation:navigation-ui:2.3.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision ee9aedcb6b01223373c252c6d0202eb3f54baf72)
++++ app/build.gradle	(date 1607159950000)
+@@ -33,5 +33,4 @@
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+-
+ }
+\ No newline at end of file
